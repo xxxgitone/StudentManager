@@ -1,4 +1,4 @@
-package cn.hibernate.beans;
+package cn.hibernate.utils;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -43,11 +43,12 @@ public class Table2Class{
 	}
 	
 	/**
-	 * 配置好包名，数据库参数就可以用了
+	 * 配置好包名，数据库参数就可以运行了
 	 */
 	static String packageName="cn.hibernate.beans"; 
 	public static void main(String []d){
-		Table2Class test = new Table2Class("student","root","ad","student");
+		//数据库，用户名，密码
+		Table2Class test = new Table2Class("student","root","ad");
 		List<String>tables = test.getTables();
 		for(int i=0;i<tables.size();i++){
 			table = tables.get(i);//获取表名

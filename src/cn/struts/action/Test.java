@@ -4,7 +4,12 @@ import java.sql.Date;
 
 import cn.hibernate.beans.Student;
 import cn.hibernate.beans.StudentDAO;
-
+/**
+ * 用来测试Hibernate搭建是否成功
+ * @author  Myth
+ * @date 2016年8月6日 下午9:46:21
+ * @TODO
+ */
 public class Test {
 	public static void main(String []s){
 		//测试Manager类
