@@ -30,6 +30,7 @@ public class AcademyDAO extends BaseHibernateDAO {
 		log.debug("saving Academy instance");
 		try {
 			Session session  = getSession();
+			session.beginTransaction();
 			session.save(transientInstance);
 			session.getTransaction().commit();
 			session.close();

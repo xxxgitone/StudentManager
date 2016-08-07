@@ -30,6 +30,7 @@ public class ManagerDAO extends BaseHibernateDAO {
 		log.debug("saving Manager instance");
 		try {
 			Session session  = getSession();
+			session.beginTransaction();
 			session.save(transientInstance);
 			session.getTransaction().commit();
 			session.close();

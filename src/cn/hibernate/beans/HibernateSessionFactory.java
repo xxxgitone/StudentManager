@@ -36,7 +36,7 @@ public class HibernateSessionFactory {
 			session = (sessionFactory!=null)?sessionFactory.openSession():null;
 			THREAD_LOCAL.set(session);
 		}
-		session.beginTransaction();
+		
 		return session;
 	}
 

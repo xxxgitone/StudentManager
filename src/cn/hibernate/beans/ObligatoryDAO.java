@@ -30,6 +30,7 @@ public class ObligatoryDAO extends BaseHibernateDAO {
 		log.debug("saving Obligatory instance");
 		try {
 			Session session  = getSession();
+			session.beginTransaction();
 			session.save(transientInstance);
 			session.getTransaction().commit();
 			session.close();

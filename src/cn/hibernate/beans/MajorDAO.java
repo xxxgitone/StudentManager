@@ -30,6 +30,7 @@ public class MajorDAO extends BaseHibernateDAO {
 		log.debug("saving Major instance");
 		try {
 			Session session  = getSession();
+			session.beginTransaction();
 			session.save(transientInstance);
 			session.getTransaction().commit();
 			session.close();

@@ -37,6 +37,7 @@ public class StudentDAO extends BaseHibernateDAO {
 		log.debug("saving Student instance");
 		try {
 			Session session  = getSession();
+			session.beginTransaction();
 			session.save(transientInstance);
 			session.getTransaction().commit();
 			session.close();

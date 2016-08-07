@@ -19,10 +19,10 @@ public class Test {
 //		DBUtils.add(s3);
 //		DBUtils.delete(s2);
 		//测试student类
-		Student stu = new Student(67, "1", "2", "2", new Date(20160212), "21", "3", "3", "45", "55");
+		Student stu = new Student(67, "1", "2", "2", new Date(20160212), "2122", "3", "3", "45", "55");
 		//DBUtils.add(stu);//测试成功
 		StudentDAO sd = new StudentDAO ();
-		sd.save(stu);
+		sd.delete(stu);
 		//Major sss= new Major("","");//
 	}
 }
