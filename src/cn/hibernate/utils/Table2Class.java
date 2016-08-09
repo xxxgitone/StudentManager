@@ -211,7 +211,7 @@ public class Table2Class{
 			T.get(i).type = types;
 			T.get(i).name = name;
 //			System.out.println("    "+types+" "+name+";");
-				codesList.add("    "+types+" "+name+";\n");
+				codesList.add("    private "+types+" "+name+";\n");
 		}
 //		System.out.println();
 			codesList.add("\n");

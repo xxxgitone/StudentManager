@@ -1,24 +1,32 @@
 package cn.hibernate.beans;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Student  {
 	int sno;
 	String pass;
 	String sname;
 	String ssex;
-	java.sql.Date sbirth;
+	Date sbirth;
 	String sid;
 	String cid;
 	String spolitics;
 	String saddr;
 	String sinfo;
-
+	Set <Mark>marks = new <Mark>HashSet();
+	
 	public Student() {
 	}
 
-	public Student(int sno, String pass, String sname, String ssex,
-			java.sql.Date sbirth, String sid, String cid, String spolitics,
-			String saddr, String sinfo) {
+	public Student(int sno){
 		this.sno = sno;
+	}
+	public Student(String pass, String sname, String ssex,
+			Date sbirth, String sid, String cid, String spolitics,
+			String saddr, String sinfo) {
+//		this.sno = sno; 因为Hibernate控制了自动增长，初始化了也没有用
 		this.pass = pass;
 		this.sname = sname;
 		this.ssex = ssex;
@@ -28,6 +36,14 @@ public class Student  {
 		this.spolitics = spolitics;
 		this.saddr = saddr;
 		this.sinfo = sinfo;
+	}
+
+	public Set<Mark> getMarks() {
+		return marks;
+	}
+
+	public void setMarks(Set<Mark> marks) {
+		this.marks = marks;
 	}
 
 	public int getSno() {
@@ -62,11 +78,11 @@ public class Student  {
 		this.ssex = ssex;
 	}
 
-	public java.sql.Date getSbirth() {
+	public Date getSbirth() {
 		return sbirth;
 	}
 
-	public void setSbirth(java.sql.Date sbirth) {
+	public void setSbirth(Date sbirth) {
 		this.sbirth = sbirth;
 	}
 

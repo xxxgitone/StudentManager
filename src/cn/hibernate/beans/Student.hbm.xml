@@ -55,5 +55,13 @@
                 <comment>备注</comment>
             </column>
         </property>
+       <!--  这是一的一方，新添加了一个集合属性（集合就是用来存放多的一方的） -->
+        <set name="marks" inverse="true">
+        	<key>
+        		<column name="sno"/>
+        	</key>
+        	<!-- 当前是one的一方，to向many的一方 -->
+        	<one-to-many class="cn.hibernate.beans.Mark"/>
+        </set>
     </class>
 </hibernate-mapping>

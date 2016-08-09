@@ -10,11 +10,14 @@
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="sno" type="java.lang.Integer">
+        <!-- 要替代掉原有的配置， -->
+        <many-to-one name="student" class="cn.hibernate.beans.Student" column="sno">
+        </many-to-one>
+        <!-- <property name="sno" type="java.lang.Integer">
             <column name="sno" not-null="true">
                 <comment>学号</comment>
             </column>
-        </property>
+        </property> -->
         <property name="cno" type="java.lang.String">
             <column name="cno" length="20" not-null="true">
                 <comment>课程号</comment>
