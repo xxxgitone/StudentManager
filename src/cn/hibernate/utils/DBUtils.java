@@ -1,6 +1,5 @@
 package cn.hibernate.utils;
 
-
 import java.io.Serializable;
 
 import org.hibernate.Session;

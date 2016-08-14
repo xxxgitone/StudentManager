@@ -2,4 +2,5 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<include file="cn/struts/action/struts_test.xml"></include>
+	<include file="cn/struts/login/struts_login.xml"></include>
 </struts>    

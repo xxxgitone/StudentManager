@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="login" namespace="/login" extends="struts-default">
+		<action name="LoginAction" class="cn.struts.login.LoginAction">
+			<result name="main">/pages/Main.jsp</result>
+			<result name="login">/pages/Login.jsp?param=error</result>
+			<result name="nouser">/pages/Login.jsp?param=nouser</result>
+		</action>
+	</package>
+</struts> 
