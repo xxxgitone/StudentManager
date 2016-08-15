@@ -2,6 +2,11 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+HttpSession sessions = request.getSession(false);//得到当前的Session
+if(sessions.getAttribute("user")==null){
+	response.sendRedirect("pages/Login.jsp?param=outtime");
+}
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

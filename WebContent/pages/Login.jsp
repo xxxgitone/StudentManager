@@ -29,6 +29,8 @@ if('<%=param%>'=='error'){
 	alert("密码错误！");
 }else if('<%=param%>' == 'nouser'){
 	alert("没有该用户！");
+}else if('<%=param%>'=='outtime'){
+	alert("登录超时请重新登录！");
 }
 </script>
 </head>
