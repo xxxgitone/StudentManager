@@ -1,10 +1,10 @@
 package cn.hibernate.beans;
 
-public class Academy extends AbstractAcademy {
+public class Academy{
 	String aid;
 	String academy;
 	String ainfo;
-
+	
 	public Academy() {
 	}
 

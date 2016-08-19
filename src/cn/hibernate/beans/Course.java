@@ -1,5 +1,8 @@
 package cn.hibernate.beans;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Course {
 	String cno;
 	String cname;
@@ -7,22 +10,48 @@ public class Course {
 	float theoryhour;
 	float practicehour;
 	String ctype;
+	Academy aid;
 	String cacademy;
 	String cinfo;
-
+	Set <Mark>marks = new HashSet<Mark>();
+	Set <Obligatory> obs = new HashSet<Obligatory>();
+	
 	public Course() {
 	}
 
 	public Course(String cno, String cname, float credit, float theoryhour,
-			float practicehour, String ctype, String cacademy, String cinfo) {
+			float practicehour, String ctype, String cinfo) {
 		this.cno = cno;
 		this.cname = cname;
 		this.credit = credit;
 		this.theoryhour = theoryhour;
 		this.practicehour = practicehour;
 		this.ctype = ctype;
-		this.cacademy = cacademy;
 		this.cinfo = cinfo;
+	}
+
+	public Set<Obligatory> getObs() {
+		return obs;
+	}
+
+	public void setObs(Set<Obligatory> obs) {
+		this.obs = obs;
+	}
+
+	public Academy getAid() {
+		return aid;
+	}
+
+	public void setAid(Academy aid) {
+		this.aid = aid;
+	}
+
+	public Set<Mark> getMarks() {
+		return marks;
+	}
+
+	public void setMarks(Set<Mark> marks) {
+		this.marks = marks;
 	}
 
 	public String getCno() {

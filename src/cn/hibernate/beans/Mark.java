@@ -2,7 +2,7 @@ package cn.hibernate.beans;
 
 public class Mark {
 	private int id;
-	/*private int sno;*/
+	private int sno;
 	private String cno;
 	float grade;
 	float gpa;
@@ -11,24 +11,21 @@ public class Mark {
 	String year;
 	int term;
 	String info;
-	Student student;
 
 	public Mark() {
 	}
 
-	public Mark(String cno, float grade,String year, int term) {
+	public Mark( float grade,String year, int term) {
 		super();
-		this.cno = cno;
 		this.grade = grade;
 		this.year = year;
 		this.term = term;
 //		this.student = student;
 	}
 
-	public Mark(int id, String cno, float grade, float gpa,
+	public Mark(int id, float grade, float gpa,
 			float makeup, float ultimate, String year, int term, String info) {
 		this.id = id;
-		this.cno = cno;
 		this.grade = grade;
 		this.gpa = gpa;
 		this.makeup = makeup;
@@ -36,14 +33,6 @@ public class Mark {
 		this.year = year;
 		this.term = term;
 		this.info = info;
-	}
-
-	public Student getStudent() {
-		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
 	}
 
 	public int getId() {
@@ -54,14 +43,14 @@ public class Mark {
 		this.id = id;
 	}
 
-	/*public int getSno() {
+	public int getSno() {
 		return sno;
 	}
 
 	public void setSno(int sno) {
 		this.sno = sno;
 	}
-*/
+
 	public String getCno() {
 		return cno;
 	}

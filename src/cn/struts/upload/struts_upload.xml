@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="upload" namespace="/upload" extends="struts-default">
+		<action name="uploadAction_saveFile" class="cn.struts.upload.UploadAction" method="saveFile">
+			<result name="success">/Test/success.jsp</result>
+			<result name="input">/Test/error.jsp</result>
+			
+			<interceptor-ref name="defaultStack">
+				<!-- 配置上传文件的大小 -->
+				<param name="fieldUpload.maximmSize">20971520</param>
+				<!-- 配置上传文件允许的类型，多值用，号分隔 -->
+				<param name="fileUpload.allowedTypes">text/plain,application/vnd.ms-excel,video/mp4</param>
+				<!-- 配置上传文件的扩展名 多值用，号分隔-->
+				<param name="fileUpload.allowedExtensions">.txt,.xls,.mp4</param>
+			</interceptor-ref>
+		</action>
+	</package>
+</struts> 

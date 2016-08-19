@@ -12,6 +12,7 @@ public abstract class AbstractClasss implements java.io.Serializable {
 	private String cid;
 	private String classs;
 	private String cinfo;
+	private String mid;
 
 	// Constructors
 
@@ -33,6 +34,14 @@ public abstract class AbstractClasss implements java.io.Serializable {
 	}
 
 	// Property accessors
+
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
 
 	public String getCid() {
 		return this.cid;

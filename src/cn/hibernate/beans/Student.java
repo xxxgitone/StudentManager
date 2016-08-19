@@ -15,7 +15,6 @@ public class Student  {
 	String spolitics;
 	String saddr;
 	String sinfo;
-	Set <Mark>marks = new <Mark>HashSet();
 	
 	public Student() {
 	}
@@ -36,14 +35,6 @@ public class Student  {
 		this.spolitics = spolitics;
 		this.saddr = saddr;
 		this.sinfo = sinfo;
-	}
-
-	public Set<Mark> getMarks() {
-		return marks;
-	}
-
-	public void setMarks(Set<Mark> marks) {
-		this.marks = marks;
 	}
 
 	public int getSno() {

@@ -22,7 +22,7 @@ String param = request.getParameter("param");
 <style type="text/css">
 	#box{margin:100px 0 0 100px;}
 	#box input{width:250px;}
-	#box1 span input{width:4px;background:red;}
+	#box1 span input{width:10px;background:red;}
 </style>
 <script type="text/javascript">
 if('<%=param%>'=='error'){

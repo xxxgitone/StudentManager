@@ -1,6 +1,6 @@
 package cn.hibernate.beans;
 
-public class Manager extends AbstractManager {
+public class Manager {
 	String mname;
 	String pass;
 	String minfo;

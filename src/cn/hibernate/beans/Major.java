@@ -1,10 +1,11 @@
 package cn.hibernate.beans;
 
-public class Major extends AbstractMajor {
+public class Major {
 	String mid;
 	String major;
 	String minfo;
-
+	String aid;
+	
 	public Major() {
 	}
 
@@ -12,6 +13,14 @@ public class Major extends AbstractMajor {
 		this.mid = mid;
 		this.major = major;
 		this.minfo = minfo;
+	}
+
+	public String getAid() {
+		return aid;
+	}
+
+	public void setAid(String aid) {
+		this.aid = aid;
 	}
 
 	public String getMid() {

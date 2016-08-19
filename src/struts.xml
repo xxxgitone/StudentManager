@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+	<!-- 配置文件上传的总大小 20m-->
+	<constant name="struts.multipart.maxSize" value="209715200"></constant>
+	
 	<include file="cn/struts/action/struts_test.xml"></include>
 	<include file="cn/struts/login/struts_login.xml"></include>
+	<include file="cn/struts/upload/struts_upload.xml"></include>
 </struts>    

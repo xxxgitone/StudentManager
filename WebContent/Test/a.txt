@@ -1,0 +1,21 @@
+public String saveFile(){
+		System.out.println("UploadAction *********** saveFile()");
+		
+		ServletContext sc = ServletActionContext.getServletContext();
+		
+		String path = sc.getRealPath("/fileupload");
+		
+		File file = new File(path, uploadImageFileName);
+		
+		try {
+			
+			FileUtils.copyFile(uploadImage, file);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		uploadImage.delete();
+		
+		return "success";
+	}

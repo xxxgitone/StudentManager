@@ -12,6 +12,7 @@ public abstract class AbstractMajor implements java.io.Serializable {
 	private String mid;
 	private String major;
 	private String minfo;
+	private String aid;
 
 	// Constructors
 
@@ -33,6 +34,14 @@ public abstract class AbstractMajor implements java.io.Serializable {
 	}
 
 	// Property accessors
+
+	public String getAid() {
+		return aid;
+	}
+
+	public void setAid(String aid) {
+		this.aid = aid;
+	}
 
 	public String getMid() {
 		return this.mid;

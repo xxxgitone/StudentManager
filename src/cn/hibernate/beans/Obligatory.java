@@ -1,5 +1,6 @@
 package cn.hibernate.beans;
 
+@SuppressWarnings("serial")
 public class Obligatory extends AbstractObligatory {
 	String year;
 	int term;
@@ -11,13 +12,9 @@ public class Obligatory extends AbstractObligatory {
 	public Obligatory() {
 	}
 
-	public Obligatory(String year, int term, String cid, String cno, int tno,
-			String info) {
+	public Obligatory(String year, int term,String info) {
 		this.year = year;
 		this.term = term;
-		this.cid = cid;
-		this.cno = cno;
-		this.tno = tno;
 		this.info = info;
 	}
 

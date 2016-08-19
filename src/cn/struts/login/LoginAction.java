@@ -42,7 +42,7 @@ public class LoginAction extends ActionSupport {
 		try{
 			if(rs.next()){
 				if(pass.equals(rs.getString("pass"))) {
-					String name= rs.getString("name");
+					String name= rs.getString(top+"name");
 					db.updSQL("insert into history values('"+user+"',now(),'"+request.getLocalAddr()+"')");
 					HttpSession pu = request.getSession(true);
 					pu.setMaxInactiveInterval(300);//设置生命周期 单位s

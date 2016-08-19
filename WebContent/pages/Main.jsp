@@ -5,7 +5,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 HttpSession sessions = request.getSession(false);//得到当前的Session
 if(sessions.getAttribute("user")==null){
-	response.sendRedirect("pages/Login.jsp?param=outtime");
+	response.sendRedirect("Login.jsp?param=outtime");
 }
 %>
 
@@ -38,6 +38,7 @@ if(sessions.getAttribute("user")==null){
 <script type="text/javascript" src="Jquery/jquery-3.0.0.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	$('.center').css('display','none');
 	$('.all>li').mouseover(function(e){
 		//$(this).children().show();
 		$(this).children().stop().slideDown();
@@ -65,7 +66,7 @@ $(function(){
 
 <body> <!--background="../632471.jpg"-->
 <div class="top">
-<h2>成绩管理系统</h2>
+<span style="font-size:30px;margin:0 500px 0 30px;">成绩管理系统</span><span>${sessionScope.levels}：${sessionScope.name }</span>
 </div>
 <div class="bar">
 <ul class="all">
@@ -109,6 +110,7 @@ $(function(){
             <li><a name="KBGL">课表管理</a></li>
         	<li><a name="XJGL">学籍管理</a></li>
             <li><a name="JSGL">教师管理</a></li>
+            <li><a name="XXJG">学校结构管理</a></li>
             <li><a name="FDY">辅导员信息管理</a></li>
             <li><a name="GLY">管理员信息管理</a></li>
             
@@ -116,7 +118,13 @@ $(function(){
     </li>
 </ul>
 </div>
-<div class="center" id="XSCJ">1</div>
+<div class="center" id="XSCJ">
+<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
+          name="form1"  method="post"  enctype="multipart/form-data" >
+     上传学生成绩表格:<input type="file" name="uploadImage">
+   <input type="submit" value="上传">
+</form>
+</div>
 <div class="center" id="BK">2</div>
 <div class="center" id="QK">3</div>
 <div class="center" id="XSGR">4</div>
@@ -132,6 +140,6 @@ $(function(){
 <div class="center" id="JSGL">14</div>
 <div class="center" id="FDY">15</div>
 <div class="center" id="GLY">16</div>
-
+<div class="center" id="XXJG">17</div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package cn.hibernate.utils;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 /**
- * 只能做简单的增删改，最好是使用封装好了的DAO文件
+ * 增删改适合使用，查的话最好是使用封装好了的DAO文件
  * @author  Myth
  * @date 2016年8月6日 下午9:52:45
  * @TODO
@@ -61,7 +62,7 @@ public class DBUtils {
 		}
 	}
 	/**
-	 * 依据入参，创建对象
+	 * 依据入参对象，插入一条记录
 	 * @param obj
 	 */
 	public static void add(Object obj){
@@ -86,7 +87,14 @@ public class DBUtils {
 		}
 	}
 	/**
-	 * 依据入参的主键，来修改记录
+	 * 批量插入数据
+	 * @param lists
+	 */
+	public static void adds(List<Object> lists){
+		
+	}
+	/**
+	 * 依据入参（对象）的各项属性，来修改记录
 	 * @param obj
 	 */
 	public static void update(Object obj){
@@ -109,7 +117,7 @@ public class DBUtils {
 		}
 	}
 	/**
-	 * 依据入参的主键来删除记录
+	 * 依据入参（对象）的主键来删除记录
 	 * @param obj
 	 */
 	public static void delete(Object obj){
@@ -132,10 +140,10 @@ public class DBUtils {
 		}
 	}
 	/**
-	 * 由Id来查询
-	 * @param class1
-	 * @param id
-	 * @return
+	 * 指定了对象的类，和Id值来查询
+	 * @param class1 要查的类，即表
+	 * @param id 值
+	 * @return 查找回来的对象，注意执行方法后要强转
 	 */
 	public static Object findById(Class class1,Serializable id){
 		Session session = null;
