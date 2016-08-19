@@ -1,7 +1,9 @@
 package cn.struts.login;
 
 import java.sql.ResultSet;
+import java.util.Date;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -50,6 +52,11 @@ public class LoginAction extends ActionSupport {
 					pu.setAttribute("user", user);//用户编号
 					pu.setAttribute("ids", ids);// 用户的身份
 					pu.setAttribute("levels", levels);//用户的身份 中文
+					
+					ServletContext sc = ServletActionContext.getServletContext();
+					String [] info = getYear();
+					sc.setAttribute("years", info[0]);
+					sc.setAttribute("term", info[1]);
 					return "main";
 				}
 			}else return "nouser";
@@ -59,6 +66,17 @@ public class LoginAction extends ActionSupport {
 			db.closeAll();
 		}
 		return "login";
+	}
+	public String[] getYear(){
+		String[] info = new String [2];
+		Date s = new Date();
+		int y = s.getYear();
+		int m = s.getMonth();
+		
+		info[0] = (y+1900)+"-"+(y+1901);
+		if(m<12 && m>8 || m==0) info[1]=1+"";
+		else info[1] = 2+"";
+		return info;
 	}
 
 }

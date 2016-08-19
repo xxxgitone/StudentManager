@@ -5,7 +5,9 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
 	<!-- 配置文件上传的总大小 20m-->
 	<constant name="struts.multipart.maxSize" value="209715200"></constant>
-	
+	<constant name="struts.custom.i18n.resources" 
+				value="cn.struts.upload.fileuploadmessage">
+		</constant>
 	<include file="cn/struts/action/struts_test.xml"></include>
 	<include file="cn/struts/login/struts_login.xml"></include>
 	<include file="cn/struts/upload/struts_upload.xml"></include>

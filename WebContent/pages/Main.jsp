@@ -7,8 +7,19 @@ HttpSession sessions = request.getSession(false);//得到当前的Session
 if(sessions.getAttribute("user")==null){
 	response.sendRedirect("Login.jsp?param=outtime");
 }
-%>
+ServletContext sc = request.getServletContext();
+String div = (String)sc.getAttribute("div");
+String years = (String)sc.getAttribute("years");
+String terms = (String)sc.getAttribute("term");
+int term = Integer.parseInt(terms);
+sc.removeAttribute("div");
+//String div = request.getParameter("div");
+if(div==null) div="0";
 
+%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<sql:setDataSource dataSource= "jdbc/student" />
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -24,7 +35,7 @@ if(sessions.getAttribute("user")==null){
 
 <style type="text/css">
 	*{padding:0;margin:0;list-style:none;}
-	.top{color:#333;font-size:24px;/*text-align:center;margin:50px 40%; */font-family: "楷体";margin:0 40px;}
+	.top{color:#333;font-size:24px;/*text-align:center;margin:50px 40%; */font-family: "楷体";margin:10px 40px;}
 	.bar{height:30px;margin:0 0 0 30px;}
 	.all{/*width:550px;height:30px; margin:100px auto;*/background:white;/*url()*/padding-left:10px;}
 	.all li{width:150px;height:30px;background: #3CF;
@@ -32,13 +43,22 @@ if(sessions.getAttribute("user")==null){
 	.all>li{color: #000;}/*第一行颜色*/
 	.all li a{color: #fff; text-decoration:none; cursor:pointer;}
 	.all ul{ position:absolute;left:0;top:30px;display:none;}
-	.center{ height:580px;}
+	.center{ height:550px;margin:30px 0 0 40px;}
+	#QK,#BK,#XSCJ{margin:80px 0 0 40px;}
+	
 </style>
 
 <script type="text/javascript" src="Jquery/jquery-3.0.0.min.js"></script>
 <script type="text/javascript">
+var ThisDiv = '<%=div%>';
+//alert("-"+ThisDiv+"-");
+//alert('<%=term%>'+':'+'<%=years%>');
 $(function(){
 	$('.center').css('display','none');
+	if(ThisDiv!='0'){
+		$('#'+ThisDiv).css('display','block');//显示参数指定的div
+		//alert('上传文件成功');
+	}
 	$('.all>li').mouseover(function(e){
 		//$(this).children().show();
 		$(this).children().stop().slideDown();
@@ -47,17 +67,10 @@ $(function(){
 		//$(this).children().hide();
 		$(this).children().stop().slideUp();//会有事件排队机制
 	});
+	//显示和隐藏动作的函数
 	$('.all>li>ul>li').click(function(){
 		$('.center').css('display','none');
 		$("#"+$(this).children().attr("name")).css('display','block');
-		//$('#center').load($(this).children().attr("name")+"",null,function(){});
-					/*$.ajax({
-					  url: "Image.html",
-					  cache: false,
-					  success: function(html){
-						$("#center").html(html);
-					  
-					});}*/ 
 	});
 
 });
@@ -66,7 +79,9 @@ $(function(){
 
 <body> <!--background="../632471.jpg"-->
 <div class="top">
-<span style="font-size:30px;margin:0 500px 0 30px;">成绩管理系统</span><span>${sessionScope.levels}：${sessionScope.name }</span>
+	<span style="font-size:30px;margin:0 400px 0 30px;">成绩管理系统</span>
+	<span>${sessionScope.levels}：${sessionScope.name }</span>
+	<span><a href="pages/Login.jsp">注销</a></span>
 </div>
 <div class="bar">
 <ul class="all">
@@ -118,15 +133,53 @@ $(function(){
     </li>
 </ul>
 </div>
-<div class="center" id="XSCJ">
-<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
-          name="form1"  method="post"  enctype="multipart/form-data" >
-     上传学生成绩表格:<input type="file" name="uploadImage">
-   <input type="submit" value="上传">
-</form>
+
+<!-- 学生成绩录入 -->
+
+<div class="center" id="XSCJ"> 
+	<div style="float:left;margin:0 0 0 100px;">
+		<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
+		          name="form1"  method="post"  enctype="multipart/form-data" >
+		     <h3>上传学生成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
+		     <input type="hidden" name="types" value="0"/><br/>
+		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
+           	 <c:forEach var="o" items="${e.rows }">
+           	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
+           	 </c:forEach><br/>
+		   <input type="submit" value="上传">
+		</form>
+	</div>
 </div>
-<div class="center" id="BK">2</div>
-<div class="center" id="QK">3</div>
+
+<div class="center" id="BK">
+	<div style="float:left;margin:0 0 0 100px;">
+		<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
+		          name="form1"  method="post"  enctype="multipart/form-data" >
+		     <h3>上传补考成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
+		     <input type="hidden" name="types" value="1"/><br/>
+		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
+           	 <c:forEach var="o" items="${e.rows }">
+           	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
+           	 </c:forEach><br/>
+		   <input type="submit" value="上传">
+		</form>
+	</div>
+</div>
+<div class="center" id="QK">
+	<div style="float:left;margin:0 0 0 100px;">
+		<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
+		          name="form1"  method="post"  enctype="multipart/form-data" >
+		     <h3>上传清考成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
+		     <input type="hidden" name="types" value="2"/><br/>
+		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
+           	 <c:forEach var="o" items="${e.rows }">
+           	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
+           	 </c:forEach><br/>
+		   <input type="submit" value="上传">
+		</form>
+	</div>
+</div>
+
 <div class="center" id="XSGR">4</div>
 <div class="center" id="GRCJ">5</div>
 <div class="center" id="BJCJ">6</div>
@@ -134,12 +187,37 @@ $(function(){
 <div class="center" id="CKGR">8</div>
 <div class="center" id="XGDQ">9</div>
 <div class="center" id="CKBY">10</div>
-<div class="center" id="KCGL">11</div>
-<div class="center" id="KBGL">12</div>
-<div class="center" id="XJGL">13</div>
-<div class="center" id="JSGL">14</div>
-<div class="center" id="FDY">15</div>
-<div class="center" id="GLY">16</div>
-<div class="center" id="XXJG">17</div>
+
+<div class="center" id="KCGL">
+	<div><a href="pages/upload.jsp?type=course">上传文件录入课程信息</a></div>
+	表格插件来做增删改
+</div>
+<div class="center" id="KBGL">
+	<div><a href="pages/upload.jsp?type=kb">上传文件录入任教信息</a></div>
+	表格插件来做增删改
+</div>
+<div class="center" id="XJGL">
+	<div><a href="pages/upload.jsp?type=student">上传文件录入学生学籍</a></div>
+	表格插件来做增删改
+</div>
+<div class="center" id="JSGL">
+	<div><a href="pages/upload.jsp?type=teacher">上传文件录入教师信息</a></div>
+	表格插件来做增删改
+</div>
+<div class="center" id="FDY">
+	<div><a href="pages/upload.jsp?type=assitant">上传文件录入辅导员信息</a></div>
+	表格插件来做增删改
+</div>
+<div class="center" id="XXJG">
+	<div>
+	<a href="pages/upload.jsp?type=academy">上传文件录入学院信息</a>
+	<a href="pages/upload.jsp?type=major">上传文件录入专业信息</a>
+	<a href="pages/upload.jsp?type=classs">上传文件录入班级信息</a>
+	</div>
+	表格插件来做增删改
+</div>
+<div class="center" id="GLY">
+	表格插件来做增删改
+</div>
 </body>
 </html>

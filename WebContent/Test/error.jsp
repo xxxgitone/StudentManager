@@ -19,11 +19,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+<script type="text/javascript">
+window.setTimeout("window.location='./pages/Main.jsp'",4000);
+</script>
   </head>
   
   <body>
-    失败<br>
-    <s:fielderror/>
+    <h2>上传文件失败</h2>
+    <p><s:fielderror/></p>
+    3s后将自动回到主页...
+    <a href="./pages/Main.jsp">若无响应请点击这里返回</a>
   </body>
 </html>

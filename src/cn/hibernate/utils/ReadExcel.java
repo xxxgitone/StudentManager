@@ -26,7 +26,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.ServletActionContext;
 /**
- * 对之前的进行修改，做成工具类
+ * 对之前的进行修改，做成工具类，实现输入表名，文件名，插入到数据库
  * @author  Myth
  * @date 2016年8月18日 下午9:51:31
  * @TODO
@@ -40,6 +40,12 @@ public class ReadExcel {
     int AllRows;
     int AllCols;
     int sheetNum;//最好实现一个机制，自动去获取后面的Sheet（如果有数据的话）
+    PreparedStatement ps = null;
+	Connection cn = null;
+	ResultSet rs = null;
+	String Driver = "com.mysql.jdbc.Driver";
+	String URL="jdbc:mysql://localhost:3306/student?user=root&password=ad&userUnicode=true&characterEncoding=UTF8";
+	
     static String path;
     static Map<Position,String> map = null ;//要注意：这里的Map采用的是自然的行号和列号（1开头）
     static String[] title ;
@@ -47,18 +53,65 @@ public class ReadExcel {
     static{
     	ServletContext sc = ServletActionContext.getServletContext();
 		path = sc.getRealPath("/fileupload");
-		
     }
 	public static void main(String [] s){
 	    ReadExcel ed = new ReadExcel();
-	    ed.ReadFile("excel.xls","");
+	    ed.InsertTable("excel.xls","");//一对一的插入记录
 	}  
+	public void obligatory(String fileName,String table){
+		
+	}
+	/**关于 专业 页面给出了学院id或专业id*/
+	public void MajorOrClasss(String fileName,String table,String UPid){
+		ReadFile(fileName);
+		/**用上了事务，因为保证其表格的统一性和原子性*/
+		try{
+			Class.forName(Driver);
+			cn = DriverManager.getConnection(URL);
+			cn.setAutoCommit(false);//取消自动提交
+			String sql;
+						
+			//插入表的内容 必须保证，Excel的列和数据库的列一一对应
+			for (int i=1;i<=AllRows;i++){
+				sql ="insert into "+table+" values(";
+				for (int k=1;k<=AllCols;k++) {
+					sql += "'"+map.get(new Position(i,k))+"',";
+					if(k==2) sql+=" '"+UPid+"',";
+				}
+				sql = sql.substring(0,sql.length()-1);//去掉逗号
+				sql+=")";
+				//System.out.println(i+" : "+sql);
+				ps=cn.prepareStatement(sql);
+				ps.executeUpdate();
+				System.out.println(i+": 插入记录成功");
+			}
+			cn.commit();//无异常再提交
+		}catch(Exception e){
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			System.out.println("增删改查失败");
+		}finally {
+			try{
+				cn.setAutoCommit(true);//改回来
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(cn!=null) cn.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * 输入文件名，拼接得到完整路径
-	 * 读取文件打开流，并获取到文件相关参数，调用插入数据库的方法
+	 * 读取文件打开流，并获取到文件相关参数
 	 * @param fileName
 	 */
-	public  void ReadFile(String fileName,String table){
+	public void ReadFile(String fileName){
 		path += fileName;
 		InputStream is =null;
     	try { 
@@ -68,99 +121,40 @@ public class ReadExcel {
 	    }catch (FileNotFoundException e) {System.out.println("未找到指定路径的文件!"); e.printStackTrace();}
     		catch(IOException ew){System.out.println("创建后两个对象出了问题"); ew.printStackTrace();}
     			catch(Exception es){System.out.println("也不知道什么鬼BUG"); es.printStackTrace(); }
-    	
-    	//插入数据库
-    	InsertTable(is,table);
-    	
-//若有多个Sheet，这里只处理单Sheet
-sheetNum = wb.getNumberOfSheets();
-System.out.println("Sheet数量："+sheetNum);
-int tempSheet=0;
-for(int i=0;i<sheetNum;i++){
-	HSSFSheet sheet = wb.getSheetAt(i);
-    int EffectiveRow=0;//有效行数
-    for (Row row : sheet){
-    	if(row==null) continue;
-    	EffectiveRow++;
-    }
-    System.out.println("有效的行数："+EffectiveRow);
-    if(EffectiveRow==0){
-    	System.out.println("空Sheet");
-    	continue;
-    }
-    tempSheet++;
-}
-sheetNum = tempSheet;
-System.out.println("实际有效的Sheet："+sheetNum);
 
+		//将数据读到集合内
+		title = readExcelTitle(is,1);
+        map = readExcelContent(is,1);
     	
-//控制台输出标题
-        /*System.out.println("获得Excel表格的标题:");      
-        for (String s1 : title) {      
-            System.out.print(s1 + " ");      
-        }      
-        System.out.println();*/
-//控制台输出内容
-        /*System.out.println("获得Excel表格的内容:"); 
-        for (int i=1; i<=AllRows; i++) {      
-        	for (int k=1;k<=AllCols;k++)
-        		System.out.print(new Position(i,k).toString()+""+map.get(new Position(i,k))+"-"); //这里的get就没有办法获取到值，因为创建的对象是一个新的地址  
-        	System.out.println();
-	    }*/
 	}
 	/** 
 	 * @DataSource 其标题和内容数据来源就是那个String[] 和 Map，一定要先获取了
 	 * @addition 插入到数据库的表中，并且是使用了事务处理
+	 * 这是一对一的方法
+	 * @param filename
+	 * @param table
 	 */
-	private void InsertTable(InputStream is,String table){
-		PreparedStatement ps = null;
-		Connection cn = null;
-		ResultSet rs = null;
-		
-		String Driver = "com.mysql.jdbc.Driver";
-		String URL="jdbc:mysql://localhost:3306/student?user=root&password=ad&userUnicode=true&characterEncoding=UTF8";
-		
-		//将数据读到集合内
-		title = readExcelTitle(is,1);
-        map = readExcelContent(is,1);
-        
+	private void InsertTable(String filename,String table){
+		ReadFile(filename);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
 			Class.forName(Driver);
 			cn = DriverManager.getConnection(URL);
 			cn.setAutoCommit(false);//取消自动提交
-			
-			
 			String sql;
-						//插入表的标题
-					    //多Sheet插入同一张表的话就需要把标题舍弃了，毕竟没有实际用处，还违背了数据库的基本原则
-						/*sql = "insert into excel2 values(";
-						for (String temp:title){
-							if("".equals(temp)) temp= "NULL";
-							else temp="'"+temp+"'";
-							sql += ""+temp+",";
-						}
-						sql = sql.substring(0,sql.length()-1);
-						sql+=")";
-						//System.out.println("标题 : "+sql);
-						ps=cn.prepareStatement(sql);
-						ps.executeUpdate();
-						System.out.println("标题插入成功");*/
-			
+						
 			//插入表的内容 必须保证，Excel的列和数据库的列一一对应
 			for (int i=1;i<=AllRows;i++){
 				sql ="insert into "+table+" values(";
 				for (int k=1;k<=AllCols;k++) sql += "'"+map.get(new Position(i,k))+"',";
-				sql = sql.substring(0,sql.length()-1);
+				sql = sql.substring(0,sql.length()-1);//去掉逗号
 				sql+=")";
 				//System.out.println(i+" : "+sql);
 				ps=cn.prepareStatement(sql);
 				ps.executeUpdate();
 				System.out.println(i+": 插入记录成功");
 			}
-			
 			cn.commit();//无异常再提交
-			
 		}catch(Exception e){
 			try {
 				cn.rollback();
@@ -287,7 +281,48 @@ System.out.println("实际有效的Sheet："+sheetNum);
             return "";      
         }      
         return strCell;      
-    }      
+    }    
+    
+    /**将获取到的数据在控制台输出*/
+    public void showExcel(){
+    	//控制台输出标题
+        System.out.println("获得Excel表格的标题:");      
+        for (String s1 : title) {      
+            System.out.print(s1 + " ");      
+        }      
+        System.out.println();
+    	//控制台输出内容
+        System.out.println("获得Excel表格的内容:"); 
+        for (int i=1; i<=AllRows; i++) {      
+        	for (int k=1;k<=AllCols;k++)
+        		System.out.print(new Position(i,k).toString()+""+map.get(new Position(i,k))+"-"); //这里的get就没有办法获取到值，因为创建的对象是一个新的地址  
+        	System.out.println();
+	    }
+    }
+    /**计算得出有效的Sheet*/
+    public void showSheet(){
+    	//若有多个Sheet，这里只处理单Sheet
+    	sheetNum = wb.getNumberOfSheets();
+    	System.out.println("Sheet数量："+sheetNum);
+    	int tempSheet=0;
+    	for(int i=0;i<sheetNum;i++){
+    		HSSFSheet sheet = wb.getSheetAt(i);
+    	    int EffectiveRow=0;//有效行数
+    	    for (Row row : sheet){
+    	    	if(row==null) continue;
+    	    	EffectiveRow++;
+    	    }
+    	    System.out.println("有效的行数："+EffectiveRow);
+    	    if(EffectiveRow==0){
+    	    	System.out.println("空Sheet");
+    	    	continue;
+    	    }
+    	    tempSheet++;
+    	}
+    	sheetNum = tempSheet;
+    	System.out.println("实际有效的Sheet："+sheetNum);
+
+    }
 }
 /**
  * @author  Myth
@@ -340,3 +375,17 @@ class Position {
 		return result;
 	}
 }
+//插入表的标题
+//多Sheet插入同一张表的话就需要把标题舍弃了，毕竟没有实际用处，还违背了数据库的基本原则
+/*sql = "insert into excel2 values(";
+for (String temp:title){
+	if("".equals(temp)) temp= "NULL";
+	else temp="'"+temp+"'";
+	sql += ""+temp+",";
+}
+sql = sql.substring(0,sql.length()-1);
+sql+=")";
+//System.out.println("标题 : "+sql);
+ps=cn.prepareStatement(sql);
+ps.executeUpdate();
+System.out.println("标题插入成功");*/
