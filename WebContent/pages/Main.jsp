@@ -141,7 +141,7 @@ $(function(){
 		<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
 		          name="form1"  method="post"  enctype="multipart/form-data" >
 		     <h3>上传学生成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
-		     <input type="hidden" name="types" value="0"/><br/>
+		     <input type="hidden" name="types" value="grade"/><br/>
 		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
            	 <c:forEach var="o" items="${e.rows }">
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
@@ -156,7 +156,7 @@ $(function(){
 		<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
 		          name="form1"  method="post"  enctype="multipart/form-data" >
 		     <h3>上传补考成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
-		     <input type="hidden" name="types" value="1"/><br/>
+		     <input type="hidden" name="types" value="makeup"/><br/>
 		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
            	 <c:forEach var="o" items="${e.rows }">
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
@@ -170,7 +170,7 @@ $(function(){
 		<form action="${pageContext.request.contextPath}/upload/uploadAction_saveFile.action"  
 		          name="form1"  method="post"  enctype="multipart/form-data" >
 		     <h3>上传清考成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
-		     <input type="hidden" name="types" value="2"/><br/>
+		     <input type="hidden" name="types" value="ultimate"/><br/>
 		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
            	 <c:forEach var="o" items="${e.rows }">
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>

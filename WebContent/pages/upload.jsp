@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   <h2>${param.type }</h2>
-     <div class="center" id="BK">
+     <div class="center">
 	<!-- <div style="float:left;">
 		<h3>补考成绩.xls 文件格式规范：</h3>
 		<table border="solid" width="300px" height="200px">
@@ -48,5 +48,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 	</div>
 </div>
-  </body>
+</body>
 </html>

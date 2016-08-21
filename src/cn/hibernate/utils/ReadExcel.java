@@ -25,8 +25,11 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.ServletActionContext;
+
+
 /**
  * 对之前的进行修改，做成工具类，实现输入表名，文件名，插入到数据库
+ * 注意这里对数字的获取是默认使用的实型
  * @author  Myth
  * @date 2016年8月18日 下午9:51:31
  * @TODO
@@ -37,32 +40,172 @@ public class ReadExcel {
     private HSSFWorkbook wb;      
     private HSSFSheet sheet;      
     private HSSFRow row; 
-    int AllRows;
-    int AllCols;
-    int sheetNum;//最好实现一个机制，自动去获取后面的Sheet（如果有数据的话）
-    PreparedStatement ps = null;
-	Connection cn = null;
-	ResultSet rs = null;
-	String Driver = "com.mysql.jdbc.Driver";
-	String URL="jdbc:mysql://localhost:3306/student?user=root&password=ad&userUnicode=true&characterEncoding=UTF8";
-	
-    static String path;
-    static Map<Position,String> map = null ;//要注意：这里的Map采用的是自然的行号和列号（1开头）
-    static String[] title ;
+    private InputStream is =null;
+    private int AllRows;//内容的行数
+    private int AllCols;//内容的列数
+    private int startRow=2;//内容起始行 除去表的列名
+    private int sheetNum;//最好实现一个机制，自动去获取后面的Sheet（如果有数据的话）
+    private PreparedStatement ps = null;
+	private Connection cn = null;
+	private ResultSet rs = null;
+	private String Driver = "com.mysql.jdbc.Driver";
+	private String URL="jdbc:mysql://localhost:3306/student?user=root&password=ad&userUnicode=true&characterEncoding=UTF8";
+	private Map<Position,String> map = null ;//要注意：这里的Map采用的是自然的行号和列号（1开头）
+    private String[] title ;
     
-    static{
-    	ServletContext sc = ServletActionContext.getServletContext();
-		path = sc.getRealPath("/fileupload");
-    }
+    private String path;
+    
 	public static void main(String [] s){
 	    ReadExcel ed = new ReadExcel();
-	    ed.InsertTable("excel.xls","");//一对一的插入记录
-	}  
-	public void obligatory(String fileName,String table){
-		
+	    ed.ToSimpleTable("Student.xls","student");//一对一的插入记录
 	}
-	/**关于 专业 页面给出了学院id或专业id*/
-	public void MajorOrClasss(String fileName,String table,String UPid){
+	
+	/**
+	 * @To 补考或清考 插入
+	 * （序号，学号，姓名，成绩）根据学号和课程号，确定记录，修改补考或清考成绩
+	 * @param fileName
+	 * @param course
+	 * @param type 补考：makeup 清考：ultimate
+	 */
+	public void ToBuOrQing(String fileName,String course,String type){
+		ReadFile(fileName);
+		/**用上了事务，因为保证其表格的统一性和原子性*/
+		try{
+			Class.forName(Driver);
+			cn = DriverManager.getConnection(URL);
+			cn.setAutoCommit(false);//取消自动提交
+			String sql;
+			
+			for (int i=startRow;i<=AllRows;i++){
+				sql = "update mark set "+type+"="+map.get(new Position(i,4))+" where sno="
+						+ map.get(new Position(i,2))+" and cno='"+course+"'";
+				//System.out.println(i+"插入成绩 : "+sql);
+				ps=cn.prepareStatement(sql);
+				ps.executeUpdate();
+				System.out.println(i+": 修改记录成功");
+			}
+			cn.commit();//无异常再提交
+		}catch(Exception e){
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			System.out.println("增删改查失败");
+		}finally {
+			try{
+				cn.setAutoCommit(true);//改回来
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(cn!=null) cn.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/** 
+	 * @To 成绩  需要 参数课程，学年，学期
+	 * （序号，学号，姓名，成绩）
+	 * @param fileName
+	 * @param course
+	 * @param year
+	 * @param term
+	 */
+	public void ToGrade(String fileName,String course,String year,int term){
+		ReadFile(fileName);
+		/**用上了事务，因为保证其表格的统一性和原子性*/
+		try{
+			Class.forName(Driver);
+			cn = DriverManager.getConnection(URL);
+			cn.setAutoCommit(false);//取消自动提交
+			String sql;
+			
+			for (int i=startRow;i<=AllRows;i++){
+				sql ="insert into mark(sno,cno,grade,year,term) values(" + map.get(new Position(i,2))+",'"+course+"',"+map.get(new Position(i,4))+",'"+year+"',"+term+")";
+				//System.out.println(i+"插入成绩 : "+sql);
+				ps=cn.prepareStatement(sql);
+				ps.executeUpdate();
+				System.out.println(i+": 插入记录成功");
+			}
+			cn.commit();//无异常再提交
+		}catch(Exception e){
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			System.out.println("增删改查失败");
+		}finally {
+			try{
+				cn.setAutoCommit(true);//改回来
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(cn!=null) cn.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @To 课表. Excel中有（班级，课程，教师，备注 ）需要插入学年和学期
+	 * @param fileName
+	 * @param year
+	 * @param term
+	 */
+	public void ToObligatory(String fileName,String year,int term){
+		ReadFile(fileName);
+		/**用上了事务，因为保证其表格的统一性和原子性*/
+		try{
+			Class.forName(Driver);
+			cn = DriverManager.getConnection(URL);
+			cn.setAutoCommit(false);//取消自动提交
+			String sql;
+					
+			for (int i=startRow;i<=AllRows;i++){
+				sql ="insert into obligatory values('"+year+"',"+term+",";
+				for (int k=1;k<=AllCols;k++) {
+					sql += "'"+map.get(new Position(i,k))+"',";
+				}
+				sql = sql.substring(0,sql.length()-1);//去掉逗号
+				sql+=")";
+				//System.out.println(i+" : "+sql);
+				ps=cn.prepareStatement(sql);
+				ps.executeUpdate();
+				System.out.println(i+": 插入记录成功");
+			}
+			cn.commit();//无异常再提交
+		}catch(Exception e){
+			try {
+				cn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			System.out.println("增删改查失败");
+		}finally {
+			try{
+				cn.setAutoCommit(true);//改回来
+				if(rs!=null) rs.close();
+				if(ps!=null) ps.close();
+				if(cn!=null) cn.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * @To 这是专业和班级的函数
+	 * @P 需要给出学院id或专业id
+	 * @param fileName
+	 * @param table
+	 * @param UPid 上级外码的id
+	 */
+	public void ToMajorOrClasss(String fileName,String table,String UPid){
 		ReadFile(fileName);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -72,7 +215,7 @@ public class ReadExcel {
 			String sql;
 						
 			//插入表的内容 必须保证，Excel的列和数据库的列一一对应
-			for (int i=1;i<=AllRows;i++){
+			for (int i=startRow;i<=AllRows;i++){
 				sql ="insert into "+table+" values(";
 				for (int k=1;k<=AllCols;k++) {
 					sql += "'"+map.get(new Position(i,k))+"',";
@@ -106,35 +249,14 @@ public class ReadExcel {
 		}
 	}
 	
-	/**
-	 * 输入文件名，拼接得到完整路径
-	 * 读取文件打开流，并获取到文件相关参数
-	 * @param fileName
-	 */
-	public void ReadFile(String fileName){
-		path += fileName;
-		InputStream is =null;
-    	try { 
-	        is = new FileInputStream(path);
-	        fs = new POIFSFileSystem(is);  //封装特定的输入流 
-            wb = new HSSFWorkbook(fs); //创建工作簿
-	    }catch (FileNotFoundException e) {System.out.println("未找到指定路径的文件!"); e.printStackTrace();}
-    		catch(IOException ew){System.out.println("创建后两个对象出了问题"); ew.printStackTrace();}
-    			catch(Exception es){System.out.println("也不知道什么鬼BUG"); es.printStackTrace(); }
-
-		//将数据读到集合内
-		title = readExcelTitle(is,1);
-        map = readExcelContent(is,1);
-    	
-	}
 	/** 
+	 * @To 这是一对一的通用方法
 	 * @DataSource 其标题和内容数据来源就是那个String[] 和 Map，一定要先获取了
 	 * @addition 插入到数据库的表中，并且是使用了事务处理
-	 * 这是一对一的方法
 	 * @param filename
 	 * @param table
 	 */
-	private void InsertTable(String filename,String table){
+	public void ToSimpleTable(String filename,String table){
 		ReadFile(filename);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -144,12 +266,12 @@ public class ReadExcel {
 			String sql;
 						
 			//插入表的内容 必须保证，Excel的列和数据库的列一一对应
-			for (int i=1;i<=AllRows;i++){
+			for (int i=startRow;i<=AllRows;i++){
 				sql ="insert into "+table+" values(";
 				for (int k=1;k<=AllCols;k++) sql += "'"+map.get(new Position(i,k))+"',";
 				sql = sql.substring(0,sql.length()-1);//去掉逗号
 				sql+=")";
-				//System.out.println(i+" : "+sql);
+				System.out.println(i+" 一对一 : "+sql);
 				ps=cn.prepareStatement(sql);
 				ps.executeUpdate();
 				System.out.println(i+": 插入记录成功");
@@ -177,14 +299,53 @@ public class ReadExcel {
 	}
 	
 	/**
+	 * 输入文件名，拼接得到完整路径
+	 * 读取文件打开流，并获取到文件数据内容
+	 * @param fileName
+	 */
+	public void ReadFile(String fileName){
+		//ServletContext sc = ServletActionContext.getServletContext();
+		//System.out.println("获取文件："+sc);
+		//path = sc.getRealPath("/fileupload");
+		//path = "F:/apache-tomcat-7.0.8/webapps/SMS/fileupload/";
+		path = "E:/TsetExcel/";
+		
+//		path = ReadExcel.class.getClass().getResource("/").getPath();
+//		System.out.println(path);
+//	    path = path.substring(1,path.length()-4);
+//	    path += "excel/";
+	    
+		path += fileName;
+    	try { 
+	        is = new FileInputStream(path);
+	        fs = new POIFSFileSystem(is);  //封装特定的输入流 
+            wb = new HSSFWorkbook(fs); //创建工作簿
+	    }catch (FileNotFoundException e) {System.out.println("未找到指定路径的文件!"); e.printStackTrace();}
+    		catch(IOException ew){System.out.println("创建后两个对象出了问题"); ew.printStackTrace();}
+    			catch(Exception es){System.out.println("也不知道什么鬼BUG"); es.printStackTrace(); }
+
+		//将数据读到集合内
+		title = readExcelTitle(is,0);
+        map = readExcelContent(is,0);
+        //关闭文件流
+        /*try {
+    		if(is!=null) is.close();
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}*/
+	}
+	
+	/**
 	 * 获取指定Sheet的表格标题 
 	 * @param is,sheetNum
 	 * @return 返回值是String [] 就直接设定标题只有一行（）
 	 */
 	private String[] readExcelTitle(InputStream is,int sheetNum) {      
-		sheet = wb.getSheetAt(sheetNum); //第一Sheet     
+		sheet = wb.getSheetAt(sheetNum); //第一Sheet 
+		
         row = sheet.getRow(0);//第一行 ,因为指定了第一行是标题，虽然标题可能占据多行，但是第一行必须是标题行，不然也会有错误     
-        //标题总列数      
+        //标题总列数 
+        System.out.println(row);
         int colNum = row.getPhysicalNumberOfCells();   //由这里限制了列的大小？
         //int colNum = row.getLastCellNum();
         		System.out.println("标题的列数为："+colNum);
@@ -248,6 +409,7 @@ public class ReadExcel {
             		break;
             	}else	
             		strCell = String.valueOf(cell.getNumericCellValue());   //普通数字类型
+        		
         	}catch(IllegalStateException e){
         		strCell = String.valueOf(cell.getRichStringCellValue());
         		//strCell =new XSSFCell().getCtCell().getV(); 没有这个JAR包
@@ -261,7 +423,10 @@ public class ReadExcel {
         		Date date = cell.getDateCellValue();//从单元格获取日期数据
         		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");//设定转换的格式
         		strCell = formater.format(date);//将日期数据（Date 或者直接输入的格式正确的字符串）转换成String类型
-        	}else	strCell = String.valueOf(cell.getNumericCellValue());   //普通数字类型
+        	}else{	strCell = String.valueOf(cell.getNumericCellValue());   //普通数字类型
+        	if(".0".equals(strCell.subSequence(strCell.length()-2, strCell.length())))strCell = Integer.parseInt(strCell.substring(0,strCell.length()-2))+"";
+        		System.out.println("数字："+strCell);
+        	}
             break;      
         case HSSFCell.CELL_TYPE_BOOLEAN:      
             strCell = String.valueOf(cell.getBooleanCellValue());      
@@ -299,6 +464,7 @@ public class ReadExcel {
         	System.out.println();
 	    }
     }
+    
     /**计算得出有效的Sheet*/
     public void showSheet(){
     	//若有多个Sheet，这里只处理单Sheet
@@ -323,6 +489,7 @@ public class ReadExcel {
     	System.out.println("实际有效的Sheet："+sheetNum);
 
     }
+    
 }
 /**
  * @author  Myth

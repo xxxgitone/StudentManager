@@ -1,4 +1,4 @@
-package cn.struts.action;
+package cn.utils.test;
 
 import java.util.Date;
 import java.util.Iterator;

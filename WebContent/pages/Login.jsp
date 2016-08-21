@@ -2,7 +2,9 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String param = request.getParameter("param");
+HttpSession sessions = request.getSession(false);
+String param = (String)sessions.getAttribute("param");
+//String param = request.getParameter("param");
 
 %>
 

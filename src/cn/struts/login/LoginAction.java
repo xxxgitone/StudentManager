@@ -41,12 +41,13 @@ public class LoginAction extends ActionSupport {
 		else sql = "select pass ,"+top+"name from manager where mname='"+user+"'";
 		ResultSet rs = db.SelectAll(sql);
 		System.out.println(rs);
+		HttpSession pu = request.getSession(true);
 		try{
 			if(rs.next()){
 				if(pass.equals(rs.getString("pass"))) {
 					String name= rs.getString(top+"name");
 					db.updSQL("insert into history values('"+user+"',now(),'"+request.getLocalAddr()+"')");
-					HttpSession pu = request.getSession(true);
+					
 					pu.setMaxInactiveInterval(300);//设置生命周期 单位s
 					pu.setAttribute("name", name);//用户的姓名
 					pu.setAttribute("user", user);//用户编号
@@ -59,12 +60,16 @@ public class LoginAction extends ActionSupport {
 					sc.setAttribute("term", info[1]);
 					return "main";
 				}
-			}else return "nouser";
+			}else {
+				pu.setAttribute("param", "nouser");
+				return "login";
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			db.closeAll();
 		}
+		pu.setAttribute("param", "error");
 		return "login";
 	}
 	public String[] getYear(){
