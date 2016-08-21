@@ -5,11 +5,11 @@ import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
-import cn.hibernate.utils.ExcelToDB;
 import cn.hibernate.utils.ReadExcel;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -33,15 +33,23 @@ public class UploadAction extends ActionSupport {
 	 */
 	public String saveFile(){
 		System.out.println("UploadAction *********** saveFile()");
-		
+		//System.out.println("_"+uploadImage+"_"+uploadImageContentType+"_"+uploadImageFileName+"_");
 		ServletContext sc = ServletActionContext.getServletContext();
-		//System.out.println("上传："+sc);
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		String types = request.getParameter("types");
+		if(uploadImage==null || uploadImageContentType==null || uploadImageFileName==null){
+			sc.setAttribute("uperror", "NullFile");
+			sc.setAttribute("type", types);
+			return "Upload";
+		}
+		String year = (String)sc.getAttribute("years");
+		String terms = (String)sc.getAttribute("term");
+		int term=1;
+		if(terms!=null) term = Integer.parseInt(terms);
+		
 		String path = sc.getRealPath("/fileupload");//得到运行环境路径
-		System.out.println(path);
-//		path = UploadAction.class.getClass().getResource("/").getPath();
 //		System.out.println(path);
-//	    path = path.substring(1,path.length()-4);
-//	    path += "excel/";
 	    
 		File file = new File(path, uploadImageFileName);
 		try {
@@ -49,15 +57,9 @@ public class UploadAction extends ActionSupport {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		uploadImage.delete();
+		uploadImage.delete();//删除缓存文件
 		
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String year = (String)sc.getAttribute("years");
-		String terms = (String)sc.getAttribute("term");
-		int term;
-		if(terms!=null) term = Integer.parseInt(terms);
 		
-		String types = request.getParameter("types");
 //		System.out.println(types);
 		if("grade".equals(types)){//期末成绩
 			return ToGrade(sc,request);
@@ -68,7 +70,7 @@ public class UploadAction extends ActionSupport {
 		}else if("classs".equals(types)||"major".equals(types)){//专业 班级
 			return ToMajorOrClass(sc, types, request);
 		}else {// 学院，课程，教师，学生，辅导员
-			System.out.println("other");
+//			System.out.println("one to one");
 			return ToSimpleOne(sc, types);
 		}
 		
@@ -100,7 +102,8 @@ public class UploadAction extends ActionSupport {
 	public String Tokb(ServletContext sc){
 		ReadExcel re = new ReadExcel();
 		re.ToObligatory(uploadImageFileName, year, term);
-		return "Upload";
+		sc.setAttribute("div", "KB");
+		return "Grade";
 	}
 	
 	/**
@@ -109,22 +112,30 @@ public class UploadAction extends ActionSupport {
 	 * @param table
 	 */
 	public String ToSimpleOne(ServletContext sc,String table){
-		System.out.println("0"+table+" file name "+uploadImageFileName);
+//		System.out.println("0"+table+" file name "+uploadImageFileName);
 		ReadExcel re = new ReadExcel();
-//		ReadExcelUtils.ToSimpleTable(uploadImageFileName, table);
-		System.out.println("1"+table);
+//		System.out.println("1"+table);
 		re.ToSimpleTable(uploadImageFileName, table);
-		
-		return "Upload";
+		if("academy".equals(table)) table="XXJG";
+		sc.setAttribute("div", table);
+		System.out.println("一对一写入的参数："+sc.getAttribute("div"));
+		return "Grade";
 	}
 	/**录入专业 班级信息*/
 	public String ToMajorOrClass(ServletContext sc,String table,HttpServletRequest request){
 		String upID = request.getParameter("upid");
-		ReadExcel re = new ReadExcel();
-		re.ToMajorOrClasss(uploadImageFileName, table, upID);
-		return "Upload";
+		if(upID==null){
+			sc.setAttribute("uperror", "NullID");
+			sc.setAttribute("type", table);
+			return "Upload";
+		}
+		System.out.println("id "+upID);
+		//ReadExcel re = new ReadExcel();
+		//re.ToMajorOrClasss(uploadImageFileName, table, upID);
+		sc.setAttribute("div", "XXJG");
+		return "Grade";
 	}
-	
+	////////////////////////////////////////////////////////////////////////////////////////
 	public File getUploadImage() {
 		return uploadImage;
 	}

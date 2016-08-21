@@ -4,13 +4,16 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
 HttpSession sessions = request.getSession(false);//得到当前的Session
-if(sessions.getAttribute("user")==null){
-	response.sendRedirect("Login.jsp?param=outtime");
+String user = (String)sessions.getAttribute("user");
+if(user==null){
+	sessions.setAttribute("param", "outtime");
+	response.sendRedirect("Login.jsp");
 }
 ServletContext sc = request.getServletContext();
 String div = (String)sc.getAttribute("div");
 String years = (String)sc.getAttribute("years");
 String terms = (String)sc.getAttribute("term");
+if(terms==null) terms="1";
 int term = Integer.parseInt(terms);
 sc.removeAttribute("div");
 //String div = request.getParameter("div");
@@ -50,6 +53,7 @@ if(div==null) div="0";
 
 <script type="text/javascript" src="Jquery/jquery-3.0.0.min.js"></script>
 <script type="text/javascript">
+if(<%=user%>==null) window.location="Login.jsp";
 var ThisDiv = '<%=div%>';
 //alert("-"+ThisDiv+"-");
 //alert('<%=term%>'+':'+'<%=years%>');
@@ -121,12 +125,12 @@ $(function(){
     </li>
     <li id="five">后台管理
     	<ul>
-        	<li><a name="KCGL">课程管理</a></li>
-            <li><a name="KBGL">课表管理</a></li>
-        	<li><a name="XJGL">学籍管理</a></li>
-            <li><a name="JSGL">教师管理</a></li>
+        	<li><a name="course">课程管理</a></li>
+            <li><a name="KB">课表管理</a></li>
+        	<li><a name="student">学籍管理</a></li>
+            <li><a name="teacher">教师管理</a></li>
             <li><a name="XXJG">学校结构管理</a></li>
-            <li><a name="FDY">辅导员信息管理</a></li>
+            <li><a name="assitant">辅导员信息管理</a></li>
             <li><a name="GLY">管理员信息管理</a></li>
             
         </ul>
@@ -142,13 +146,16 @@ $(function(){
 		          name="form1"  method="post"  enctype="multipart/form-data" >
 		     <h3>上传学生成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
 		     <input type="hidden" name="types" value="grade"/><br/>
+		     <%if(user!=null){%>
 		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
            	 <c:forEach var="o" items="${e.rows }">
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
            	 </c:forEach><br/>
+           	 <%} %>
 		   <input type="submit" value="上传">
 		</form>
 	</div>
+	<a href="pages/ExcelHelp.html">查看文件上传帮助</a>
 </div>
 
 <div class="center" id="BK">
@@ -157,13 +164,16 @@ $(function(){
 		          name="form1"  method="post"  enctype="multipart/form-data" >
 		     <h3>上传补考成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
 		     <input type="hidden" name="types" value="makeup"/><br/>
+		     <%if(user!=null){%>
 		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
            	 <c:forEach var="o" items="${e.rows }">
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
            	 </c:forEach><br/>
+           	 <%} %>
 		   <input type="submit" value="上传">
 		</form>
 	</div>
+	<a href="pages/ExcelHelp.html">查看文件上传帮助</a>
 </div>
 <div class="center" id="QK">
 	<div style="float:left;margin:0 0 0 100px;">
@@ -171,13 +181,16 @@ $(function(){
 		          name="form1"  method="post"  enctype="multipart/form-data" >
 		     <h3>上传清考成绩表格:</h3><br/><input type="file" name="uploadImage"><br/>
 		     <input type="hidden" name="types" value="ultimate"/><br/>
+		     <%if(user!=null){%>
 		     <sql:query sql="select distinct obligatory.cno,cname from obligatory,course where tno=${sessionScope.user } and course.cno=obligatory.cno" var="e"/>
            	 <c:forEach var="o" items="${e.rows }">
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
            	 </c:forEach><br/>
+           	 <%} %>
 		   <input type="submit" value="上传">
 		</form>
 	</div>
+	<a href="pages/ExcelHelp.html">查看文件上传帮助</a>
 </div>
 
 <div class="center" id="XSGR">4</div>
@@ -188,23 +201,23 @@ $(function(){
 <div class="center" id="XGDQ">9</div>
 <div class="center" id="CKBY">10</div>
 
-<div class="center" id="KCGL">
+<div class="center" id="course">
 	<div><a href="pages/upload.jsp?type=course">上传文件录入课程信息</a></div>
 	表格插件来做增删改
 </div>
-<div class="center" id="KBGL">
+<div class="center" id="KB">
 	<div><a href="pages/upload.jsp?type=kb">上传文件录入任教信息</a></div>
 	表格插件来做增删改
 </div>
-<div class="center" id="XJGL">
+<div class="center" id="student">
 	<div><a href="pages/upload.jsp?type=student">上传文件录入学生学籍</a></div>
 	表格插件来做增删改
 </div>
-<div class="center" id="JSGL">
+<div class="center" id="teacher">
 	<div><a href="pages/upload.jsp?type=teacher">上传文件录入教师信息</a></div>
 	表格插件来做增删改
 </div>
-<div class="center" id="FDY">
+<div class="center" id="assitant">
 	<div><a href="pages/upload.jsp?type=assitant">上传文件录入辅导员信息</a></div>
 	表格插件来做增删改
 </div>

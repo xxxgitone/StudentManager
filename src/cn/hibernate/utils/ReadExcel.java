@@ -45,6 +45,7 @@ public class ReadExcel {
     private int AllCols;//内容的列数
     private int startRow=2;//内容起始行 除去表的列名
     private int sheetNum;//最好实现一个机制，自动去获取后面的Sheet（如果有数据的话）
+    private int currentSheet=0;//使用的Sheet,数组下标表示法
     private PreparedStatement ps = null;
 	private Connection cn = null;
 	private ResultSet rs = null;
@@ -304,17 +305,13 @@ public class ReadExcel {
 	 * @param fileName
 	 */
 	public void ReadFile(String fileName){
-		//ServletContext sc = ServletActionContext.getServletContext();
-		//System.out.println("获取文件："+sc);
-		//path = sc.getRealPath("/fileupload");
-		//path = "F:/apache-tomcat-7.0.8/webapps/SMS/fileupload/";
-		path = "E:/TsetExcel/";
+		ServletContext sc = ServletActionContext.getServletContext();
+		path = sc.getRealPath("/fileupload");
+		//path = "E:/TsetExcel/";
 		
-//		path = ReadExcel.class.getClass().getResource("/").getPath();
-//		System.out.println(path);
-//	    path = path.substring(1,path.length()-4);
-//	    path += "excel/";
+		System.out.println(path);
 	    
+		path+="\\";
 		path += fileName;
     	try { 
 	        is = new FileInputStream(path);
@@ -325,14 +322,14 @@ public class ReadExcel {
     			catch(Exception es){System.out.println("也不知道什么鬼BUG"); es.printStackTrace(); }
 
 		//将数据读到集合内
-		title = readExcelTitle(is,0);
-        map = readExcelContent(is,0);
+		title = readExcelTitle(is,currentSheet);
+        map = readExcelContent(is,currentSheet);
         //关闭文件流
-        /*try {
+        try {
     		if(is!=null) is.close();
     	} catch (IOException e) {
     		e.printStackTrace();
-    	}*/
+    	}
 	}
 	
 	/**

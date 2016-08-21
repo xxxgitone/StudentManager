@@ -4,6 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 HttpSession sessions = request.getSession(false);
 String param = (String)sessions.getAttribute("param");
+sessions.removeAttribute("param");
 //String param = request.getParameter("param");
 
 %>
