@@ -5,6 +5,7 @@ public class Assitant {
 	String aname;
 	String pass;
 	String asex;
+	String mid;
 	String ainfo;
 
 	public Assitant() {
@@ -17,6 +18,14 @@ public class Assitant {
 		this.pass = pass;
 		this.asex = asex;
 		this.ainfo = ainfo;
+	}
+
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
 
 	public int getAno() {

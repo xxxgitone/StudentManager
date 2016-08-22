@@ -40,9 +40,9 @@ if('<%=param%>'=='error'){
 <body>
     <div id="box">
 	<form action="${pageContext.request.contextPath }/login/LoginAction.action" method="post">
-		<input type="text" name="user" id="user"/><br/>
+		<input type="text" name="user" id="user" placeholder="请输入用户名" value="900001"/><br/>
 		<br/>
-		<input type="password" name="pass" id="pass"/><br>
+		<input type="password" name="pass" id="pass" placeholder="请输入密码" value="1"/><br>
 		<br/>
 		<div id="box1"><!-- check表示默认选择选项 -->
 	   <span><input type="radio" name="ids"  value="student" checked="checked">学生</span>

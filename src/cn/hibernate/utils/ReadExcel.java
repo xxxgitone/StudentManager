@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,9 +60,15 @@ public class ReadExcel {
     
 	public static void main(String [] s){
 	    ReadExcel ed = new ReadExcel();
-	    ed.ToSimpleTable("Student.xls","student");//一对一的插入记录
+	    try {
+			ed.ToSimpleTable("Student.xls","student");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}//一对一的插入记录
 	}
-	
+	public ReadExcel(){}
+	public ReadExcel(int sheet){this.currentSheet = sheet;}
 	/**
 	 * @To 补考或清考 插入
 	 * （序号，学号，姓名，成绩）根据学号和课程号，确定记录，修改补考或清考成绩
@@ -68,7 +76,7 @@ public class ReadExcel {
 	 * @param course
 	 * @param type 补考：makeup 清考：ultimate
 	 */
-	public void ToBuOrQing(String fileName,String course,String type){
+	public void ToBuOrQing(String fileName,String course,String type) throws Exception{
 		ReadFile(fileName);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -94,6 +102,7 @@ public class ReadExcel {
 			}
 			e.printStackTrace();
 			System.out.println("增删改查失败");
+			throw e;
 		}finally {
 			try{
 				cn.setAutoCommit(true);//改回来
@@ -114,7 +123,7 @@ public class ReadExcel {
 	 * @param year
 	 * @param term
 	 */
-	public void ToGrade(String fileName,String course,String year,int term){
+	public void ToGrade(String fileName,String course,String year,int term)throws Exception{
 		ReadFile(fileName);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -132,6 +141,7 @@ public class ReadExcel {
 			}
 			cn.commit();//无异常再提交
 		}catch(Exception e){
+			
 			try {
 				cn.rollback();
 			} catch (SQLException e1) {
@@ -139,6 +149,7 @@ public class ReadExcel {
 			}
 			e.printStackTrace();
 			System.out.println("增删改查失败");
+			throw e;
 		}finally {
 			try{
 				cn.setAutoCommit(true);//改回来
@@ -157,7 +168,7 @@ public class ReadExcel {
 	 * @param year
 	 * @param term
 	 */
-	public void ToObligatory(String fileName,String year,int term){
+	public void ToObligatory(String fileName,String year,int term) throws Exception{
 		ReadFile(fileName);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -187,6 +198,7 @@ public class ReadExcel {
 			}
 			e.printStackTrace();
 			System.out.println("增删改查失败");
+			throw e;
 		}finally {
 			try{
 				cn.setAutoCommit(true);//改回来
@@ -206,7 +218,7 @@ public class ReadExcel {
 	 * @param table
 	 * @param UPid 上级外码的id
 	 */
-	public void ToMajorOrClasss(String fileName,String table,String UPid){
+	public void ToMajorOrClasss(String fileName,String table,String UPid) throws Exception{
 		ReadFile(fileName);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -238,6 +250,7 @@ public class ReadExcel {
 			}
 			e.printStackTrace();
 			System.out.println("增删改查失败");
+			throw e;
 		}finally {
 			try{
 				cn.setAutoCommit(true);//改回来
@@ -257,7 +270,7 @@ public class ReadExcel {
 	 * @param filename
 	 * @param table
 	 */
-	public void ToSimpleTable(String filename,String table){
+	public void ToSimpleTable(String filename,String table) throws Exception{
 		ReadFile(filename);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
@@ -287,6 +300,7 @@ public class ReadExcel {
 			}
 			e.printStackTrace();
 			System.out.println("增删改查失败");
+			throw e;
 		}finally {
 			try{
 				cn.setAutoCommit(true);//改回来
@@ -304,7 +318,7 @@ public class ReadExcel {
 	 * 读取文件打开流，并获取到文件数据内容
 	 * @param fileName
 	 */
-	public void ReadFile(String fileName){
+	public void ReadFile(String fileName) throws Exception{
 		ServletContext sc = ServletActionContext.getServletContext();
 		path = sc.getRealPath("/fileupload");
 		//path = "E:/TsetExcel/";
@@ -404,9 +418,19 @@ public class ReadExcel {
             		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");//设定转换的格式
             		strCell = formater.format(date);//将日期数据（Date 或者直接输入的格式正确的字符串）转换成String类型
             		break;
-            	}else	
-            		strCell = String.valueOf(cell.getNumericCellValue());   //普通数字类型
-        		
+            	}else{
+            		double Num = cell.getNumericCellValue();   //普通数字类型
+    	        	DecimalFormat formatCell = (DecimalFormat)NumberFormat.getPercentInstance();
+    	        	formatCell.applyPattern("0");
+    	        	strCell = formatCell.format(Num);
+    	        	if(Double.parseDouble(strCell)!=Num){
+    	        		formatCell.applyPattern(Double.toString(Num));
+    	        		strCell = formatCell.format(Num);
+    	        	}
+    	        	if(".0".equals(strCell.subSequence(strCell.length()-2, strCell.length())))strCell = Integer.parseInt(strCell.substring(0,strCell.length()-2))+"";
+    	        		System.out.println("数字："+strCell);
+            	}
+            		//strCell = String.valueOf(cell.getNumericCellValue());   //普通数字类型
         	}catch(IllegalStateException e){
         		strCell = String.valueOf(cell.getRichStringCellValue());
         		//strCell =new XSSFCell().getCtCell().getV(); 没有这个JAR包
@@ -420,10 +444,19 @@ public class ReadExcel {
         		Date date = cell.getDateCellValue();//从单元格获取日期数据
         		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");//设定转换的格式
         		strCell = formater.format(date);//将日期数据（Date 或者直接输入的格式正确的字符串）转换成String类型
-        	}else{	strCell = String.valueOf(cell.getNumericCellValue());   //普通数字类型
-        	if(".0".equals(strCell.subSequence(strCell.length()-2, strCell.length())))strCell = Integer.parseInt(strCell.substring(0,strCell.length()-2))+"";
-        		System.out.println("数字："+strCell);
-        	}
+        	}else{	
+        		double Num = cell.getNumericCellValue();   //普通数字类型
+	        	DecimalFormat formatCell = (DecimalFormat)NumberFormat.getPercentInstance();
+	        	formatCell.applyPattern("0");
+	        	strCell = formatCell.format(Num);
+	        	if(Double.parseDouble(strCell)!=Num){
+	        		formatCell.applyPattern(Double.toString(Num));
+	        		strCell = formatCell.format(Num);
+	        	}
+	        	//System.out.println(strCell+strCell.length());
+	        	if(strCell.length()>2 && ".0".equals(strCell.subSequence(strCell.length()-2, strCell.length())))strCell = Integer.parseInt(strCell.substring(0,strCell.length()-2))+"";
+	        		//System.out.println("数字："+strCell);
+	        }
             break;      
         case HSSFCell.CELL_TYPE_BOOLEAN:      
             strCell = String.valueOf(cell.getBooleanCellValue());      

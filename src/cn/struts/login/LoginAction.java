@@ -58,6 +58,7 @@ public class LoginAction extends ActionSupport {
 					String [] info = getYear();
 					sc.setAttribute("years", info[0]);
 					sc.setAttribute("term", info[1]);
+					System.out.println(info[0]+"<-->"+info[1]);
 					return "main";
 				}
 			}else {
@@ -78,9 +79,9 @@ public class LoginAction extends ActionSupport {
 		int y = s.getYear();
 		int m = s.getMonth();
 		
-		info[0] = (y+1900)+"-"+(y+1901);
-		if(m<12 && m>8 || m==0) info[1]=1+"";
-		else info[1] = 2+"";
+		
+		if(m<12 && m>8 || m==0) {info[1]=1+"";info[0] = (y+1900)+"-"+(y+1901);}
+		else {info[1] = 2+"";info[0] = (y+1899)+"-"+(y+1900);}
 		return info;
 	}
 

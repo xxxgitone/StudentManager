@@ -11,6 +11,7 @@ if(user==null){
 }
 ServletContext sc = request.getServletContext();
 String div = (String)sc.getAttribute("div");
+String error = (String)sc.getAttribute("uperror");
 String years = (String)sc.getAttribute("years");
 String terms = (String)sc.getAttribute("term");
 if(terms==null) terms="1";
@@ -53,15 +54,16 @@ if(div==null) div="0";
 
 <script type="text/javascript" src="Jquery/jquery-3.0.0.min.js"></script>
 <script type="text/javascript">
-if(<%=user%>==null) window.location="Login.jsp";
+
 var ThisDiv = '<%=div%>';
 //alert("-"+ThisDiv+"-");
-//alert('<%=term%>'+':'+'<%=years%>');
+if('<%=error%>' == 'InsertError'){alert('数据库插入数据失败，请检查文件是否符合要求');}
+
 $(function(){
 	$('.center').css('display','none');
 	if(ThisDiv!='0'){
 		$('#'+ThisDiv).css('display','block');//显示参数指定的div
-		//alert('上传文件成功');
+		alert('上传文件成功,写入数据库成功！');
 	}
 	$('.all>li').mouseover(function(e){
 		//$(this).children().show();
@@ -152,6 +154,19 @@ $(function(){
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
            	 </c:forEach><br/>
            	 <%} %>
+           	 请输入上传文件中要使用的第几个Sheet：（不选则默认是第一个）<br/>
+		     <select name="sheet">
+		     	<OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
+		     	<OPTION VALUE="1">第 2  个Sheet</OPTION>
+		     	<OPTION VALUE="2">第 3  个Sheet</OPTION>
+		     	<OPTION VALUE="3">第 4  个Sheet</OPTION>
+		     	<OPTION VALUE="4">第 5  个Sheet</OPTION>
+		     	<OPTION VALUE="5">第 6  个Sheet</OPTION>
+		     	<OPTION VALUE="6">第 7  个Sheet</OPTION>
+		     	<OPTION VALUE="7">第 8  个Sheet</OPTION>
+		     	<OPTION VALUE="8">第 9  个Sheet</OPTION>
+		     	<OPTION VALUE="9">第 10 个Sheet</OPTION>
+		     </select><br/>
 		   <input type="submit" value="上传">
 		</form>
 	</div>
@@ -170,6 +185,19 @@ $(function(){
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
            	 </c:forEach><br/>
            	 <%} %>
+           	 请输入上传文件中要使用的第几个Sheet：（不选则默认是第一个）<br/>
+		     <select name="sheet">
+		     	<OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
+		     	<OPTION VALUE="1">第 2  个Sheet</OPTION>
+		     	<OPTION VALUE="2">第 3  个Sheet</OPTION>
+		     	<OPTION VALUE="3">第 4  个Sheet</OPTION>
+		     	<OPTION VALUE="4">第 5  个Sheet</OPTION>
+		     	<OPTION VALUE="5">第 6  个Sheet</OPTION>
+		     	<OPTION VALUE="6">第 7  个Sheet</OPTION>
+		     	<OPTION VALUE="7">第 8  个Sheet</OPTION>
+		     	<OPTION VALUE="8">第 9  个Sheet</OPTION>
+		     	<OPTION VALUE="9">第 10 个Sheet</OPTION>
+		     </select><br/>
 		   <input type="submit" value="上传">
 		</form>
 	</div>
@@ -187,6 +215,19 @@ $(function(){
            	 	<span><input type="radio" name="course"  value="${o.cno }">${o.cname}</span>
            	 </c:forEach><br/>
            	 <%} %>
+           	 请输入上传文件中要使用的第几个Sheet：（不选则默认是第一个）<br/>
+		     <select name="sheet">
+		     	<OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
+		     	<OPTION VALUE="1">第 2  个Sheet</OPTION>
+		     	<OPTION VALUE="2">第 3  个Sheet</OPTION>
+		     	<OPTION VALUE="3">第 4  个Sheet</OPTION>
+		     	<OPTION VALUE="4">第 5  个Sheet</OPTION>
+		     	<OPTION VALUE="5">第 6  个Sheet</OPTION>
+		     	<OPTION VALUE="6">第 7  个Sheet</OPTION>
+		     	<OPTION VALUE="7">第 8  个Sheet</OPTION>
+		     	<OPTION VALUE="8">第 9  个Sheet</OPTION>
+		     	<OPTION VALUE="9">第 10 个Sheet</OPTION>
+		     </select><br/>
 		   <input type="submit" value="上传">
 		</form>
 	</div>

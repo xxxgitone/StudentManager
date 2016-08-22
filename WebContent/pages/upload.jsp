@@ -54,6 +54,19 @@ if(error==null) error="0";
            	 </c:forEach><br/>
 		     <%} }%>
 		     <input type="hidden" name="types" value="<%=type%>"/><br/>
+		     请输入上传文件中要使用的第几个Sheet：（不选则默认是第一个）<br/>
+		     <select name="sheet">
+		     	<OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
+		     	<OPTION VALUE="1">第 2  个Sheet</OPTION>
+		     	<OPTION VALUE="2">第 3  个Sheet</OPTION>
+		     	<OPTION VALUE="3">第 4  个Sheet</OPTION>
+		     	<OPTION VALUE="4">第 5  个Sheet</OPTION>
+		     	<OPTION VALUE="5">第 6  个Sheet</OPTION>
+		     	<OPTION VALUE="6">第 7  个Sheet</OPTION>
+		     	<OPTION VALUE="7">第 8  个Sheet</OPTION>
+		     	<OPTION VALUE="8">第 9  个Sheet</OPTION>
+		     	<OPTION VALUE="9">第 10 个Sheet</OPTION>
+		     </select><br/>
 		   <input type="submit" value="上传">
 		</form>
 	</div>
