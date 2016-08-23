@@ -6,7 +6,12 @@ public class TestReadExcel {
 
 	public static void main(String[] args) {
 		ReadExcel re = new ReadExcel();
-		re.ToSimpleTable("Student.xls","student");
+		try {
+			re.ToSimpleTable("Student.xls","student");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

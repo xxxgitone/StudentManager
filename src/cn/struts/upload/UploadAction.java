@@ -144,8 +144,8 @@ public class UploadAction extends ActionSupport {
 			return "Upload";
 		}
 		System.out.println("id "+upID);
-		//ReadExcel re = new ReadExcel(sheet);
-		//re.ToMajorOrClasss(uploadImageFileName, table, upID);
+		ReadExcel re = new ReadExcel(sheet);
+		re.ToMajorOrClasss(uploadImageFileName, table, upID);
 		sc.setAttribute("div", "XXJG");
 		return "Main";
 	}

@@ -6,5 +6,8 @@
 			<result name="main">/pages/Main.jsp</result>
 			<result name="login">/pages/Login.jsp</result>
 		</action>
+		<action name="LogOutAction" class="cn.struts.login.LoginAction" method="logout">
+			<result name="login">/pages/Login.jsp</result>
+		</action>
 	</package>
 </struts> 

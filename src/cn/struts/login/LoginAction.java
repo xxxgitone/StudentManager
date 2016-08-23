@@ -13,6 +13,7 @@ import cn.hibernate.utils.Mysql;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+@SuppressWarnings("serial")
 public class LoginAction extends ActionSupport {
 
 	@Override
@@ -71,6 +72,12 @@ public class LoginAction extends ActionSupport {
 			db.closeAll();
 		}
 		pu.setAttribute("param", "error");
+		return "login";
+	}
+	
+	public String logout(){
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.setMaxInactiveInterval(0);
 		return "login";
 	}
 	public String[] getYear(){

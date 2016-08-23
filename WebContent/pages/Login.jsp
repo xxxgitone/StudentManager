@@ -45,8 +45,8 @@ if('<%=param%>'=='error'){
 		<input type="password" name="pass" id="pass" placeholder="请输入密码" value="1"/><br>
 		<br/>
 		<div id="box1"><!-- check表示默认选择选项 -->
-	   <span><input type="radio" name="ids"  value="student" checked="checked">学生</span>
-	   <span><input type="radio" name="ids" value="teacher" >教师</span>
+	   <span><input type="radio" name="ids"  value="student" >学生</span>
+	   <span><input type="radio" name="ids" value="teacher" checked="checked">教师</span>
 	   <span><input type="radio" name="ids"  value="assitant" >辅导员</span>
 	   <span><input type="radio" name="ids"  value="manager" >管理员</span>
 		 </div><br/>
