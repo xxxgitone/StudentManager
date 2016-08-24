@@ -74,8 +74,8 @@ $(function(){
 	$('#QK input.typp').prop('value','ultimate');
 	
 	//将div全部隐藏
-	$('.center').css('display','none');
-	$('.center2').css('display','none');
+	$('.center,.center2').css('display','none');
+	//$('.center2').css('display','none');
 	if(ThisDiv!='0'){
 		$('#'+ThisDiv).css('display','block');//显示参数指定的当前div
 		alert('上传文件成功,写入数据库成功！');
@@ -109,8 +109,8 @@ $(function(){
 	}
 	//绑定点击事件：显示和隐藏相应的div动作的函数
 	$('.all>li>ul>li').click(function(){
-		$('.center').css('display','none');
-		$('.center2').css('display','none');
+		$('.center,.center2').css('display','none');
+		//$('.center2').css('display','none');
 		$("#"+$(this).children().attr("name")).css('display','block');
 	});
 	$('.all>li>ul>li>a').mouseover(function(e){
