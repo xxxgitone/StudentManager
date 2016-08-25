@@ -334,7 +334,7 @@ public class ReadExcel {
 	    }catch (FileNotFoundException e) {System.out.println("未找到指定路径的文件!"); e.printStackTrace();}
     		catch(IOException ew){System.out.println("创建后两个对象出了问题"); ew.printStackTrace();}
     			catch(Exception es){System.out.println("也不知道什么鬼BUG"); es.printStackTrace(); }
-
+    	
 		//将数据读到集合内
 		title = readExcelTitle(is,currentSheet);
         map = readExcelContent(is,currentSheet);
