@@ -267,8 +267,8 @@ public class ReadExcel {
 	 * @To 这是一对一的通用方法
 	 * @DataSource 其标题和内容数据来源就是那个String[] 和 Map，一定要先获取了
 	 * @addition 插入到数据库的表中，并且是使用了事务处理
-	 * @param filename
-	 * @param table
+	 * @param filename 文件名
+	 * @param table 表名
 	 */
 	public void ToSimpleTable(String filename,String table) throws Exception{
 		ReadFile(filename);
