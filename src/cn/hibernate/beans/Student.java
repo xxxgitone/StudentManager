@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Student  {
-	int sno;
+	long sno;
 	String pass;
 	String sname;
 	String ssex;
+	@JSONField (format="yyyy-MM-dd")
 	Date sbirth;
 	String sid;
 	String cid;
@@ -37,11 +40,11 @@ public class Student  {
 		this.sinfo = sinfo;
 	}
 
-	public int getSno() {
+	public long getSno() {
 		return sno;
 	}
 
-	public void setSno(int sno) {
+	public void setSno(long sno) {
 		this.sno = sno;
 	}
 

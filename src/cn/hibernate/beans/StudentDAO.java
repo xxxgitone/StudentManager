@@ -59,7 +59,7 @@ public class StudentDAO extends BaseHibernateDAO {
 		}
 	}
 
-	public Student findById(java.lang.Integer id) {
+	public Student findById(java.lang.Long id) {
 		log.debug("getting Student instance with id: " + id);
 		try {
 			Student instance = (Student) getSession().get(

@@ -5,6 +5,8 @@
 		<action name="QueryAction" class="cn.struts.query.QueryAction">
 			<result name="test">/Test/Test.jsp</result>
 		</action>
+		<action name="QueryAction_student" class="cn.struts.query.QueryAction" method="q_student">
+		</action>
 	</package>
 
 </struts>  

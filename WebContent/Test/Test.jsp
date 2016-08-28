@@ -26,5 +26,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <a href='${pageContext.request.contextPath }/test/TestAction.action?name=myth'>点击开始</a>
     测试最终结果页面 name: '${requestScope.username}'
     测试成功
+    
+    <a href="${pageContext.request.contextPath }/query/QueryAction_student.action">查询所有学生</a>
+    
   </body>
 </html>
