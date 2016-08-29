@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="download" namespace="/download" extends="struts-default">
+		<action name="downloadAction" class="cn.struts.download.DownloadAction">
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<!-- ognl 表达式：filename=${filename} -->
+				<param name="contentDisposition">attachment,filename="SSS.xls"</param>
+				<!-- 这个参数是干嘛？ -->
+				<param name="inputName">downloadFile</param>
+			</result>
+		</action>
+	</package>
+
+</struts>  

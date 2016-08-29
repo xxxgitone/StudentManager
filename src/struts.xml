@@ -12,4 +12,5 @@
 	<include file="cn/struts/login/struts_login.xml"></include>
 	<include file="cn/struts/upload/struts_upload.xml"></include>
 	<include file="cn/struts/query/struts_query.xml"></include>
+	<include file="cn/struts/download/struts_download.xml"></include>
 </struts>    
