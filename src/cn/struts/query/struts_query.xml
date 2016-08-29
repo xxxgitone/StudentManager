@@ -5,8 +5,30 @@
 		<action name="QueryAction" class="cn.struts.query.QueryAction">
 			<result name="test">/Test/Test.jsp</result>
 		</action>
-		<action name="QueryAction_student" class="cn.struts.query.QueryAction" method="q_student">
-		</action>
+		<action name="Query_student_all" class="cn.struts.query.QueryAction" method="q_student_all"></action>
+		<action name="Query_student_one" class="cn.struts.query.QueryAction" method="q_student_one"></action>
+		<action name="Query_teacher_all" class="cn.struts.query.QueryAction" method="q_teacher_all"></action>
+		<action name="Query_teacher_one" class="cn.struts.query.QueryAction" method="q_teacher_one"></action>
+		<action name="Query_assitant_all" class="cn.struts.query.QueryAction" method="q_assitant_all"></action>
+		<action name="Query_assitant_one" class="cn.struts.query.QueryAction" method="q_assitant_one"></action>
+		<action name="Query_manager_all" class="cn.struts.query.QueryAction" method="q_manager_all"></action>
+		<action name="Query_manager_one" class="cn.struts.query.QueryAction" method="q_manager_one"></action>
+		
+		<action name="Query_mark_all" class="cn.struts.query.QueryAction" method="q_mark_all"></action>
+		<action name="Query_mark_one" class="cn.struts.query.QueryAction" method="q_mark_one"></action>
+		<action name="Query_obligatory_all" class="cn.struts.query.QueryAction" method="q_obligatory_all"></action>
+		<action name="Query_obligatory_one" class="cn.struts.query.QueryAction" method="q_obligatory_one"></action>
+		<action name="Query_course_all" class="cn.struts.query.QueryAction" method="q_course_all"></action>
+		<action name="Query_course_one" class="cn.struts.query.QueryAction" method="q_course_one"></action>
+		
+		<action name="Query_classs_all" class="cn.struts.query.QueryAction" method="q_classs_all"></action>
+		<action name="Query_classs_one" class="cn.struts.query.QueryAction" method="q_classs_one"></action>
+		<action name="Query_academy_all" class="cn.struts.query.QueryAction" method="q_academy_all"></action>
+		<action name="Query_academy_one" class="cn.struts.query.QueryAction" method="q_academy_one"></action>
+		<action name="Query_major_all" class="cn.struts.query.QueryAction" method="q_major_all"></action>
+		<action name="Query_major_one" class="cn.struts.query.QueryAction" method="q_major_one"></action>
+		
+		<action name="Query_test" class="cn.struts.query.QueryAction" method="test"></action>
 	</package>
 
 </struts>  

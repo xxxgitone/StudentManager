@@ -43,7 +43,9 @@ public class TestHibernateConfiguration {
 		/**测试一对多表关系配置文件的正确性*/
 		//selects();
 		//cu();
-		
-		
+		//测试DAO的查询
+		StudentDAO sd = new StudentDAO ();
+		List<Student> d = sd.findByProperty("sid", "902");
+		System.out.println(d.get(0).getSname());
 	}
 }

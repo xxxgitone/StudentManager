@@ -1,5 +1,7 @@
 package cn.hibernate.beans;
 
+import java.util.List;
+
 import org.hibernate.Session;
 
 
@@ -11,6 +13,18 @@ public class BaseHibernateDAO implements IBaseHibernateDAO {
 	
 	public Session getSession() {
 		return HibernateSessionFactory.getSession();
+	}
+
+	//为了给子类重写的方法
+	public List findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List findByProperty(String propertyName, Object value) {
+		// TODO Auto-generated method stub
+		System.out.println(propertyName+"::"+ value);
+		return null;
 	}
 	
 }

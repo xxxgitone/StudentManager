@@ -1,11 +1,16 @@
 package cn.hibernate.beans;
 
+import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Teacher{
 	int tno;
 	String tname;
 	String pass;
 	String tsex;
-	java.sql.Date tbirth;
+	@JSONField (format="yyyy-MM-dd")
+	Date tbirth;
 	String tpolitics;
 	String tjob;
 	String tacademy;
@@ -60,11 +65,11 @@ public class Teacher{
 		this.tsex = tsex;
 	}
 
-	public java.sql.Date getTbirth() {
+	public Date getTbirth() {
 		return tbirth;
 	}
 
-	public void setTbirth(java.sql.Date tbirth) {
+	public void setTbirth(Date tbirth) {
 		this.tbirth = tbirth;
 	}
 

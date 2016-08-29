@@ -80,11 +80,13 @@ public class MajorDAO extends BaseHibernateDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
+		System.out.println(propertyName+"::："+ value);
 		log.debug("finding Major instance with property: " + propertyName
 				+ ", value: " + value);
 		try {
 			String queryString = "from Major as model where model."
 					+ propertyName + "= ?";
+			System.out.println(queryString);
 			Query queryObject = getSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
