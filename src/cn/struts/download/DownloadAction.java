@@ -61,8 +61,29 @@ public class DownloadAction extends ActionSupport {
 			list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 			String name = list.get(0)[0];//班级名称
 			filename = name+"班成绩单.xls";
-			String sql = "";
-			Table2Excel.Run(sql, filename, name, path);
+			
+			String getCol="select o.cno,cname from obligatory o,course c where o.cno=c.cno and cid = '"+classs
+					+"' and year='"+year+"' and term = "+term+" ";
+			list = db.SelectReturnList(getCol);//查出某学期某班级有多少课程
+			String sql[] = new String[list.size()+5];
+			String ColName[] = new String[list.size()+5];
+			//列的名字初始化赋值
+			ColName[0] = "序号";ColName[1] = "学号";ColName[2] = "姓名";
+			ColName[3] = "总学分";ColName[list.size()+4] = "成绩总分";
+			for (int i=0;i<list.size();i++){
+				ColName[i+4] = list.get(i)[1];//填入名字
+			}
+			//数据部分SQL初始化赋值
+			sql[0] = "";
+			sql[1] = "select sno from mark where cid = '"+classs +"' and year='"+year+"' and term = "+term+" order by sno";
+			sql[2] = "select sname,sno from mark_pro where cid = '"+classs +"' and year='"+year+"' and term = "+term+" order by sno";
+			sql[3] = "";
+			sql[list.size()+4] = "";
+			for (int i=0;i<list.size();i++){
+				sql[i+4] = "select grade,sno from mark where cno = '"+list.get(i)[0]+"' and cid = '"+classs +"' and year='"
+			+year+"' and term = "+term+" order by sno";
+			}
+			Table2Excel.CreateDynamicTable(ColName, sql, filename, path);
 			break;
 		}
 		case "g_major":{
@@ -71,10 +92,21 @@ public class DownloadAction extends ActionSupport {
 			filename = name+"-各班级成绩单.xls";
 			break;
 		}
-		case "p_all":{
+		/*case "p_all":{
 			filename = "所有人员信息表.xls";
+			String sql[] = new String [4];
+			String title[] = new String [4];
+			title[0] = "学生信息";
+			title[1] = "教师信息";
+			title[2] = "辅导员信息";
+			title[3] = "管理员信息";
+			sql[0] = "";
+			sql[1] = "";
+			sql[2] = "";
+			sql[3] = "";
+			Table2Excel.Runs(sql, title, path);
 			break;
-		}
+		}*/
 		case "o_classs":{
 			list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 			String name = list.get(0)[0];
@@ -87,7 +119,8 @@ public class DownloadAction extends ActionSupport {
 			filename = name+"-各班级课程表.xls";
 			break;
 		}
-		case "s_major":{
+		//下面的做成树结构查看或查询
+		/*case "s_major":{
 			if(academy!=null){
 				list = db.SelectReturnList("select academy from major where aid = '"+academy+"' ");
 				String name = list.get(0)[0];
@@ -97,8 +130,8 @@ public class DownloadAction extends ActionSupport {
 			}
 			
 			break;
-		}
-		case "s_classs":{
+		}*/
+		/*case "s_classs":{
 			if(major!=null){
 				list = db.SelectReturnList("select major from major where mid = '"+major+"' ");
 				String name = list.get(0)[0];
@@ -108,13 +141,13 @@ public class DownloadAction extends ActionSupport {
 			}
 			
 			break;
-		}
-		case "s_academy":{
+		}*/
+		/*case "s_academy":{
 			list = db.SelectReturnList("select academy from major where aid = '"+academy+"' ");
 			String name = list.get(0)[0];
 			filename = name+"-学院信息表.xls";
 			break;
-		}
+		}*/
 		default:
 			break;
 		}

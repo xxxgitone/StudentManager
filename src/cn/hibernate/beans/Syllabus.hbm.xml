@@ -28,6 +28,12 @@
             <key-property name="amount" type="java.lang.Integer">
                 <column name="amount" />
             </key-property>
+            <key-property name="year" type="java.lang.String">
+                <column name="year" length="20" />
+            </key-property>
+            <key-property name="term" type="java.lang.Integer">
+                <column name="term" />
+            </key-property>
         </composite-id>
     </class>
 </hibernate-mapping>

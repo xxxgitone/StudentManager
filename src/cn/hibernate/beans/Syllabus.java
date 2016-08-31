@@ -8,7 +8,9 @@ public class Syllabus extends AbstractSyllabus {
 	int week;
 	int start;
 	int amount;
-
+	String year;
+	int term;
+	
 	public Syllabus() {
 	}
 
@@ -77,5 +79,21 @@ public class Syllabus extends AbstractSyllabus {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public int getTerm() {
+		return term;
+	}
+
+	public void setTerm(int term) {
+		this.term = term;
 	}
 }

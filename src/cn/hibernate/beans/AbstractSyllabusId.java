@@ -16,7 +16,8 @@ public abstract class AbstractSyllabusId implements java.io.Serializable {
 	private Integer week;
 	private Integer start;
 	private Integer amount;
-
+	private String year;
+	private Integer term;
 	// Constructors
 
 	/** default constructor */
@@ -25,7 +26,7 @@ public abstract class AbstractSyllabusId implements java.io.Serializable {
 
 	/** full constructor */
 	public AbstractSyllabusId(String cid, String cno, Integer tno,
-			String theoryroom, Integer week, Integer start, Integer amount) {
+			String theoryroom, Integer week, Integer start, Integer amount,String year,Integer term) {
 		this.cid = cid;
 		this.cno = cno;
 		this.tno = tno;
@@ -33,6 +34,8 @@ public abstract class AbstractSyllabusId implements java.io.Serializable {
 		this.week = week;
 		this.start = start;
 		this.amount = amount;
+		this.year = year;
+		this.term = term;
 	}
 
 	// Property accessors
@@ -91,6 +94,22 @@ public abstract class AbstractSyllabusId implements java.io.Serializable {
 
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public Integer getTerm() {
+		return term;
+	}
+
+	public void setTerm(Integer term) {
+		this.term = term;
 	}
 
 	public boolean equals(Object other) {
