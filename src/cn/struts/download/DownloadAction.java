@@ -3,17 +3,16 @@ package cn.struts.download;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-import cn.hibernate.utils.Table2Class;
-
 import com.myth.mysql.Mysql;
-import com.myth.mysql.Table2Excel;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.util.ValueStack;
 /**
@@ -66,49 +65,43 @@ public class DownloadAction extends ActionSupport {
 				String getCol="select o.cno,cname from obligatory o,course c where o.cno=c.cno and cid = '"+classs
 						+"' and year='"+year+"' and term = "+term+" ";
 				list = db.SelectReturnList(getCol);//查出某学期某班级有多少课程
-				//
-				int Nums = list.size();
-				String sql[] = new String[Nums+5];
-				String ColName[] = new String[Nums+5];
-				//列的名字初始化赋值
-				ColName[0] = "序号";ColName[1] = "学号";ColName[2] = "姓名";
-				ColName[3] = "总学分";ColName[Nums+4] = "成绩总分";
-				for (int i=0;i<list.size();i++){
-					ColName[i+4] = list.get(i)[1];//填入名字
-				}
-				//数据部分SQL初始化赋值
-	//			sql[0] = "";
-	//			sql[1] = "select sno from mark where cid = '"+classs +"' and year='"+year+"' and term = "+term+" order by sno";
-	//			sql[2] = "select sname,sno from mark_pro where cid = '"+classs +"' and year='"+year+"' and term = "+term+" order by sno";
-	//			sql[3] = "";
-	//			sql[list.size()+4] = "";
-	//			for (int i=0;i<list.size();i++){
-	//				sql[i+4] = "select grade,sno from mark where cno = '"+list.get(i)[0]+"' and cid = '"+classs +"' and year='"
-	//			+year+"' and term = "+term+" order by sno";
-	//			}
-	//			Table2Excel.CreateDynamicTable(ColName, sql, filename, path);
+				//创建MAP
+				//Map <String,String>Cname = new HashMap<String,String>();
 				
-				//换一种方法，先将动态的成绩表处理创建成一个临时表，再做处理
-				String drop = "drop table if exists temp ;";
-				db.updSQL(drop);
-				String create = "create table temp as ( select c_"+list.get(0)[0]+".sno,sname";
+				int Nums = list.size();
+				
+//				String sql[] = new String[Nums+5];
+//				String ColName[] = new String[Nums+5];
+				//列的名字初始化赋值
+//				ColName[0] = "序号";ColName[1] = "学号";ColName[2] = "姓名";
+//				ColName[3] = "总学分";ColName[Nums+4] = "成绩总分";
+//				for (int i=0;i<list.size();i++){
+//					ColName[i+4] = list.get(i)[1];//填入名字
+//				}
+				System.out.println("Nums = "+Nums);
+				for (int i=0;i<list.size();i++){
+					System.out.println(i+":"+list.get(i)[0]+":"+list.get(i)[1]);
+				}
+				
+				String create = " select distinct col_0.sno,sname ,";
 				for(int i=0;i<Nums;i++){
-					create +="col_"+i+".grade "+list.get(i)[0]+",col_"+i+".credit cr_"+list.get(i)[0]+",";
+					create +="col_"+i+".grade c_"+list.get(i)[0]+",col_"+i+".credit cr_"+list.get(i)[0]+",";
 				}
 				create = create.substring(0, create.length()-1);
 				create += " from ";
 				String key = "and year='"+year+"' and term = "+term;
 				for(int i=0;i<Nums;i++){
-					create += "(select sno,grade,credit from mark where course.cno=mark.cno and mark.cno = '"
+					create += "(select sno,grade,credit from mark,course where course.cno=mark.cno and mark.cno = '"
 							+list.get(i)[0]+"' "+key+" ) col_"+i+" ,";
 				}
 				create +="student s where ";
-//				create = create.substring(0, create.length()-1);
 				for(int i=0;i<Nums-1;i++){
 					create +=" col_"+i+".sno=col_"+(i+1)+".sno and";
 				}
-				create +=" cid = '"+classs +"' );";
-				db.updSQL(create);
+				create +=" s.sno = col_0.sno and cid = '"+classs +"';";
+				System.out.println("SQL:-"+create+"-" );
+				List<String[]> data= db.SelectReturnList(create);//得到查询到的临时表
+				
 				break;
 			}
 			case "g_major":{
