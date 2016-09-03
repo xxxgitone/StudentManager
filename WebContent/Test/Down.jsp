@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'Down.jsp' starting page</title>
+    <title>下载页面</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -23,6 +23,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <a href="${pageContext.request.contextPath }/download/downloadAction.action">下载文件</a>
+    <a href="${pageContext.request.contextPath }/download/downloadAction.action?filetype=g_classs&year=2015-2016&term=1&classs=3">下载文件</a>
   </body>
 </html>

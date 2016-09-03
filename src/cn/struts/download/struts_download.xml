@@ -6,7 +6,7 @@
 			<result name="success" type="stream">
 				<param name="contentType">application/vnd.ms-excel</param>
 				<!-- ognl 表达式：filename=${filename} -->
-				<param name="contentDisposition">attachment,filename="SSS.xls"</param>
+				<param name="contentDisposition">attachment,filename=${filename}</param>
 				<!-- 这个参数是干嘛？ -->
 				<param name="inputName">downloadFile</param>
 			</result>
