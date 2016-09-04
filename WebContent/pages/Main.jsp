@@ -256,7 +256,7 @@ $(function(){
 </div>
 <div class="center" id="GRCJ">5</div>
 <div class="center" id="BJCJ">
-<a href = "pages/Down.jsp">下载页面</a>
+	<a href = "Test/Down.jsp">下载页面</a>
 </div>
 <div class="center" id="ZYCJ">7</div>
 <div class="center" id="CKGR">8</div>

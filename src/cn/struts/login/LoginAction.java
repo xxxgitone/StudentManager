@@ -16,13 +16,17 @@ import com.opensymphony.xwork2.ActionSupport;
 @SuppressWarnings("serial")
 public class LoginAction extends ActionSupport {
 
+	String user;
+	String pass;
+	String ids;
+	
 	@Override
 	public String execute() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
-		String user = request.getParameter("user");
-		String pass = request.getParameter("pass");
-		String ids = request.getParameter("ids");
 		//if("asstant".equals(ids)){userID="ano";}
+		user.trim();
+		pass.trim();
+		ids.trim();
 		System.out.println(user+"="+pass+"="+ids);
 		String levels = null;
 		if("student".equals(ids)){
@@ -41,7 +45,7 @@ public class LoginAction extends ActionSupport {
 		if(!"manager".equals(ids))  sql = "select pass,"+top+"name from "+ids+" where "+top+"no="+user+"";
 		else sql = "select pass ,"+top+"name from manager where mname='"+user+"'";
 		ResultSet rs = db.SelectAll(sql);
-		System.out.println(rs);
+//		System.out.println(rs);
 		HttpSession pu = request.getSession(true);
 		try{
 			if(rs.next()){
@@ -90,6 +94,30 @@ public class LoginAction extends ActionSupport {
 		if(m<12 && m>8 || m==0) {info[1]=1+"";info[0] = (y+1900)+"-"+(y+1901);}
 		else {info[1] = 2+"";info[0] = (y+1899)+"-"+(y+1900);}
 		return info;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 
 }

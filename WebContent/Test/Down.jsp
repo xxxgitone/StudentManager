@@ -3,7 +3,6 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -23,6 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <a href="${pageContext.request.contextPath }/download/downloadAction.action?filetype=g_classs&year=2015-2016&term=1&classs=3">下载文件</a>
+    <a href="${pageContext.request.contextPath }/download/downloadAction.action?filetype=g_classs&year=2015-2016&term=1&classs=3">下载某班级成绩表格文件</a>
+     <a href="${pageContext.request.contextPath }/download/downloadAction.action?filetype=g_major&year=2015-2016&term=1&major=I10001">下载某专业成绩表格文件</a>
+  
   </body>
 </html>

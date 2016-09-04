@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.URLEncoder;
+import java.security.interfaces.RSAKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class DownloadAction extends ActionSupport {
 	String major;//mid
 	String classs;//cid
 	ServletContext sc;
-	String fileName;
+	String FileName;//文件名
 	String path;//缓存文件的路径 在Tomcat下
 	{
 		sc = ServletActionContext.getServletContext();
@@ -43,16 +43,22 @@ public class DownloadAction extends ActionSupport {
 	public InputStream getDownloadFile(){
 		System.out.println("执行了获取文件");
 		HttpServletRequest request = ServletActionContext.getRequest();
-//		try {
-//			request.setCharacterEncoding("UTF-8");
-//		} catch (UnsupportedEncodingException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
 		ValueStack vs = (ValueStack)request.getAttribute("struts.valueStack");//获取值栈
-		String filename = TurnFileName(filetype);//用户所下载文件的文件名
-		setFileName(filename);
-		vs.set("filename",filename);//压入值栈，在xml文件中获取
+		
+		CreateFile(filetype);//用户所下载文件的文件名
+		try {
+			FileName = new String(FileName.getBytes(),"ISO-8859-1");//将文件名进行转码
+		} catch (UnsupportedEncodingException e2) {
+			e2.printStackTrace();
+		}
+		
+//		System.out.println("转码后的："+fileName);
+		vs.set("filename",FileName);//压入值栈，在xml文件中获取
 		File file = new File(path);
 		System.out.println("获取的路径："+path);
 		FileInputStream fis = null;
@@ -63,25 +69,36 @@ public class DownloadAction extends ActionSupport {
 		}
 		return fis;
 	}
-	/**根据传入type来创建对应文件，返回文件名 路径写成运行环境下的目录*/
-	public String TurnFileName(String type){
-		String filename = "系统有异常.xls";
+	/**根据传入type来创建对应文件, 路径写成运行环境下的目录*/
+	public void CreateFile(String type){
+		FileName = "系统有异常.xls";
 		Mysql db = new Mysql("student","root","ad");
 		List<String[]> list = null;
 		
 		switch (type) {
 			case "g_classs":{//某学年某学期某班级的成绩单
-				filename = getData(db, list);
+				list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
+				String name = list.get(0)[0];//班级名称
+				FileName = name+"班成绩单.xls";
+				list = getData(db,classs);
+				Table2Excel.ListToExcel(FileName, list, path);//单Sheet
 				break;
 			}
 			case "g_major":{
-				list = db.SelectReturnList("select major from major where mid = '"+major+"' ");
+				list = db.SelectReturnList("select major,cid from major m,classs c where c.mid=m.mid and m.mid = '"+major+"' ");
 				String name = list.get(0)[0];
-				filename = name+"-各班级成绩单.xls";
+				List<List<String []>> data  = new ArrayList<List<String[]>>();
+				
+				for(int i=0;i<list.size();i++){
+					list = getData(new Mysql("student","root","ad"),list.get(i)[1]);
+					data.add(list);
+				}
+				FileName = name+"-各班级成绩单.xls";
+				Table2Excel.ListToExcels(FileName, data, path);
 				break;
 			}
 			/*case "p_all":{
-				filename = "所有人员信息表.xls";
+				FileName = "所有人员信息表.xls";
 				String sql[] = new String [4];
 				String title[] = new String [4];
 				title[0] = "学生信息";
@@ -98,13 +115,13 @@ public class DownloadAction extends ActionSupport {
 			case "o_classs":{
 				list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 				String name = list.get(0)[0];
-				filename = name+"班级课程表.xls";
+				FileName = name+"班级课程表.xls";
 				break;
 			}
 			case "o_major":{
 				list = db.SelectReturnList("select major from major where mid = '"+major+"' ");
 				String name = list.get(0)[0];
-				filename = name+"-各班级课程表.xls";
+				FileName = name+"-各班级课程表.xls";
 				break;
 			}
 			//下面的做成树结构查看或查询
@@ -112,9 +129,9 @@ public class DownloadAction extends ActionSupport {
 				if(academy!=null){
 					list = db.SelectReturnList("select academy from major where aid = '"+academy+"' ");
 					String name = list.get(0)[0];
-					filename = name+"-专业信息表.xls";
+					FileName = name+"-专业信息表.xls";
 				}else{
-					filename = "所有专业信息表.xls";
+					FileName = "所有专业信息表.xls";
 				}
 				
 				break;
@@ -123,9 +140,9 @@ public class DownloadAction extends ActionSupport {
 				if(major!=null){
 					list = db.SelectReturnList("select major from major where mid = '"+major+"' ");
 					String name = list.get(0)[0];
-					filename = name+"-班级信息表.xls";
+					FileName = name+"-班级信息表.xls";
 				}else{
-					filename = "所有班级信息表.xls";
+					FileName = "所有班级信息表.xls";
 				}
 				
 				break;
@@ -133,42 +150,27 @@ public class DownloadAction extends ActionSupport {
 			/*case "s_academy":{
 				list = db.SelectReturnList("select academy from major where aid = '"+academy+"' ");
 				String name = list.get(0)[0];
-				filename = name+"-学院信息表.xls";
+				FileName = name+"-学院信息表.xls";
 				break;
 			}*/
 			default:
 				break;
 		}
-		return filename;
 	}
 	/**
-	 * 生成 成绩单 返回文件名
-	 * @param db
-	 * @param list
+	 * 生成 某班级成绩单 返回list数据
+	 * @param db 数据库对象
+	 * @param cid 班级号
 	 */
-	public String getData(Mysql db,List<String[]> list){
-		list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
-		String name = list.get(0)[0];//班级名称
-		String filename = name+"班成绩单.xls";
+	public List<String[]> getData(Mysql db,String cid){
 		
-		String getCol="select o.cno,cname from obligatory o,course c where o.cno=c.cno and cid = '"+classs
+		
+		String getCol="select o.cno,cname from obligatory o,course c where o.cno=c.cno and cid = '"+cid
 				+"' and year='"+year+"' and term = "+term+" ";
 		
-		list = db.SelectReturnList(getCol);//查出某学期某班级 的 课程信息 后面需要调用
-		
+		List<String[]> list = db.SelectReturnList(getCol);//查出某学期某班级 的 课程信息 后面需要调用
 		int Nums = list.size();
-//		String sql[] = new String[Nums+5];
-//		String ColName[] = new String[Nums+5];
-		//列的名字初始化赋值
-//		ColName[0] = "序号";ColName[1] = "学号";ColName[2] = "姓名";
-//		ColName[3] = "总学分";ColName[Nums+4] = "成绩总分";
-//		for (int i=0;i<list.size();i++){
-//			ColName[i+4] = list.get(i)[1];//填入名字
-//		}
-		System.out.println("课程的Nums = "+Nums);
-		for (int i=0;i<list.size();i++){
-			System.out.println(i+":"+list.get(i)[0]+":"+list.get(i)[1]);
-		}
+		
 		//查询出表格
 		String create = " select distinct col_0.sno,sname ,";
 		for(int i=0;i<Nums;i++){
@@ -185,10 +187,12 @@ public class DownloadAction extends ActionSupport {
 		for(int i=0;i<Nums-1;i++){
 			create +=" col_"+i+".sno=col_"+(i+1)+".sno and";
 		}
-		create +=" s.sno = col_0.sno and cid = '"+classs +"';";
-		System.out.println("SQL:-"+create+"-" );
+		create +=" s.sno = col_0.sno and cid = '"+cid +"';";
+//		System.out.println("SQL:-"+create+"-" );
+		//db = new Mysql("student","root","ad");
+		rs 已关闭的异常
 		List<String []> table= db.SelectReturnList(create);//原始数据
-		System.out.println("原始数据 大小："+table.size());
+//		System.out.println("原始数据 大小："+table.size());
 //		ResultSet rs = db.SelectAll(create);
 		List<String [] > data = new ArrayList<String[]>();//将输出到Excel的数据
 		try {
@@ -228,20 +232,21 @@ public class DownloadAction extends ActionSupport {
 				data.add(row);//包含进去
 			}
 			
-			path+="\\"+filename;
+			path+="\\"+FileName;
 			System.out.println("路径："+path);
-			Table2Excel.ListToExcel(filename, data, path);;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
 			db.closeAll();
 		}
-		return filename;
+		return data;
 	}
+	
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("获取："+year+term+classs);
+		System.out.println("获取："+year+"-"+term+"-"+classs);
 		return super.execute();
 	}
 //////////////////////////////////////////////////////setget
@@ -281,11 +286,5 @@ public class DownloadAction extends ActionSupport {
 	}
 	public void setClasss(String classs) {
 		this.classs = classs;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
 	}
 }
