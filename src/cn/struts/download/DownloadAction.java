@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.interfaces.RSAKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +39,9 @@ public class DownloadAction extends ActionSupport {
 	}
 	//获取文件流
 	public InputStream getDownloadFile(){
-		System.out.println("执行了获取文件");
+		
+		System.out.println("getDownloadFile");
+		
 		HttpServletRequest request = ServletActionContext.getRequest();
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -60,7 +60,9 @@ public class DownloadAction extends ActionSupport {
 //		System.out.println("转码后的："+fileName);
 		vs.set("filename",FileName);//压入值栈，在xml文件中获取
 		File file = new File(path);
+		
 		System.out.println("获取的路径："+path);
+		
 		FileInputStream fis = null;
 		try{
 			fis = new FileInputStream(file);
@@ -80,20 +82,27 @@ public class DownloadAction extends ActionSupport {
 				list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 				String name = list.get(0)[0];//班级名称
 				FileName = name+"班成绩单.xls";
+				path+="\\"+FileName;
 				list = getData(db,classs);
 				Table2Excel.ListToExcel(FileName, list, path);//单Sheet
 				break;
 			}
 			case "g_major":{
+				System.out.println("CreateFile 查出专业及其班级");
 				list = db.SelectReturnList("select major,cid from major m,classs c where c.mid=m.mid and m.mid = '"+major+"' ");
 				String name = list.get(0)[0];
+				FileName = name+"-各班级成绩单.xls";
+				path+="\\"+FileName;
 				List<List<String []>> data  = new ArrayList<List<String[]>>();
 				
 				for(int i=0;i<list.size();i++){
-					list = getData(new Mysql("student","root","ad"),list.get(i)[1]);
-					data.add(list);
+					System.out.println("循环调用 getData方法 次数："+i);
+					List<String[]>row = getData(db,list.get(i)[1]);
+					data.add(row);
 				}
-				FileName = name+"-各班级成绩单.xls";
+				System.out.println("getData end\n");
+				System.out.println(FileName);
+				
 				Table2Excel.ListToExcels(FileName, data, path);
 				break;
 			}
@@ -116,12 +125,14 @@ public class DownloadAction extends ActionSupport {
 				list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 				String name = list.get(0)[0];
 				FileName = name+"班级课程表.xls";
+				path+="\\"+FileName;
 				break;
 			}
 			case "o_major":{
 				list = db.SelectReturnList("select major from major where mid = '"+major+"' ");
 				String name = list.get(0)[0];
 				FileName = name+"-各班级课程表.xls";
+				path+="\\"+FileName;
 				break;
 			}
 			//下面的做成树结构查看或查询
@@ -164,10 +175,9 @@ public class DownloadAction extends ActionSupport {
 	 */
 	public List<String[]> getData(Mysql db,String cid){
 		
-		
 		String getCol="select o.cno,cname from obligatory o,course c where o.cno=c.cno and cid = '"+cid
 				+"' and year='"+year+"' and term = "+term+" ";
-		
+		System.out.println("getData 查询出课程号，课程名");
 		List<String[]> list = db.SelectReturnList(getCol);//查出某学期某班级 的 课程信息 后面需要调用
 		int Nums = list.size();
 		
@@ -188,10 +198,13 @@ public class DownloadAction extends ActionSupport {
 			create +=" col_"+i+".sno=col_"+(i+1)+".sno and";
 		}
 		create +=" s.sno = col_0.sno and cid = '"+cid +"';";
-//		System.out.println("SQL:-"+create+"-" );
-		//db = new Mysql("student","root","ad");
-		rs 已关闭的异常
+		
+		db = new Mysql("student","root","ad");
+		/*rs 已关闭的异常*/
+		System.out.println(""+create+"" );
+		System.out.println("getData 查出动态表数据 cid:"+cid);
 		List<String []> table= db.SelectReturnList(create);//原始数据
+		
 //		System.out.println("原始数据 大小："+table.size());
 //		ResultSet rs = db.SelectAll(create);
 		List<String [] > data = new ArrayList<String[]>();//将输出到Excel的数据
@@ -211,7 +224,7 @@ public class DownloadAction extends ActionSupport {
 				row[1] = table.get(i)[0];
 //				System.out.println("huoqu :"+i);
 				row[2] = table.get(i)[1];
-				int now = 3;
+				int now = 4;
 				float SumCredit = 0;
 				float SumGrade = 0;
 				for(int j=2;j<AllCol;j++){//遍历所有列
@@ -227,12 +240,12 @@ public class DownloadAction extends ActionSupport {
 					}
 					
 				}
-				row[now++] = SumCredit+"";
+				row[3] = SumCredit+"";
 				row[now] = SumGrade+"";
 				data.add(row);//包含进去
 			}
 			
-			path+="\\"+FileName;
+			
 			System.out.println("路径："+path);
 			
 		} catch (Exception e) {
@@ -246,7 +259,7 @@ public class DownloadAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("获取："+year+"-"+term+"-"+classs);
+		System.out.println("execute  获取："+year+"-"+term+"-"+classs);
 		return super.execute();
 	}
 //////////////////////////////////////////////////////setget
