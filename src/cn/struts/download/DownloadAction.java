@@ -126,6 +126,7 @@ public class DownloadAction extends ActionSupport {
 				String name = list.get(0)[0];
 				FileName = name+"班级课程表.xls";
 				path+="\\"+FileName;
+				
 				break;
 			}
 			case "o_major":{
@@ -258,11 +259,19 @@ public class DownloadAction extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 形成
 		System.out.println("execute  获取："+year+"-"+term+"-"+classs);
 		return super.execute();
 	}
-//////////////////////////////////////////////////////setget
+	/**
+	 * 自动生成当前学期的课表
+	 */
+	public String createSchedule() throws Exception {
+		
+		return "Main";
+	}
+	
+////////////////////////////  setter & getter  //////////////////////////
 	public String getFiletype() {
 		return filetype;
 	}

@@ -11,6 +11,9 @@
 				<param name="inputName">downloadFile</param>
 			</result>
 		</action>
+		<action name="CreateScheduleAction" class="cn.struts.download.DownloadAction" method="createSchedule">
+			<result name="Main" type="redirect">/pages/Main.jsp</result>
+		</action>
 	</package>
 
 </struts>  

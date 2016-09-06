@@ -111,7 +111,7 @@ public class UploadAction extends ActionSupport {
 		return "Main";
 	}
 	
-	/**录入课表信息*/
+	/**录入需要上的课的信息*/
 	public String Tokb(ServletContext sc) throws Exception{
 		System.out.println("方法获取到的"+year+term);
 		ReadExcel re = new ReadExcel(sheet);

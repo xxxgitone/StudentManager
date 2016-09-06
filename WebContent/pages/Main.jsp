@@ -98,14 +98,14 @@ $(function(){
 		for(var i=0;i<7;i++)$('#five ul li:eq(0)').remove();
 	}else if(role == 'teacher'){
 		$('#two ul li:eq(1)').remove();
-		$('#two ul li:eq(2)').remove();
+		//$('#two ul li:eq(2)').remove();
 		for(var i=0;i<7;i++)$('#five ul li:eq(0)').remove();
 	}else if(role == 'assitant'){
 		for(var i=0;i<3;i++)$('#one ul li:eq(0)').remove();
-		$('#two ul li:eq(1)').remove();
+		//$('#two ul li:eq(1)').remove();
 		for(var i=0;i<7;i++)$('#five ul li:eq(0)').remove();
 	}else if(role == 'manager'){
-		$('#two ul li:eq(1)').remove();
+		//$('#two ul li:eq(1)').remove();
 	}
 	//绑定点击事件：显示和隐藏相应的div动作的函数
 	$('.all>li>ul>li').click(function(){
@@ -166,7 +166,8 @@ $(function(){
     </li>
     <li id="two">信息查询
     	<ul>
-        	<li><a name="XSGR">课表查询</a></li>
+    		<%-- <li><a href="${pageContext.request.contextPath }/download/downloadAction.action">创建本学期课表</a></li> --%>
+        	<!-- <li><a name="XSGR">课表查询</a></li> -->
         	<li><a name="GRCJ">个人成绩查询</a></li>
             <li><a name="BJCJ">班级成绩统计</a></li>
             <li><a name="ZYCJ">专业成绩统计</a></li>
@@ -193,7 +194,7 @@ $(function(){
     <li id="five">后台管理
     	<ul>
         	<li><a name="course">课程管理</a></li>
-            <li><a name="KB">课表管理</a></li>
+            <!-- <li><a name="KB">课表管理</a></li> -->
         	<li><a name="student">学籍管理</a></li>
             <li><a name="teacher">教师管理</a></li>
             <li><a name="XXJG">学校结构管理</a></li>
@@ -257,8 +258,11 @@ $(function(){
 <div class="center" id="GRCJ">5</div>
 <div class="center" id="BJCJ">
 	<a href = "Test/Down.jsp">下载页面</a>
+	 <a href="${pageContext.request.contextPath }/download/downloadAction.action?filetype=g_classs&year=2015-2016&term=1&classs=3">下载某班级成绩表格文件</a>
 </div>
-<div class="center" id="ZYCJ">7</div>
+<div class="center" id="ZYCJ">
+	 <a href="${pageContext.request.contextPath }/download/downloadAction.action?filetype=g_major&year=2015-2016&term=1&major=I10001">下载某专业成绩表格文件</a>
+</div>
 <div class="center" id="CKGR">8</div>
 <div class="center" id="XGDQ">9</div>
 <div class="center" id="CKBY">10</div>
