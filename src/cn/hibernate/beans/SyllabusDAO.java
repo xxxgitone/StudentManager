@@ -26,7 +26,8 @@ public class SyllabusDAO extends BaseHibernateDAO {
 
 	// property constants
 
-	public void save(Syllabus transientInstance) {
+	public void save(Object oo) {
+		Syllabus transientInstance = (Syllabus)oo;
 		log.debug("saving Syllabus instance");
 		try {
 			Session session  = getSession();

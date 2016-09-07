@@ -7,7 +7,10 @@ public class Academy{
 	
 	public Academy() {
 	}
-
+	
+	public Academy(String aid){
+		this.aid = aid;
+	}
 	public Academy(String aid, String academy, String ainfo) {
 		this.aid = aid;
 		this.academy = academy;

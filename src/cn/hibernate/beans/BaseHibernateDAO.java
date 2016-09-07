@@ -26,5 +26,7 @@ public class BaseHibernateDAO implements IBaseHibernateDAO {
 		System.out.println(propertyName+"::"+ value);
 		return null;
 	}
-	
+	public void save(Object transientInstance) {
+		System.out.println("父类的DAO的save方法");
+	}
 }

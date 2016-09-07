@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="upload" namespace="/upload" extends="struts-default">
+		
+		<action name="SaveAction_student" class="cn.struts.save.SaveAction" method="saveStudent"></action>
+		<action name="SaveAction_teacher" class="cn.struts.save.SaveAction" method="saveTeacher"></action>
+		<action name="SaveAction_assitant" class="cn.struts.save.SaveAction" method="saveAssitant"></action>
+		<action name="SaveAction_manager" class="cn.struts.save.SaveAction" method="saveManager"></action>
+		
+		<action name="SaveAction_course" class="cn.struts.save.SaveAction" method="saveCourse"></action>
+		<action name="SaveAction_major" class="cn.struts.save.SaveAction" method="saveMajor"></action>
+		<action name="SaveAction_academy" class="cn.struts.save.SaveAction" method="saveAcademy"></action>
+		<action name="SaveAction_classs" class="cn.struts.save.SaveAction" method="saveClasss"></action>
+		<!-- 修改 -->
+		<action name="UpdateAction_student" class="cn.struts.save.SaveAction" method="updateStudent"></action>
+		<action name="UpdateAction_teacher" class="cn.struts.save.SaveAction" method="updateTeacher"></action>
+		<action name="UpdateAction_assitant" class="cn.struts.save.SaveAction" method="updateAssitant"></action>
+		<action name="UpdateAction_manager" class="cn.struts.save.SaveAction" method="updateManager"></action>
+		
+		<action name="UpdateAction_course" class="cn.struts.save.SaveAction" method="updateCourse"></action>
+		<action name="UpdateAction_major" class="cn.struts.save.SaveAction" method="updateMajor"></action>
+		<action name="UpdateAction_academy" class="cn.struts.save.SaveAction" method="updateAcademy"></action>
+		<action name="UpdateAction_classs" class="cn.struts.save.SaveAction" method="updateClasss"></action>
+		
+	</package>
+</struts> 

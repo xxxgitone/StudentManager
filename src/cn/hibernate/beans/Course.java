@@ -30,6 +30,22 @@ public class Course {
 		this.cinfo = cinfo;
 	}
 
+	public Course(String cno, String cname, float credit, float theoryhour,
+			float practicehour, String ctype, Academy aid, String cacademy,
+			String cinfo, Set<Mark> marks, Set<Obligatory> obs) {
+		this.cno = cno;
+		this.cname = cname;
+		this.credit = credit;
+		this.theoryhour = theoryhour;
+		this.practicehour = practicehour;
+		this.ctype = ctype;
+		this.aid = aid;
+		this.cacademy = cacademy;
+		this.cinfo = cinfo;
+		this.marks = marks;
+		this.obs = obs;
+	}
+
 	public Set<Obligatory> getObs() {
 		return obs;
 	}

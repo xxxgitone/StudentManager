@@ -26,7 +26,8 @@ public class MajorDAO extends BaseHibernateDAO {
 	public static final String MAJOR = "major";
 	public static final String MINFO = "minfo";
 
-	public void save(Major transientInstance) {
+	public void save(Object oo) {
+		Major transientInstance = (Major)oo;
 		log.debug("saving Major instance");
 		try {
 			Session session  = getSession();

@@ -33,7 +33,8 @@ public class MarkDAO extends BaseHibernateDAO {
 	public static final String TERM = "term";
 	public static final String INFO = "info";
 
-	public void save(Mark transientInstance) {
+	public void save(Object oo) {
+		Mark transientInstance = (Mark)oo;
 		log.debug("saving Mark instance");
 		try {
 			Session session  = getSession();

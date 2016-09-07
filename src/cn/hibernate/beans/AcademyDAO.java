@@ -26,7 +26,8 @@ public class AcademyDAO extends BaseHibernateDAO {
 	public static final String ACADEMY = "academy";
 	public static final String AINFO = "ainfo";
 
-	public void save(Academy transientInstance) {
+	public void save(Object oo) {
+		Academy transientInstance  = (Academy)oo;
 		log.debug("saving Academy instance");
 		try {
 			Session session  = getSession();

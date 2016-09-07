@@ -26,7 +26,8 @@ public class ManagerDAO extends BaseHibernateDAO {
 	public static final String PASS = "pass";
 	public static final String MINFO = "minfo";
 
-	public void save(Manager transientInstance) {
+	public void save(Object oo) {
+		Manager transientInstance = (Manager)oo;
 		log.debug("saving Manager instance");
 		try {
 			Session session  = getSession();

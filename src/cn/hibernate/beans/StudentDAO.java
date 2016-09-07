@@ -1,6 +1,5 @@
 package cn.hibernate.beans;
 
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.LockMode;
@@ -33,7 +32,8 @@ public class StudentDAO extends BaseHibernateDAO {
 	public static final String SADDR = "saddr";
 	public static final String SINFO = "sinfo";
 
-	public void save(Student transientInstance) {
+	public void save(Object oo) {
+		Student transientInstance = (Student)oo;
 		log.debug("saving Student instance");
 		try {
 			Session session  = getSession();

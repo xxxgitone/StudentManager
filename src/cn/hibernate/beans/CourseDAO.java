@@ -31,7 +31,8 @@ public class CourseDAO extends BaseHibernateDAO {
 	public static final String CACADEMY = "cacademy";
 	public static final String CINFO = "cinfo";
 
-	public void save(Course transientInstance) {
+	public void save(Object oo) {
+		Course transientInstance = (Course)oo;
 		log.debug("saving Course instance");
 		try {
 			Session session  = getSession();

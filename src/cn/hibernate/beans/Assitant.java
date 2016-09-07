@@ -1,7 +1,7 @@
 package cn.hibernate.beans;
 
 public class Assitant {
-	int ano;
+	long ano;
 	String aname;
 	String pass;
 	String asex;
@@ -11,12 +11,22 @@ public class Assitant {
 	public Assitant() {
 	}
 
-	public Assitant(int ano, String aname, String pass, String asex,
+	public Assitant(long ano, String aname, String pass, String asex,String mid,
 			String ainfo) {
 		this.ano = ano;
 		this.aname = aname;
 		this.pass = pass;
 		this.asex = asex;
+		this.mid = mid;
+		this.ainfo = ainfo;
+	}
+
+	public Assitant(String aname, String pass, String asex, String mid,
+			String ainfo) {
+		this.aname = aname;
+		this.pass = pass;
+		this.asex = asex;
+		this.mid = mid;
 		this.ainfo = ainfo;
 	}
 
@@ -28,11 +38,11 @@ public class Assitant {
 		this.mid = mid;
 	}
 
-	public int getAno() {
+	public long getAno() {
 		return ano;
 	}
 
-	public void setAno(int ano) {
+	public void setAno(long ano) {
 		this.ano = ano;
 	}
 

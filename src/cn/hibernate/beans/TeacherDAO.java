@@ -32,7 +32,8 @@ public class TeacherDAO extends BaseHibernateDAO {
 	public static final String TACADEMY = "tacademy";
 	public static final String TINFO = "tinfo";
 
-	public void save(Teacher transientInstance) {
+	public void save(Object oo) {
+		Teacher transientInstance = (Teacher)oo;
 		log.debug("saving Teacher instance");
 		try {
 			Session session  = getSession();

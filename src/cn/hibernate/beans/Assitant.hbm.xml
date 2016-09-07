@@ -6,9 +6,9 @@
 -->
 <hibernate-mapping>
     <class name="cn.hibernate.beans.Assitant" table="assitant" catalog="student">
-        <id name="ano" type="java.lang.Integer">
+        <id name="ano" type="java.lang.Long">
             <column name="ano" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
         <property name="aname" type="java.lang.String">
             <column name="aname" length="20" not-null="true">
@@ -28,6 +28,11 @@
         <property name="ainfo" type="java.lang.String">
             <column name="ainfo" length="20">
                 <comment>备注</comment>
+            </column>
+        </property>
+        <property name="mid" type="java.lang.String">
+            <column name="mid" length="20" not-null="true">
+                <comment>专业</comment>
             </column>
         </property>
     </class>

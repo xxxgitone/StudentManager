@@ -35,7 +35,7 @@
                 <comment>课程类型</comment>
             </column>
         </property>
-        <property name="cacademy" type="java.lang.String">
+        <property name="aid" type="java.lang.String">
             <column name="cacademy" length="20" not-null="true">
                 <comment>所属学院</comment>
             </column>

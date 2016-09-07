@@ -5,7 +5,7 @@ import java.util.Date;
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class Teacher{
-	int tno;
+	long tno;
 	String tname;
 	String pass;
 	String tsex;
@@ -19,8 +19,8 @@ public class Teacher{
 	public Teacher() {
 	}
 
-	public Teacher(int tno, String tname, String pass, String tsex,
-			java.sql.Date tbirth, String tpolitics, String tjob,
+	public Teacher(long tno, String tname, String pass, String tsex,
+			Date tbirth, String tpolitics, String tjob,
 			String tacademy, String tinfo) {
 		this.tno = tno;
 		this.tname = tname;
@@ -33,11 +33,11 @@ public class Teacher{
 		this.tinfo = tinfo;
 	}
 
-	public int getTno() {
+	public long getTno() {
 		return tno;
 	}
 
-	public void setTno(int tno) {
+	public void setTno(long tno) {
 		this.tno = tno;
 	}
 
