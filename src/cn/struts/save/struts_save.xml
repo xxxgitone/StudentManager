@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
-	<package name="upload" namespace="/upload" extends="struts-default">
+	<package name="save" namespace="/save" extends="struts-default">
 		
 		<action name="SaveAction_student" class="cn.struts.save.SaveAction" method="saveStudent"></action>
 		<action name="SaveAction_teacher" class="cn.struts.save.SaveAction" method="saveTeacher"></action>

@@ -9,8 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import cn.hibernate.utils.Mysql;
-
+import com.myth.mysql.Mysql;
 import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("serial")

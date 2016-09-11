@@ -1,0 +1,168 @@
+
+.button{
+	border:none;
+	background:#f4f4f4 url(../image/document_small_upload.png)no-repeat 0 50%;
+	cursor: pointer;
+	padding: 2px;
+	width: 55px;
+	text-align: center;
+	text-indent: 5px;
+
+}
+input.button:hover{
+	background-color: #ecf4ff;
+	border:1px solid #95b8e7;
+	border-radius: 4px;
+}
+.upload p{
+	padding: 2px;
+	margin: 0;
+}
+/*文本框*/
+.textbox{
+	height:20px;
+	margin:0;
+	padding:0 2px;
+	box-sizing:content-box;
+	color: #666;
+}
+.north-header{
+	height:60px;
+	line-height: 60px;
+	font-size: 30px;
+	color: #fff;
+	margin-left: 10px;
+	float: left;
+}
+.nowuser{
+	float: right;
+	font-size: 14px;
+	padding: 10px 20px 10px 10px;
+	color: #fff;
+}
+.date{
+	padding: 0;
+	margin: 0;
+	float: right;
+	margin-right: 50px;
+	line-height: 25px;
+	height: 20px;
+	font-size: 14px;
+	color: #fff;
+}
+.north-place{
+	background-color: yellow;
+	position: absolute;
+	top: 52px;
+	left: 210px;
+	background: url(../image/house.png)no-repeat;
+	text-indent: 20px;
+	color: #fff;
+	vertical-align: center;
+}
+.north-nav{
+	position: absolute;
+	top: 50px;
+	right: 22px;
+	float: right;
+	font-size: 15px;
+}
+.north-nav a{
+	text-decoration:none;
+	color: #fff;
+}
+.north-nav a:hover{
+	color: #999;
+}
+.center-header{
+	width:auto;
+	height: 15px;
+	background-color: #eaf2ff;
+	border-bottom: 1px solid #95b8e7;
+	padding: 5px;
+}
+
+.center-header img{
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+.center-header span.place{
+	display: block;
+	float: left;
+}
+#nav ul li{
+	width: 117px;
+	list-style-type: none;
+	margin-top: 5px;
+	height: 28px;
+	line-height: 28px;
+
+}
+#nav ul li a{
+	display: block;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+
+#nav ul li a:hover{
+	background: #00bbee;
+}
+a[name="XSCJ"]{
+	background: url(../image/blue-document-hf-insert-footer.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="BK"]{
+	background: url(../image/blue-document-hf-select-footer.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="QK"]{
+	background: url(../image/page_red.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="CKGR"]{
+	background: url(../image/vcard.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="CKBY"]{
+	background: url(../image/blue-document-share.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="BJCJ"]{
+	background: url(../image/account_balances.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="student"]{
+	background: url(../image/participation_rate.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="GRCJ"]{
+	background: url(../image/client_account_template.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="ZYCJ"]{
+	background: url(../image/chart_bar.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="XGDQ"]{
+	background: url(../image/application_key.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="teacher"]{
+	background: url(../image/account_balances.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="GLY"]{
+	background: url(../image/group.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+
+a[name="KB"]{
+	background: url(../image/table.png)no-repeat 0 50%;
+	text-indent: 17px;
+}
+a[name="course"]{
+	background: url(../image/application_view_icons.png)no-repeat 0 50%;
+	text-indent: 17px;
+}

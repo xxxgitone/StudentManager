@@ -25,6 +25,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * 实现了保存，修改
+ * 最好使用Hibernate的一对多等关系映射，多加练习下，
  * @author  Myth
  * @date 2016年9月7日 上午10:51:27
  * @TODO
@@ -70,11 +71,13 @@ public class SaveAction extends ActionSupport {
 	 */
 	@Override
 	public void validate() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub\\\
+		System.out.println(pass+sname+ssex);
 		super.validate();
 	}
 //保存记录
 	public void saveStudent(){
+		System.out.println("进入stu");
 		StudentDAO dao = new StudentDAO();
 		Student stu = new Student(pass, sname, ssex, sbirth, sid, cid, spolitics, saddr, sinfo);
 		save(dao,stu);
@@ -96,7 +99,7 @@ public class SaveAction extends ActionSupport {
 		save(dao,ma);
 	}
 	public void saveCourse(){
-		Course cu = new Course(cno, cname, credit, theoryhour, practicehour, ctype, cinfo);
+		Course cu = new Course(cno, cname, credit, theoryhour, practicehour, ctype, cinfo, cacademy);
 		CourseDAO dao = new CourseDAO();
 		save(dao,cu);
 	}
@@ -133,7 +136,7 @@ public class SaveAction extends ActionSupport {
 		update(ma);
 	}
 	public void updateCourse(){
-		Course cu = new Course(cno, cname, credit, theoryhour, practicehour, ctype, cinfo);
+		Course cu = new Course(cno, cname, credit, theoryhour, practicehour, ctype, cinfo, cacademy);
 		update(cu);
 	}
 	public void updateAcademy(){

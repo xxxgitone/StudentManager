@@ -28,6 +28,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.ServletActionContext;
 
+import cn.myth.reflect.Config;
+
 
 /**
  * 对之前的进行修改，做成工具类，实现输入表名，文件名，插入到数据库
@@ -51,8 +53,8 @@ public class ReadExcel {
     private PreparedStatement ps = null;
 	private Connection cn = null;
 	private ResultSet rs = null;
-	private String Driver = "com.mysql.jdbc.Driver";
-	private String URL="jdbc:mysql://localhost:3306/student?user=root&password=ad&userUnicode=true&characterEncoding=UTF8";
+	private String Driver ;
+	private String URL;
 	private Map<Position,String> map = null ;//要注意：这里的Map采用的是自然的行号和列号（1开头）
     private String[] title ;
     
@@ -67,8 +69,17 @@ public class ReadExcel {
 			e.printStackTrace();
 		}//一对一的插入记录
 	}
-	public ReadExcel(){}
-	public ReadExcel(int sheet){this.currentSheet = sheet;}
+	public ReadExcel(){
+		Config con = new Config("mysql.properties");
+		this.Driver = con.getString("Driver");
+		this.URL = con.getString("URL");
+	}
+	public ReadExcel(int sheet){
+		Config con = new Config("mysql.properties");
+		this.Driver = con.getString("Driver");
+		this.URL = con.getString("URL");
+		this.currentSheet = sheet;
+	}
 	/**
 	 * @To 补考或清考 插入
 	 * （序号，学号，姓名，成绩）根据学号和课程号，确定记录，修改补考或清考成绩

@@ -1,6 +1,5 @@
 package cn.hibernate.beans;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Course {
@@ -10,28 +9,29 @@ public class Course {
 	float theoryhour;
 	float practicehour;
 	String ctype;
-	Academy aid;
+//	Academy aid;
 	String cacademy;
 	String cinfo;
-	Set <Mark>marks = new HashSet<Mark>();
-	Set <Obligatory> obs = new HashSet<Obligatory>();
+//	Set <Mark>marks = new HashSet<Mark>();
+//	Set <Obligatory> obs = new HashSet<Obligatory>();
 	
 	public Course() {
 	}
 
 	public Course(String cno, String cname, float credit, float theoryhour,
-			float practicehour, String ctype, String cinfo) {
+			float practicehour, String ctype, String cinfo,String cacademy) {
 		this.cno = cno;
 		this.cname = cname;
 		this.credit = credit;
 		this.theoryhour = theoryhour;
 		this.practicehour = practicehour;
 		this.ctype = ctype;
+		this.cacademy = cacademy;
 		this.cinfo = cinfo;
 	}
 
 	public Course(String cno, String cname, float credit, float theoryhour,
-			float practicehour, String ctype, Academy aid, String cacademy,
+			float practicehour, String ctype, String cacademy,
 			String cinfo, Set<Mark> marks, Set<Obligatory> obs) {
 		this.cno = cno;
 		this.cname = cname;
@@ -39,36 +39,35 @@ public class Course {
 		this.theoryhour = theoryhour;
 		this.practicehour = practicehour;
 		this.ctype = ctype;
-		this.aid = aid;
 		this.cacademy = cacademy;
 		this.cinfo = cinfo;
-		this.marks = marks;
-		this.obs = obs;
+//		this.marks = marks;
+//		this.obs = obs;
 	}
 
-	public Set<Obligatory> getObs() {
-		return obs;
-	}
+//	public Set<Obligatory> getObs() {
+//		return obs;
+//	}
+//
+//	public void setObs(Set<Obligatory> obs) {
+//		this.obs = obs;
+//	}
 
-	public void setObs(Set<Obligatory> obs) {
-		this.obs = obs;
-	}
+//	public Academy getAid() {
+//		return aid;
+//	}
+//
+//	public void setAid(Academy aid) {
+//		this.aid = aid;
+//	}
 
-	public Academy getAid() {
-		return aid;
-	}
-
-	public void setAid(Academy aid) {
-		this.aid = aid;
-	}
-
-	public Set<Mark> getMarks() {
-		return marks;
-	}
-
-	public void setMarks(Set<Mark> marks) {
-		this.marks = marks;
-	}
+//	public Set<Mark> getMarks() {
+//		return marks;
+//	}
+//
+//	public void setMarks(Set<Mark> marks) {
+//		this.marks = marks;
+//	}
 
 	public String getCno() {
 		return cno;
