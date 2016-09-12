@@ -119,4 +119,12 @@ public class Student  {
 	public void setSinfo(String sinfo) {
 		this.sinfo = sinfo;
 	}
+
+	@Override
+	public String toString() {
+		return "Student [sno=" + sno + ", pass=" + pass + ", sname=" + sname
+				+ ", ssex=" + ssex + ", sbirth=" + sbirth + ", sid=" + sid
+				+ ", cid=" + cid + ", spolitics=" + spolitics + ", saddr="
+				+ saddr + ", sinfo=" + sinfo + "]";
+	}
 }

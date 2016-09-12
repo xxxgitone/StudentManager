@@ -31,12 +31,12 @@
 			<attribute name="owner.project.facets" value="jst.web.jstl"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/fastjson-1.1.28.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.6-20091214.jar"/>
-	<classpathentry kind="lib" path="lib/poi-contrib-3.6-20091214.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-3.6-20091214.jar"/>
-	<classpathentry kind="lib" path="lib/poi-scratchpad-3.6-20091214.jar"/>
-	<classpathentry kind="lib" path="lib/Tools.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.7-bin.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/fastjson-1.1.28.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-3.6-20091214.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-contrib-3.6-20091214.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-3.6-20091214.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-scratchpad-3.6-20091214.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/Tools.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

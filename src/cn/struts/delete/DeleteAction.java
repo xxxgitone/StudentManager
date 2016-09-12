@@ -1,6 +1,5 @@
 package cn.struts.delete;
 
-import java.util.List;
 
 import com.myth.mysql.Mysql;
 import com.opensymphony.xwork2.ActionSupport;
@@ -20,9 +19,9 @@ public class DeleteAction extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
-		// TODO Auto-generated method stub
 		return super.execute();
 	}
+	
 	public static void main(String[] args) {
 		DeleteAction da = new DeleteAction();
 		da.mid = "D5656";
@@ -65,7 +64,7 @@ public class DeleteAction extends ActionSupport {
 	//删除操作
 	public void delete(String sql){
 		//DBUtils.delete(new Student(21));//数据库中非空的字段都必须给初始化。。。
-		Mysql db = new Mysql("student","root","ad");
+		Mysql db = new Mysql();
 		boolean flag = db.updSQL(sql);
 		sendJSON(flag);
 	}

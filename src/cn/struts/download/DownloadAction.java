@@ -74,7 +74,7 @@ public class DownloadAction extends ActionSupport {
 	/**根据传入type来创建对应文件, 路径写成运行环境下的目录*/
 	public void CreateFile(String type){
 		FileName = "系统有异常.xls";
-		Mysql db = new Mysql("student","root","ad");
+		Mysql db = new Mysql();
 		List<String[]> list = null;
 		
 		switch (type) {
@@ -200,7 +200,7 @@ public class DownloadAction extends ActionSupport {
 		}
 		create +=" s.sno = col_0.sno and cid = '"+cid +"';";
 		
-		db = new Mysql("student","root","ad");
+		db = new Mysql();
 		/*rs 已关闭的异常*/
 		System.out.println(""+create+"" );
 		System.out.println("getData 查出动态表数据 cid:"+cid);
@@ -259,7 +259,6 @@ public class DownloadAction extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
-		// TODO Auto-generated method stub 形成
 		System.out.println("execute  获取："+year+"-"+term+"-"+classs);
 		return super.execute();
 	}

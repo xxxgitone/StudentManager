@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import cn.hibernate.beans.Student;
 import cn.hibernate.beans.StudentDAO;
+import cn.myth.reflect.ORM;
 /**
  * 用来测试Hibernate搭建是否成功
  * @author  Myth
@@ -19,10 +20,17 @@ public class Test {
 //		DBUtils.add(s3);
 //		DBUtils.delete(s2);
 		//测试student类
-		Student stu = new Student( "1", "2", "2", new Date(20160212), "2122", "3", "3", "45", "55");
+//		Student stu = new Student( "1", "2", "2", new Date(20160212), "2122", "3", "3", "45", "55");
 		//DBUtils.add(stu);//测试成功
-		StudentDAO sd = new StudentDAO ();
-		sd.delete(stu);
+//		StudentDAO sd = new StudentDAO ();
+//		sd.delete(stu);
 		//Major sss= new Major("","");//
+		Test t = new Test();
+		t.testORM();
+	}
+	
+	public void testORM(){
+		Student student= (Student)ORM.QueryOneObject(Student.class.getName(), "sno", "12",false);
+		System.out.println("sno : "+student.getSno());
 	}
 }
