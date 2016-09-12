@@ -5,7 +5,7 @@ import com.myth.mysql.Mysql;
 import com.opensymphony.xwork2.ActionSupport;
 /**
  * 只要赋予主键的值就直接删除记录，而且是级联的操作，
- * 需要前端有确认框，那么就还是需要一个查询
+ * 	需要前端有确认框，那么就还是需要一个查询(放弃实现了)
  * @author  Myth
  * @date 2016年9月8日 上午7:44:06
  * @TODO
@@ -24,8 +24,8 @@ public class DeleteAction extends ActionSupport {
 	
 	public static void main(String[] args) {
 		DeleteAction da = new DeleteAction();
-		da.mid = "D5656";
-		da.deleteMajor();
+		da.sno = 2025;
+		da.deleteStudent();
 	}
 //要特别注意那种有着依赖的表需要先查询是否被引用了，直接删除就会报错的
 //但是也可以直接删除，建立级联操作，需要前端弹出确认框

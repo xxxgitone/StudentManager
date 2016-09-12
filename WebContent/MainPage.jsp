@@ -2,8 +2,31 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 
+HttpSession sessions = request.getSession(false);//得到当前的Session
+String user = (String)sessions.getAttribute("user");
+if(user==null || "".equals(user)){
+	sessions.setAttribute("param", "outtime");
+	response.sendRedirect("Login.jsp");
+}
+String role = (String)sessions.getAttribute("ids");
+ServletContext sc = request.getServletContext();
+String div = (String)sc.getAttribute("div");
+String error = (String)sc.getAttribute("uperror");
+String years = (String)sc.getAttribute("years");
+String terms = (String)sc.getAttribute("term");
+//对于一次性的提示信息的属性要及时清除出去
+sc.removeAttribute("div");
+sc.removeAttribute("uperror");
+
+if(terms==null) terms="1";
+int term = Integer.parseInt(terms);
+if(div==null) div="0";
+
+%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<sql:setDataSource dataSource= "jdbc/student" />
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -27,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		学生成绩管理系统
     	</div>
     	<div class="nowuser">
-    		欢迎您！<span class="username">小黄人</span>  &nbsp;&nbsp;角色：<span class="role">系统管理员</span>
+    		欢迎您！<span class="username">${sessionScope.name }</span>  &nbsp;&nbsp;角色：<span class="role">${sessionScope.levels}</span>
     	</div>
     	<div class="north-nav"><a href="#">系统首页</a> | <a href="#">安全退出</a></div>
     </div>

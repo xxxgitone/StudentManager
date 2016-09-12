@@ -1,7 +1,6 @@
 package cn.hibernate.utils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.Date;
@@ -11,14 +10,13 @@ import cn.hibernate.beans.Student;
 import com.myth.mysql.Mysql;
 
 /**
- * 反射自动查询和封装，对象拼凑成对应SQL语句 
+ * 实现了一个查询，插入记录 
  * 
  * @author  Myth
  * @date 2016年9月10日 下午8:20:12
- * @TODO
+ * @TODO 实现了ORM类似操作
  */
 public class ORM {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -33,8 +31,9 @@ public class ORM {
 	}
 	/**
 	 * 将输入对象转换成SQL语句
-	 * 1不能有除了属性的get方法之外的get方法，不然这里的SQL拼接会失败
-	 * @param obj
+	 * 不能有除了属性的get方法之外的get方法，不然这里的SQL拼接会失败
+	 * 字段的类型暂时只支持 long int Integer String Date
+	 * @param obj 输入对象
 	 * @return boolean 是否成功 
 	 */
 	public static boolean Insert(Object obj){
@@ -47,11 +46,11 @@ public class ORM {
 		Field [] fs = class1.getDeclaredFields();
 		
 		String className = class1.getName();
-		System.out.println("类名称 : "+className);
+//		System.out.println("类名称 : "+className);
 		
 		//通过正则表达式来截取类名，赋值给表名
 		String tableName = className.split("\\.")[className.split("\\.").length-1];
-		System.out.println("表名 : "+tableName);
+//		System.out.println("表名 : "+tableName);
 		sb.append(tableName).append(" (");
 		
 		for(Method m:ms){
@@ -60,7 +59,7 @@ public class ORM {
 				String colName = mName.substring(3,mName.length());
 				sb.append(colName+",");
 				Class returnType = m.getReturnType();
-				System.out.print(mName+"方法的返回值是"+returnType.getName()+" \n");
+//				System.out.print(mName+"方法的返回值是"+returnType.getName()+" \n");
 				
 				try {
 					if(returnType == String.class){
@@ -89,20 +88,20 @@ public class ORM {
 		
 		
 		String sql = sb.toString()+va.toString();
-		System.out.println("sql:"+sql);
+		System.out.println("插入的sql是:"+sql);
 		Mysql db = new Mysql();
 		return db.updSQL(sql);
 	}
 	/**
-	 * 根据类名字和一个属性名和值，来获取一行记录对应的对象
+	 * 根据类名字和一个属性名和值，来查询获取一行记录对应的对象
 	 * 	对象的类必须要有无参构造器
-	 * @param className 类路径
+	 * @param className 类路径 .getclass.getName()即可
 	 * @param perproty  属性名
 	 * @param value  属性值
 	 * @param IntOrString 整型是true 否则是false
 	 * @return Object 对象
 	 */
-	public static Object QueryOneObject(String className,String perproty,String value,boolean IntOrString){
+	public static Object FindOneObject(String className,String perproty,String value,boolean IntOrString){
 		Object obj = null;
 		String tableName = className.split("\\.")[className.split("\\.").length-1];
 		System.out.println("表名 : "+tableName);
@@ -122,7 +121,6 @@ public class ORM {
 		}else{
 			sb.append("'").append(value).append("'");
 		}
-		
 		String sql = sb.toString();
 		ResultSet rs = null;
 		Mysql db = null;
@@ -140,11 +138,11 @@ public class ORM {
 						//根据方法名字自动提取表中对应的列名
 						String cname = mName.substring(3,mName.length());
 						//打印所有 set 的方法名
-						System.out.print("从set方法名中取到的列名："+cname);
+//						System.out.print("从set方法名中取到的列名："+cname);
 						//得到方法的参数类型
 						Class [] params = m.getParameterTypes();
 						
-						System.out.print(" : "+rs.getString(cname)+"\n");
+//						System.out.print(" : "+rs.getString(cname)+"\n");
 						//根据相应的类型来给对象赋值
 						if(params[0] == String.class){
 							m.invoke(obj,rs.getString(cname));

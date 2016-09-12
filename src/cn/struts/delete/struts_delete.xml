@@ -3,6 +3,12 @@
 <struts>
 	<package name="delete" namespace="/delete" extends="struts-default">
 		<action name="DeleteAction_student" class="cn.struts.delete.DeleteAction" method="deleteStudent"></action>
-		
+		<action name="DeleteAction_teacher" class="cn.struts.delete.DeleteAction" method="deleteTeacher"></action>
+		<action name="DeleteAction_assitant" class="cn.struts.delete.DeleteAction" method="deleteAssitant"></action>
+		<action name="DeleteAction_manager" class="cn.struts.delete.DeleteAction" method="deleteManager"></action>
+		<action name="DeleteAction_course" class="cn.struts.delete.DeleteAction" method="deleteCourse"></action>
+		<action name="DeleteAction_academy" class="cn.struts.delete.DeleteAction" method="deleteAcademy"></action>
+		<action name="DeleteAction_major" class="cn.struts.delete.DeleteAction" method="deleteMajor"></action>
+		<action name="DeleteAction_classs" class="cn.struts.delete.DeleteAction" method="deleteClasss"></action>
 	</package>
 </struts> 
