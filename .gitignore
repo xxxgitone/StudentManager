@@ -1,3 +1,4 @@
 /build/
-hibernate.cfg.xml
-mysql.property
+src/hibernate.cfg.xml
+  
+src/mysql.properties
