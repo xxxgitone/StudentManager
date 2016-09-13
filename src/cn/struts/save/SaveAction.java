@@ -1,6 +1,11 @@
 package cn.struts.save;
 
+import java.io.IOException;
 import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
 
 import cn.hibernate.beans.Academy;
 import cn.hibernate.beans.AcademyDAO;
@@ -42,7 +47,7 @@ public class SaveAction extends ActionSupport {
 	String aname,asex,mid,ainfo,major;
 	String mname,minfo,aid,academy,classs,cinfo;
 	String cno,cname,ctype,cacademy;
-	//private HttpServletResponse response = ServletActionContext.getResponse();
+	private HttpServletResponse response = ServletActionContext.getResponse();
 	
 	public static void main(String[] args) {
 		SaveAction a = new SaveAction();
@@ -121,43 +126,43 @@ public class SaveAction extends ActionSupport {
 //修改记录
 	public void updateStudent(){
 		Student stu = new Student(pass, sname, ssex, sbirth, sid, cid, spolitics, saddr, sinfo);
-		update(stu);
+		update(stu,sno);
 	}
 	public void updateTeacher(){
 		Teacher tea = new Teacher(tno, tname, pass, tsex, tbirth, tpolitics, tjob, tacademy, tinfo);
-		update(tea);
+		update(tea,tno);
 	}
 	public void updateAssitant(){
 		Assitant as = new Assitant(ano, aname, pass, asex, mid, ainfo);
-		update(as);
+		update(as,ano);
 	}
 	public void updateManager(){
 		Manager ma = new Manager(mname, pass, minfo);
-		update(ma);
+		update(ma,mname);
 	}
 	public void updateCourse(){
 		Course cu = new Course(cno, cname, credit, theoryhour, practicehour, ctype, cinfo, cacademy);
-		update(cu);
+		update(cu,cno);
 	}
 	public void updateAcademy(){
 		Academy ac = new Academy(aid, academy, ainfo);
-		update(ac);
+		update(ac,aid);
 	}
 	public void updateMajor(){
 		Major ma = new Major(mid, major, minfo);
-		update(ma);
+		update(ma,mid);
 	}
 	public void updateClasss(){
 		Classs cl = new Classs(cid, classs, cinfo);
-		update(cl);
+		update(cl,cid);
 	}
 	/**多态调用dao保存Object*/
 	public void save(BaseHibernateDAO dao,Object o){
 		try {
 			dao.save(o);
-			//sendSaveJSON(true);
+			sendSaveJSON(true);
 		} catch (Exception e) {
-			//sendSaveJSON(false);
+			sendSaveJSON(false);
 			e.printStackTrace();
 		}
 	}
@@ -165,12 +170,23 @@ public class SaveAction extends ActionSupport {
 	 * 直接输入对象，更新记录
 	 * @param obj
 	 */
-	public void update(Object obj){
+	public void update(Object obj,Object id){
+		Class c = id.getClass();
+		
+		
+		System.out.println("进入更改");
 		try {
 			DBUtils.update(obj);//主键不能改，其他属性可以改。
-			sendUpdateJSON(true, "");
+			if(c==long.class){
+				long oo = (long)id;
+				sendUpdateJSON(true, ""+oo);
+			}else if(c==String.class){
+				String oo = (String)id;
+				sendUpdateJSON(true, ""+oo);
+			}
+			
 		} catch (Exception e) {
-			sendUpdateJSON(false, "");
+			sendUpdateJSON(false, "-1");
 		}
 		
 	}
@@ -183,27 +199,29 @@ public class SaveAction extends ActionSupport {
 			json="{success:false}";
 		}
 		System.out.println("JSON : "+json);
-//		try {
-//			response.setCharacterEncoding("UTF-8");
-//			response.getWriter().write(json);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	public void sendUpdateJSON(boolean flag,String id){
 		String json = "";
 		if(flag){
-			json = "{success:true,id:"+id+"}";
+			json = "1";
+//			json = "[{\"id\":\""+id+"\"}]";
 		}else{
-			json="{success:false,id:"+id+"}";
+			json = "0";
+//			json = "[{\"id\":\""+id+"\"}]";
 		}
 		System.out.println("JSON : "+json);
-//		try {
-//			response.setCharacterEncoding("UTF-8");
-//			response.getWriter().write(json);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 //////////////////////////   setter   getter ////////////////////////////////
 	

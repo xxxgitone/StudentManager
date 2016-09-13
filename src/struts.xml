@@ -8,9 +8,12 @@
 	<constant name="struts.custom.i18n.resources" 
 				value="cn.struts.upload.fileuploadmessage">
 		</constant>
+	<!-- action的映射 -->
 	<include file="cn/struts/action/struts_test.xml"></include>
 	<include file="cn/struts/login/struts_login.xml"></include>
 	<include file="cn/struts/upload/struts_upload.xml"></include>
 	<include file="cn/struts/query/struts_query.xml"></include>
 	<include file="cn/struts/download/struts_download.xml"></include>
+	<include file="cn/struts/save/struts_save.xml"></include>
+	<include file="cn/struts/delete/struts_delete.xml"></include>
 </struts>    

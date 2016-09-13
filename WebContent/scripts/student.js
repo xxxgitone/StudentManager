@@ -143,28 +143,43 @@ $(function() {
 		onAfterEdit: function(rowIndex, rowData, changes) {
 			$('#save,#redoText').hide();
 			$('#redoSelect').show();
+
 			
 			 var inserted = $('#student').data('getChanges', 'inserted');
 			 var updated = $('#student').data('getChanges', 'updated');	
-			 var info='';
+			 var info=url='';
+			 
+			 
 			 if (inserted.length > 0) {
-			 	$.ajax({
-			 		
-			 		url: 'save/SaveAction_student.action',
-			 		
-			 		info: '新增',
-			 		
+				 url='save/SaveAction_student.action';
+				 info="新增";
+			 }
+			 if (updated.length > 0) {
+				 url='save/UpdateAction_student.action';
+				 info='修改';
+			 }
+			 
+			 $.ajax({
+			 		url: url,
+			 		info: info,
 			 		data:{
-			 			row:rowData,
+			 			sno:rowData.sno,
+			 			pass:rowData.pass,
+			 			sname:rowData.sname,
+			 			ssex:rowData.ssex,
+			 			sbirth:rowData.sbirth,
+			 			sid:rowData.sid,
+			 			cid:rowData.cid,
+			 			spolitics:rowData.spolitics,
+			 			sadder:rowData.saddr,
+			 			sinfo:rowData.sinfo,
 			 		},
-			 		
 			 		beforeSend: function() {
-			 			alert('before');
+			 			
 			 			$('#student').datagrid('loading');
 			 		},
-			 		
 			 		success: function(data) {
-			 			if (data) {
+			 			if (data>0) {
 			 				$('#student').datagrid('loaded');
 			 				$('#student').datagrid('load');
 			 				$('#student').datagrid('unselectAll');
@@ -173,38 +188,19 @@ $(function() {
 			 					msg: data + '个用户被' + info + '成功！',
 			 				});
 			 				tool.editRow = undefined;
-			 			}
-			 		}
-			 	})
-
-			 }
-			 if (updated.length > 0) {
-			 	$.ajax({
-			 		
-			 		url: 'save/UpdateAction_student.action',
-			 		info: '修改',
-			 		data:{
-			 			row:rowData,
-			 		},
-			 		beforeSend: function() {
-			 			alert('before2');
-			 			$('#student').datagrid('loading');
-			 		},
-			 		success: function(data) {
-			 			if (data) {
+			 			}else{
 			 				$('#student').datagrid('loaded');
 			 				$('#student').datagrid('load');
 			 				$('#student').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
-			 					msg: data + '个用户被' + info + '成功！',
+			 					msg: info + '失败！',
 			 				});
 			 				tool.editRow = undefined;
 			 			}
 			 		}
 			 	});
 
-			 }
 
 
 		}
@@ -265,36 +261,41 @@ $(function() {
 		},
 		remove: function() {
 			var rows = $('#student').datagrid('getSelections');
+			var sno=rows[0].sno;
 			if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择要删除的项', 'warning');
 			} else {
 				$.messager.confirm('警告', '你确定要删除所选项吗？', function(t) {
 					if (t) {
-						var ids = [];
-						for (var i = 0; i < rows.length; i++) {
-							ids.push(rows[i].id);
-						}
-						// $.ajax({
-						// 	url: '',
-						// 	type: 'post',
-						// 	data: {
-						// 		ids.join(','),
-						// 	},
-						// 	beforeSend: function() {
-						// 		$('#student').datagrid('loading');
-						// 	},
-						// 	success: function(data) {
-						// 		if (data) {
-						// 			$('#student').datagrid('loaded');
-						// 			$('#student').datagrid('load');
-						// 			$('#student').datagrid('unselectAll');
-						// 			$.messager.show({
-						// 				title: '提示',
-						// 				msg: data + '个用户被删除成功！',
-						// 			});
-						// 		}
-						// 	},
-						// })
+						 $.ajax({
+						 	url: 'delete/DeleteAction_student.action',
+						 	data: {
+						 		sno:sno,
+						 	},
+						 	beforeSend: function() {
+						 		$('#student').datagrid('loading');
+						 	},
+						 	success: function(data) {
+						 		alert(data);
+						 		if (data>0) {
+						 			$('#student').datagrid('loaded');
+					 				$('#student').datagrid('load');
+					 				$('#student').datagrid('unselectAll');
+						 			$.messager.show({
+						 				title: '提示',
+						 				msg: data + '个用户被删除成功！',
+						 			});
+						 		}else{
+						 			$('#student').datagrid('loaded');
+					 				$('#student').datagrid('load');
+					 				$('#student').datagrid('unselectAll');
+						 			$.messager.show({
+						 				title: '提示',
+						 				msg:'删除失败！',
+						 			});
+						 		}
+						 	},
+						 })
 					}
 				})
 			}

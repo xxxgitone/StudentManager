@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-HttpSession sessions = request.getSession(false);//得到当前的Session
+/* HttpSession sessions = request.getSession(false);//得到当前的Session
 String user = (String)sessions.getAttribute("user");
 if(user==null || "".equals(user)){
 	sessions.setAttribute("param", "outtime");
@@ -22,7 +22,7 @@ sc.removeAttribute("uperror");
 if(terms==null) terms="1";
 int term = Integer.parseInt(terms);
 if(div==null) div="0";
-
+ */
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
