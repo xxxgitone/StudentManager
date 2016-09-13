@@ -1,1 +1,3 @@
 /build/
+hibernate.cfg.xml
+mysql.property

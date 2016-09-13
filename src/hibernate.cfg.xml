@@ -13,7 +13,7 @@
 			jdbc:mysql://localhost:3306/student
 		</property>
 		<property name="connection.username">root</property>
-		<property name="connection.password">ad</property>
+		<property name="connection.password">123456</property>
 		<property name="connection.driver_class">
 			com.mysql.jdbc.Driver
 		</property>

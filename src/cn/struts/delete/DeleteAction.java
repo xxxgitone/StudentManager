@@ -66,16 +66,17 @@ public class DeleteAction extends ActionSupport {
 		//DBUtils.delete(new Student(21));//数据库中非空的字段都必须给初始化。。。
 		Mysql db = new Mysql();
 		boolean flag = db.updSQL(sql);
+		System.out.println("删除的sql : "+sql);
 		sendJSON(flag);
 	}
 	public void sendJSON(boolean flag){
 		String json = "";
 		if(flag){
-			json = "{success:true}";
+			json = "1";
 		}else{
-			json="{success:false}";
+			json="0";
 		}
-		System.out.println("JSON : "+json);
+		System.out.println("删除    JSON : "+json);
 //		try {
 //			response.setCharacterEncoding("UTF-8");
 //			response.getWriter().write(json);
