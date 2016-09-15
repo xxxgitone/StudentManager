@@ -1,5 +1,8 @@
 package cn.hibernate.beans;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * AbstractAcademy entity provides the base persistence definition of the
  * Academy entity. @author MyEclipse Persistence Tools
@@ -12,6 +15,9 @@ public abstract class AbstractAcademy implements java.io.Serializable {
 	private String aid;
 	private String academy;
 	private String ainfo;
+	private Set teachers = new HashSet(0);
+	private Set majors = new HashSet(0);
+	private Set courses = new HashSet(0);
 
 	// Constructors
 
@@ -26,10 +32,14 @@ public abstract class AbstractAcademy implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public AbstractAcademy(String aid, String academy, String ainfo) {
+	public AbstractAcademy(String aid, String academy, String ainfo,
+			Set teachers, Set majors, Set courses) {
 		this.aid = aid;
 		this.academy = academy;
 		this.ainfo = ainfo;
+		this.teachers = teachers;
+		this.majors = majors;
+		this.courses = courses;
 	}
 
 	// Property accessors
@@ -56,6 +66,30 @@ public abstract class AbstractAcademy implements java.io.Serializable {
 
 	public void setAinfo(String ainfo) {
 		this.ainfo = ainfo;
+	}
+
+	public Set getTeachers() {
+		return this.teachers;
+	}
+
+	public void setTeachers(Set teachers) {
+		this.teachers = teachers;
+	}
+
+	public Set getMajors() {
+		return this.majors;
+	}
+
+	public void setMajors(Set majors) {
+		this.majors = majors;
+	}
+
+	public Set getCourses() {
+		return this.courses;
+	}
+
+	public void setCourses(Set courses) {
+		this.courses = courses;
 	}
 
 }

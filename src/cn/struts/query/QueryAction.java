@@ -17,8 +17,10 @@ import cn.hibernate.beans.MajorDAO;
 import cn.hibernate.beans.ManagerDAO;
 import cn.hibernate.beans.MarkDAO;
 import cn.hibernate.beans.ObligatoryDAO;
+import cn.hibernate.beans.Student;
 import cn.hibernate.beans.StudentDAO;
 import cn.hibernate.beans.TeacherDAO;
+import cn.hibernate.utils.ORM;
 
 import com.alibaba.fastjson.JSON;
 import com.opensymphony.xwork2.ActionSupport;
@@ -28,9 +30,7 @@ public class QueryAction extends ActionSupport {
 	//链接里带的参数，直接定义同名属性加上setget就行了，可能用上自定义类型转换器
 	String values ;
 	String propertys;
-//	private HttpServletRequest request = ServletActionContext.getRequest();
 	private HttpServletResponse response = ServletActionContext.getResponse();
-//	private final String SUCCESS = "success";
 	
 //人员
 	public void q_manager_all(){
@@ -59,33 +59,14 @@ public class QueryAction extends ActionSupport {
 	}
 	/**获得所有student以List集合返回*/
 	public void q_student_all(){
-		StudentDAO dao = new StudentDAO();
-		CreateList(dao);
-//		@SuppressWarnings("unchecked")
-//		List <Student> students = dao.findAll();
-//		String json = JSON.toJSONString(students);
-//		System.out.println(json);
-		//request = ServletActionContext.getRequest();
-//		response = ServletActionContext.getResponse();
-		//request.setAttribute("josn", json);
-//		sendJSONS(students, response);
-		
+//		StudentDAO dao = new StudentDAO();
+//		CreateList(dao);		
+		reflectList(Student.class);
 	}
 	/**通过单属性查询student对象*/
 	public void q_student_one(){
 		StudentDAO dao = new StudentDAO();
 		CreateOne(dao);
-//		request = ServletActionContext.getRequest();
-//		response = ServletActionContext.getResponse();
-//		String value = request.getParameter("value");
-//		String property = request.getParameter("property");
-//		@SuppressWarnings("unchecked")
-//		List<Student> students =  dao.findByProperty(propertys, values);
-//		sendJSONS(students, response);
-		
-//		String json = JSON.toJSONString(student);
-//		response = ServletActionContext.getResponse();
-//		request.setAttribute("josn", json);
 	}
 	/**获得所有学院*/
 	public void q_academy_all(){
@@ -142,6 +123,7 @@ public class QueryAction extends ActionSupport {
 	public void CreateList(BaseHibernateDAO dao){
 		@SuppressWarnings("rawtypes")
 		List list = dao.findAll();
+		System.out.println("进入————查询");
 		sendJSONS(list, response);
 	}
 	public void CreateOne(BaseHibernateDAO dao){
@@ -149,6 +131,16 @@ public class QueryAction extends ActionSupport {
 		@SuppressWarnings("unchecked")
 		List<Academy>list = dao.findByProperty(propertys, values);
 		sendJSONS(list, response);
+	}
+	//使用自定义的反射来实现
+	public void reflectList(Class obj){
+		List list = ORM.getRowsList(obj.getName());
+		System.out.println("使用反射来创建list查询");
+		sendJSONS(list,response);
+	}
+	public void reflectOne(Class obj){
+		List list = ORM.FindByProperty(obj.getName(), propertys, values);
+		sendJSONS(list,response);
 	}
 	/**封装的JSON发送方法，应该要写多个的*/
 	public void oneJSON(Object obj,HttpServletResponse response){
@@ -166,12 +158,12 @@ public class QueryAction extends ActionSupport {
 	public void sendJSONS(List list,HttpServletResponse response){
 		 if(list==null){
 			//发送空，待定
-			 try {
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("null");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			try {
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write("null");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else if(list.size()>1){
 			//应该还有处理部分
 			String json = JSON.toJSONString(list);
@@ -185,7 +177,6 @@ public class QueryAction extends ActionSupport {
 		}else if(list.size()==1){
 			oneJSON(list.get(0), response);
 		}
-		
 	}
 	public static void main(String []a){
 		QueryAction q = new QueryAction();

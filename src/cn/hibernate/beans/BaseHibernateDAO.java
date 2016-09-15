@@ -12,6 +12,7 @@ import org.hibernate.Session;
 public class BaseHibernateDAO implements IBaseHibernateDAO {
 	
 	public Session getSession() {
+//		HibernateSessionFactory.rebuildSesssionFactory();
 		return HibernateSessionFactory.getSession();
 	}
 

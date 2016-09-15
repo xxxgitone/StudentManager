@@ -1,6 +1,8 @@
 package cn.struts.save;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +43,7 @@ public class SaveAction extends ActionSupport {
 	//四个身份，三个结构和课程的所有属性在这里
 	long ano,tno,sno;
 	Date sbirth,tbirth;
+	String SBIRTH,TBIRTH;
 	float credit,theoryhour,practicehour;
 	String pass,sname,ssex,sid,cid,spolitics,saddr,sinfo;
 	String tname,tsex,tpolitics,tjob,tacademy,tinfo;
@@ -77,19 +80,39 @@ public class SaveAction extends ActionSupport {
 	@Override
 	public void validate() {
 		// TODO Auto-generated method stub\\\
-		System.out.println(pass+sname+ssex);
+		System.out.println("日期："+sbirth);
+		//关于时间类型的转换
+		if(sbirth!=null){
+			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+			SBIRTH = k.format(sbirth);
+			
+			System.out.println("转型后 ："+SBIRTH);
+		}
+		if(tbirth!=null){
+			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+			TBIRTH = k.format(tbirth);
+			System.out.println("转型后 ："+TBIRTH);
+		}
+//		try {
+//			sbirth = k.parse(SBIRTH);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		super.validate();
 	}
 //保存记录
 	public void saveStudent(){
-		System.out.println("进入stu");
+		System.out.println("进入保存stu");
 		StudentDAO dao = new StudentDAO();
-		Student stu = new Student(pass, sname, ssex, sbirth, sid, cid, spolitics, saddr, sinfo);
+		System.out.println("学号："+sno);
+		Student stu = new Student(pass, sname, ssex, SBIRTH,sid, cid, spolitics, saddr, sinfo);
+		stu.setSno(sno);
 		save(dao,stu);
 	}
 	public void saveTeacher(){
 		TeacherDAO dao = new TeacherDAO();
-		Teacher tea = new Teacher(tno, tname, pass, tsex, tbirth, tpolitics, tjob, tacademy, tinfo);
+		Teacher tea = new Teacher(tno, tname, pass, tsex,tpolitics, tjob, tacademy, tinfo);
 		save(dao,tea);
 	}
 	public void saveAssitant(){
@@ -125,8 +148,15 @@ public class SaveAction extends ActionSupport {
 	}
 //修改记录
 	public void updateStudent(){
-		Student stu = new Student(pass, sname, ssex, sbirth, sid, cid, spolitics, saddr, sinfo);
-		update(stu,sno);
+		System.out.println("进入修改stu 学号："+sno);
+		Student stu = new Student(pass, sname, ssex,SBIRTH, sid, cid, spolitics, saddr, sinfo);
+		stu.setSno(sno);
+		System.out.println("得到的实例："+stu.toString());
+		
+		StudentDAO dao = new StudentDAO();
+		dao.delete(stu);
+		dao.save(stu);
+//		update(stu,sno);
 	}
 	public void updateTeacher(){
 		Teacher tea = new Teacher(tno, tname, pass, tsex, tbirth, tpolitics, tjob, tacademy, tinfo);
@@ -172,7 +202,6 @@ public class SaveAction extends ActionSupport {
 	 */
 	public void update(Object obj,Object id){
 		Class c = id.getClass();
-		
 		
 		System.out.println("进入更改");
 		try {

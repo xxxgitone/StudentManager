@@ -1,5 +1,5 @@
 #MyEclipse Hibernate Properties
-#Sat Aug 06 21:27:55 CST 2016
+#Wed Sep 14 19:30:45 CST 2016
 genBasicCompId=false
 sessionFactoryName=
 profile=
@@ -18,4 +18,4 @@ genAnnotations=false
 reSettingsFile=
 configFile=/SMS/src/hibernate.cfg.xml
 createConfigFile=true
-baseDaoClass=BaseHibernateDAO
+baseDaoClass=cn.hibernate.beans.BaseHibernateDAO

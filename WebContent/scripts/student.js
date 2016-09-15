@@ -153,10 +153,12 @@ $(function() {
 			 if (inserted.length > 0) {
 				 url='save/SaveAction_student.action';
 				 info="新增";
+				 alert('新增');
 			 }
 			 if (updated.length > 0) {
 				 url='save/UpdateAction_student.action';
 				 info='修改';
+				 alert('修改');
 			 }
 			 
 			 $.ajax({
@@ -171,7 +173,7 @@ $(function() {
 			 			sid:rowData.sid,
 			 			cid:rowData.cid,
 			 			spolitics:rowData.spolitics,
-			 			sadder:rowData.saddr,
+			 			saddr:rowData.saddr,
 			 			sinfo:rowData.sinfo,
 			 		},
 			 		beforeSend: function() {

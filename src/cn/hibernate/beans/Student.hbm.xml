@@ -25,7 +25,12 @@
                 <comment>性别</comment>
             </column>
         </property>
-        <property name="sbirth" type="java.util.Date">
+        <!-- <property name="sbirth" type="java.util.Date">
+            <column name="sbirth" length="10" not-null="true">
+                <comment>出生年月</comment>
+            </column>
+        </property> -->
+        <property name="sbirth" type="java.lang.String">
             <column name="sbirth" length="10" not-null="true">
                 <comment>出生年月</comment>
             </column>

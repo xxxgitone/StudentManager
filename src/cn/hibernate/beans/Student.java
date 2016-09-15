@@ -11,8 +11,9 @@ public class Student  {
 	String pass;
 	String sname;
 	String ssex;
-	@JSONField (format="yyyy-MM-dd")
-	Date sbirth;
+//	@JSONField (format="yyyy-MM-dd")
+//	Date sbirth;
+	String sbirth;
 	String sid;
 	String cid;
 	String spolitics;
@@ -20,15 +21,30 @@ public class Student  {
 	String sinfo;
 	
 	public Student() {
+//		System.out.println("student");
 	}
 
 	public Student(int sno){
 		this.sno = sno;
 	}
+//	public Student(String pass, String sname, String ssex,
+//			Date sbirth, String sid, String cid, String spolitics,
+//			String saddr, String sinfo) {
+//		
+////		this.sno = sno; 因为Hibernate控制了自动增长，初始化了也没有用
+//		this.pass = pass;
+//		this.sname = sname;
+//		this.ssex = ssex;
+//		this.sbirth = sbirth;
+//		this.sid = sid;
+//		this.cid = cid;
+//		this.spolitics = spolitics;
+//		this.saddr = saddr;
+//		this.sinfo = sinfo;
+//	}
 	public Student(String pass, String sname, String ssex,
-			Date sbirth, String sid, String cid, String spolitics,
+			 String sbirth,String sid, String cid, String spolitics,
 			String saddr, String sinfo) {
-//		this.sno = sno; 因为Hibernate控制了自动增长，初始化了也没有用
 		this.pass = pass;
 		this.sname = sname;
 		this.ssex = ssex;
@@ -39,7 +55,6 @@ public class Student  {
 		this.saddr = saddr;
 		this.sinfo = sinfo;
 	}
-
 	public long getSno() {
 		return sno;
 	}
@@ -72,14 +87,21 @@ public class Student  {
 		this.ssex = ssex;
 	}
 
-	public Date getSbirth() {
+//	public Date getSbirth() {
+//		return sbirth;
+//	}
+//
+//	public void setSbirth(Date sbirth) {
+//		this.sbirth = sbirth;
+//	}
+
+	public String getSbirth() {
 		return sbirth;
 	}
 
-	public void setSbirth(Date sbirth) {
+	public void setSbirth(String  sbirth) {
 		this.sbirth = sbirth;
 	}
-
 	public String getSid() {
 		return sid;
 	}

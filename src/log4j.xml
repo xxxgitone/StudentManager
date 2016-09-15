@@ -25,7 +25,7 @@
 		<param name="Encoding" value="UTF-8" />
 		<param name="Threshold" value="debug" />
 		<param name="Append" value="true" />
-		<param name="MaxFileSize" value="500kb" />
+		<param name="MaxFileSize" value="50mb" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss} [%t] %p %c %x - %m%n" />
 		</layout>
@@ -47,6 +47,7 @@
 	<logger name="com.ecard.task" additivity="false">
 		<level value="debug" />
 		<appender-ref ref="cmd" />
+		<appender-ref ref="file" />
 		<appender-ref ref="taskFile" />
 	</logger>
 
@@ -55,7 +56,7 @@
 		<priority value="debug" />
 		<!-- <appender-ref ref="cmd" /> 这是在eclipse的控制台输出，不必要就关了吧，反正也看不懂，没这鸟时间 -->
 		<appender-ref ref="file" />
-		<!-- <appender-ref ref="task-file" /> -->
+		<appender-ref ref="taskFile" />
 
 	</root>
 

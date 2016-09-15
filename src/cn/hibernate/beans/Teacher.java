@@ -32,7 +32,18 @@ public class Teacher{
 		this.tacademy = tacademy;
 		this.tinfo = tinfo;
 	}
-
+	public Teacher(long tno, String tname, String pass, String tsex,
+			 String tpolitics, String tjob,
+			String tacademy, String tinfo) {
+		this.tno = tno;
+		this.tname = tname;
+		this.pass = pass;
+		this.tsex = tsex;
+		this.tpolitics = tpolitics;
+		this.tjob = tjob;
+		this.tacademy = tacademy;
+		this.tinfo = tinfo;
+	}
 	public long getTno() {
 		return tno;
 	}

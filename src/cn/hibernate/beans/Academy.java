@@ -1,16 +1,17 @@
 package cn.hibernate.beans;
 
-public class Academy{
+public class Academy {
 	String aid;
 	String academy;
 	String ainfo;
-	
+
 	public Academy() {
 	}
-	
-	public Academy(String aid){
+
+	public Academy(String aid) {
 		this.aid = aid;
 	}
+
 	public Academy(String aid, String academy, String ainfo) {
 		this.aid = aid;
 		this.academy = academy;

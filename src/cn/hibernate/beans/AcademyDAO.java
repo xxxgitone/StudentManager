@@ -1,6 +1,7 @@
 package cn.hibernate.beans;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.LockMode;
 import org.hibernate.Query;
@@ -26,8 +27,7 @@ public class AcademyDAO extends BaseHibernateDAO {
 	public static final String ACADEMY = "academy";
 	public static final String AINFO = "ainfo";
 
-	public void save(Object oo) {
-		Academy transientInstance  = (Academy)oo;
+	public void save(Academy transientInstance) {
 		log.debug("saving Academy instance");
 		try {
 			Session session  = getSession();

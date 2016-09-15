@@ -138,6 +138,8 @@ public class StudentDAO extends BaseHibernateDAO {
 		try {
 			String queryString = "from Student";
 			Query queryObject = getSession().createQuery(queryString);
+			System.out.println("查询得到的对象："+queryObject.hashCode());
+			System.out.println(queryObject.list().size()+":::::"+getSession().hashCode());
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
