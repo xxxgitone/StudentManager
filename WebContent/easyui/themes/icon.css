@@ -61,6 +61,15 @@
 .icon-blackboard_drawing{
 	background:url('icons/blackboard_drawing.png') no-repeat center center;
 }
+.icon-blueprint_minus{
+	background:url('icons/blueprint_minus.png') no-repeat center center;
+}
+.icon-blueprint_pencil{
+	background:url('icons/blueprint_pencil.png') no-repeat center center;
+}
+.icon-blueprint_plus{
+	background:url('icons/blueprint_plus.png') no-repeat center center;
+}
 .icon-book{
 	background:url('icons/book.png') no-repeat center center;
 }.icon-data{

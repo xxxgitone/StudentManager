@@ -4,8 +4,8 @@ $(function() {
 		$('#searchValue').val('');
 	});
 	//修改
-	$('#student').datagrid({
-		url: 'query/Query_student_all.action',
+	$('#manager').datagrid({
+		url: 'query/Query_manager_all.action',
 		fit: true,
 		fitColumns: true,
 		striped: true,
@@ -15,17 +15,11 @@ $(function() {
 		pageNumber: 1,
 		sortName: 'date',
 		sortOrder: 'desc',
-		toolbar: '#student-tool',
+		toolbar: '#manager-tool',
 		columns: [
 			[{
-					field: 'sno',
-					title: '自动学号',
-					width: 100,
-					sortable: true,
-					checkbox: true,
-				}, {
-					field: 'sname',
-					title: '姓名',
+					field: 'mname',
+					title: '用户名',
 					width: 100,
 					editor: {
 						type:'text',
@@ -45,74 +39,8 @@ $(function() {
 //							required: true,
 //						},
 					},
-				}, {
-					field: 'ssex',
-					title: '性别',
-					width: 100,
-					editor: {
-						type:'text',
-//						type: 'validatebox',
-//						options: {
-//							required: true,
-//						},
-					},
 				},{
-					field: 'sbirth',
-					title: '出生日期',
-					width: 100,
-					editor: {
-						type:'text',
-//						type: 'datebox',
-//						options: {
-//							required: true,
-//						},
-					},
-				},{
-					field: 'sid',
-					title: '身份证号',
-					width: 100,
-					editor: {
-						type:'text',
-//						type: 'validatebox',
-//						options: {
-//							required: true,
-//						},
-					},
-				},{
-					field: 'cid',
-					title: '班级',
-					width: 100,
-					editor: {
-						type:'text',
-//						type: 'validatebox',
-//						options: {
-//							required: true,
-//						},
-					},
-				},{
-					field: 'spolitics',
-					title: '政治面貌',
-					width: 100,
-					editor: {
-						type:'text',
-//						type: 'validatebox',
-//						options: {
-//							required: true,
-//						},
-					},
-				},{
-					field: 'saddr',
-					title: '家庭住址',
-					width: 100,
-					editor: {
-						type:'text',
-//						type: 'validatebox',
-//						options: {
-//							required: true,
-//						},
-					},
-				},{
-					field: 'sinfo',
+					field: 'minfo',
 					title: '备注信息',
 					width: 100,
 					editor: {
@@ -128,13 +56,13 @@ $(function() {
 		//双击修改
 		onDblClickCell: function(rowIndex) {
 			if (tool.editRow != undefined) {
-				$('#student').datagrid('endEdit', tool.editRow);
+				$('#manager').datagrid('endEdit', tool.editRow);
 			}
 
 			if (tool.editRow == undefined) {
 				$('#save,#redoText').show();
 				$('#redoSelect').hide();
-				$('#student').datagrid('beginEdit', rowIndex);
+				$('#manager').datagrid('beginEdit', rowIndex);
 				tool.editRow = rowIndex;
 			}
 
@@ -145,54 +73,46 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#student').data('getChanges', 'inserted');
-			 var updated = $('#student').data('getChanges', 'updated');	
+			 var inserted = $('#manager').data('getChanges', 'inserted');
+			 var updated = $('#manager').data('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
 			 if (inserted.length > 0) {
-				 url='save/SaveAction_student.action';
+				 url='save/SaveAction_manager.action';
 				 info="新增";
-				 alert('新增');
 			 }
 			 if (updated.length > 0) {
-				 url='save/UpdateAction_student.action';
+				 url='save/UpdateAction_manager.action';
 				 info='修改';
-				 alert('修改');
 			 }
 			 
 			 $.ajax({
 			 		url: url,
 			 		info: info,
 			 		data:{
-			 			sno:rowData.sno,
+			 			mname:rowData.mname,
 			 			pass:rowData.pass,
-			 			sname:rowData.sname,
-			 			ssex:rowData.ssex,
-			 			sbirth:rowData.sbirth,
-			 			sid:rowData.sid,
-			 			cid:rowData.cid,
-			 			spolitics:rowData.spolitics,
-			 			saddr:rowData.saddr,
-			 			sinfo:rowData.sinfo,
+			 			minfo:rowData.minfo,
 			 		},
 			 		beforeSend: function() {
-			 			$('#student').datagrid('loading');
+			 			
+			 			$('#manager').datagrid('loading');
 			 		},
 			 		success: function(data) {
 			 			if (data>0) {
-			 				$('#student').datagrid('loaded');
-			 				$('#student').datagrid('load');
-			 				$('#student').datagrid('unselectAll');
+			 				$('#manager').datagrid('loaded');
+			 				$('#manager').datagrid('load');
+			 				$('#manager').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
 			 					msg: data + '个用户被' + info + '成功！',
 			 				});
 			 				tool.editRow = undefined;
 			 			}else{
-			 				$('#student').datagrid('loaded');
-			 				$('#student').datagrid('load');
-			 				$('#student').datagrid('unselectAll');
+			 				$('#manager').datagrid('loaded');
+			 				$('#manager').datagrid('load');
+			 				$('#manager').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
 			 					msg: info + '失败！',
@@ -209,8 +129,9 @@ $(function() {
 
 	tool = {
 		editRow: undefined,
+		
 		serach: function() {
-			$('#box').datagrid('load', {
+			$('#searchValue').datagrid('load', {
 				searchName: $.trim($('input[name="search"]').val()),
 			});
 		},
@@ -219,13 +140,13 @@ $(function() {
 			$('#redoSelect').hide();
 
 			if (this.editRow == undefined) {
-				$('#student').datagrid('insertRow', {
+				$('#manager').datagrid('insertRow', {
 					index: 0,
 					row: {
 
 					}
 				});
-				$('#student').datagrid('beginEdit', 0);
+				$('#manager').datagrid('beginEdit', 0);
 
 				this.editRow = 0;
 			}
@@ -235,24 +156,24 @@ $(function() {
 		},
 
 		edit: function() {
-			var rows = $('#student').datagrid('getSelections');
+			var rows = $('#manager').datagrid('getSelections');
 			if (rows.length > 1) {
 				$.messager.alert('警告', '一次只能修改一条', 'warning');
 			} else if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择一条修改项', 'warning');
 			} else if (rows.length == 1) {
-				var index = $('#student').datagrid('getRowIndex', rows[0]);
+				var index = $('#manager').datagrid('getRowIndex', rows[0]);
 
 				if (tool.editRow != undefined) {
-					$('#student').datagrid('endEdit', tool.editRow);
+					$('#manager').datagrid('endEdit', tool.editRow);
 
 				}
 				if (tool.editRow == undefined) {
 					$('#save,#redoText').show();
 					$('#redoSelect').hide();
-					$('#student').datagrid('beginEdit', index);
+					$('#manager').datagrid('beginEdit', index);
 					tool.editRow = index;
-					$('#student').datagrid('unselectRow', index);
+					$('#manager').datagrid('unselectRow', index);
 				}
 
 			}
@@ -261,7 +182,7 @@ $(function() {
 
 		},
 		remove: function() {
-			var rows = $('#student').datagrid('getSelections');
+			var rows = $('#manager').datagrid('getSelections');
 			var sno=rows[0].sno;
 			if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择要删除的项', 'warning');
@@ -269,27 +190,27 @@ $(function() {
 				$.messager.confirm('警告', '你确定要删除所选项吗？', function(t) {
 					if (t) {
 						 $.ajax({
-						 	url: 'delete/DeleteAction_student.action',
+						 	url: 'delete/DeleteAction_manager.action',
 						 	data: {
 						 		sno:sno,
 						 	},
 						 	beforeSend: function() {
-						 		$('#student').datagrid('loading');
+						 		$('#manager').datagrid('loading');
 						 	},
 						 	success: function(data) {
 						 		alert(data);
 						 		if (data>0) {
-						 			$('#student').datagrid('loaded');
-					 				$('#student').datagrid('load');
-					 				$('#student').datagrid('unselectAll');
+						 			$('#manager').datagrid('loaded');
+					 				$('#manager').datagrid('load');
+					 				$('#manager').datagrid('unselectAll');
 						 			$.messager.show({
 						 				title: '提示',
 						 				msg: data + '个用户被删除成功！',
 						 			});
 						 		}else{
-						 			$('#student').datagrid('loaded');
-					 				$('#student').datagrid('load');
-					 				$('#student').datagrid('unselectAll');
+						 			$('#manager').datagrid('loaded');
+					 				$('#manager').datagrid('load');
+					 				$('#manager').datagrid('unselectAll');
 						 			$.messager.show({
 						 				title: '提示',
 						 				msg:'删除失败！',
@@ -302,16 +223,16 @@ $(function() {
 			}
 		},
 		save: function() {
-			$('#student').datagrid('endEdit', this.editRow);
+			$('#manager').datagrid('endEdit', this.editRow);
 		},
 		redoText: function() {
 			$('#save,#redoText').hide();
 			$('#redoSelect').show();
-			$('#student').datagrid('rejectChanges');
+			$('#manager').datagrid('rejectChanges');
 			this.editRow=undefined;
 		},
 		redoSelect: function() {
-			$('#student').datagrid('unselectAll');
+			$('#manager').datagrid('unselectAll');
 		},
 	}
 
