@@ -132,6 +132,7 @@ public class QueryAction extends ActionSupport {
 		List<Academy>list = dao.findByProperty(propertys, values);
 		sendJSONS(list, response);
 	}
+	
 	//使用自定义的反射来实现
 	public void reflectList(Class obj){
 		List list = ORM.getRowsList(obj.getName());
