@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>学籍管理</title>
+	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body style="background-color: #f4f4f4;">
+
+	<table id="teacher" class="easyui-datagrid" ></table>
+	
+	<div id="teacher-tool" style="padding: 5px;width:auto;height:80px;">
+		 <div style="float: left;width:400px;margin-top: 5px;">
+
+		 	<a href="#" class="easyui-linkbutton" iconCls="icon-user-add-new" plain="true" onclick="tool.add();">添加</a>
+		 	<a href="#" class="easyui-linkbutton" iconCls="icon-user-edit-new" plain="true" onclick="tool.edit();">修改</a>
+		 	<a href="#" class="easyui-linkbutton" iconCls="icon-user-delete-new" plain="true" onclick="tool.remove();">删除</a>
+		 	<a href="#" class="easyui-linkbutton" iconCls="icon-save" id="save" plain="true" style="display: none;" onclick="tool.save();">保存</a>
+		 	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" id="redoText" plain="true" style="display: none;" onclick="tool.redoText();">取消编辑</a>
+		 	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" id="redoSelect" plain="true"  onclick="tool.redoSelect();">取消选择</a>
+
+		 	<div class="search" style="padding:10px 0 5px 15px;">
+			 	<input  id="searchValue" type="text" name="search" value="请输入" class="textbox" />
+			 	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onClick="">查询</a>
+			 </div>
+
+		 </div>
+
+			 
+		 	<div class="upload" style="float: right;width:400px;">
+		 		<form action="upload/uploadAction_saveFile.action"name="form1"  method="post"  enctype="multipart/form-data">
+				 	<p><span style="font-weight: bold;font-size: 15px;">上传教师信息表格:</span>
+
+					 	<input type="file" name="uploadImage" >
+					 	<input  class="typp" class="button" type="hidden" name="types" value="grade"/>
+					</p>
+		           	<p>请输入上传文件中要使用的第几个Sheet：（不选则默认是第一个）</p>
+				    <select name="sheet" class="easyui-combobox">
+					     <OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
+					     <OPTION VALUE="1">第 2  个Sheet</OPTION>
+					     <OPTION VALUE="2">第 3  个Sheet</OPTION>
+					     <OPTION VALUE="3">第 4  个Sheet</OPTION>
+					     <OPTION VALUE="4">第 5  个Sheet</OPTION>
+					     <OPTION VALUE="5">第 6  个Sheet</OPTION>
+					     <OPTION VALUE="6">第 7  个Sheet</OPTION>
+					     <OPTION VALUE="7">第 8  个Sheet</OPTION>
+					     <OPTION VALUE="8">第 9  个Sheet</OPTION>
+					     <OPTION VALUE="9">第 10 个Sheet</OPTION>
+				     </select>
+				 <input type="submit" class="button" value="上传">
+				 <a href="pages/ExcelHelp.html" class="easyui-linkbutton" plain="true" iconCls="icon-help">查看文件上传帮助</a>
+		 		</form>
+
+		 	</div>
+
+			
+	</div>
+	
+</body>
+<script type="text/javascript" src="easyui/jquery.min.js"></script>
+<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="scripts/teacher.js"></script>
+</html>
