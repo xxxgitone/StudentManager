@@ -175,7 +175,6 @@ $(function() {
 			 			sinfo:rowData.sinfo,
 			 		},
 			 		beforeSend: function() {
-			 			
 			 			$('#student').datagrid('loading');
 			 		},
 			 		success: function(data) {
