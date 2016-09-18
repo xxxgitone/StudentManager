@@ -61,11 +61,11 @@ $(function() {
 					title: '出生日期',
 					width: 100,
 					editor: {
-						type:'text',
-//						type: 'datebox',
-//						options: {
-//							required: true,
-//						},
+//						type:'text',
+						type: 'datebox',
+						options: {
+							required: true,
+						},
 					},
 				},{
 					field: 'sid',
@@ -145,20 +145,22 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#student').data('getChanges', 'inserted');
-			 var updated = $('#student').data('getChanges', 'updated');	
+			 var inserted = $('#student').datagrid('getChanges', 'inserted');
+			 var updated = $('#student').datagrid('getChanges', 'updated');
+			 
 			 var info=url='';
 			 
 			 
 			 if (inserted.length > 0) {
 				 url='save/SaveAction_student.action';
 				 info="新增";
-				 alert('新增');
+				 //alert('新增');
 			 }
+	
 			 if (updated.length > 0) {
 				 url='save/UpdateAction_student.action';
 				 info='修改';
-				 alert('修改');
+				 //alert('修改');
 			 }
 			 
 			 $.ajax({
@@ -195,14 +197,12 @@ $(function() {
 			 				$('#student').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
-			 					msg: info + '失败！',
+			 					msg: info + '失败！请检查是否合乎规范',
 			 				});
 			 				tool.editRow = undefined;
 			 			}
 			 		}
 			 	});
-
-
 
 		}
 	});
@@ -277,7 +277,7 @@ $(function() {
 						 		$('#student').datagrid('loading');
 						 	},
 						 	success: function(data) {
-						 		alert(data);
+//						 		alert(data);
 						 		if (data>0) {
 						 			$('#student').datagrid('loaded');
 					 				$('#student').datagrid('load');

@@ -29,24 +29,24 @@ public class AssitantDAO extends BaseHibernateDAO {
 	public static final String ASEX = "asex";
 	public static final String AINFO = "ainfo";
 
-	public void save(Object oo ){
-		Assitant transientInstance = (Assitant)oo;
-		log.debug("saving Assitant instance");
-		try {
-			
-			Session session  = getSession();
-			session.beginTransaction();
-			//session.flush();
-			session.save(transientInstance);
-			//session.flush();
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo ){
+//		Assitant transientInstance = (Assitant)oo;
+//		log.debug("saving Assitant instance");
+//		try {
+//			
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			//session.flush();
+//			session.save(transientInstance);
+//			//session.flush();
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Assitant persistentInstance) {
 		log.debug("deleting Assitant instance");

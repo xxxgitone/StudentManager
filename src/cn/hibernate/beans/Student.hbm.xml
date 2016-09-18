@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="cn.hibernate.beans.Student" table="student" catalog="student">
-        <id name="sno" type="java.lang.Integer">
+        <id name="sno" type="java.lang.Long">
             <column name="sno" />
             <generator class="identity" />
         </id>
@@ -30,7 +30,7 @@
                 <comment>出生年月</comment>
             </column>
         </property> -->
-        <property name="sbirth" type="java.lang.String">
+        <property name="sbirth" type="java.util.Date">
             <column name="sbirth" length="10" not-null="true">
                 <comment>出生年月</comment>
             </column>

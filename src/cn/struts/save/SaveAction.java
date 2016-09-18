@@ -1,8 +1,5 @@
 package cn.struts.save;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +29,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * 实现了保存，修改
- * 最好使用Hibernate的一对多等关系映射，多加练习下，
+ * 最好使用Hibernate的一对多等关系映射，多加练习下
  * @author  Myth
  * @date 2016年9月7日 上午10:51:27
  * @TODO
@@ -41,6 +38,7 @@ import com.opensymphony.xwork2.ActionSupport;
 public class SaveAction extends ActionSupport {
 
 	//四个身份，三个结构和课程的所有属性在这里
+	//如果是新增也就是保存，id是不需要值的，修改才要id的值
 	long ano,tno,sno;
 	Date sbirth,tbirth;
 	String SBIRTH,TBIRTH;
@@ -54,24 +52,43 @@ public class SaveAction extends ActionSupport {
 	
 	public static void main(String[] args) {
 		SaveAction a = new SaveAction();
-		//a.ano = 232l;
-//		a.aname ="ed";
-//		a.pass = "ee";
-//		a.asex = "dsd";
-//		a.ainfo = "dfasfa";
-//		a.mid="I10001";
-//		
-//		a.saveAssitant();
+		a.ano = 232l;
+		a.aname ="ed";
+		a.pass = "ee";
+		a.asex = "dsd";
+		a.ainfo = "dfasfa";
+		a.mid="I10001";
 		
-		a.cno="23132";
-		a.cname = "yi";
-		a.credit = 2;
-		a.theoryhour = 32;
-		a.practicehour = 32;
-		a.ctype = "基础课程";
-		a.cacademy = "IT";
-		a.cinfo = "jsdflk";
-		a.saveCourse();
+		a.saveAssitant();
+		
+//		a.cno="23132";
+//		a.cname = "yi";
+//		a.credit = 2;
+//		a.theoryhour = 32;
+//		a.practicehour = 32;
+//		a.ctype = "基础课程";
+//		a.cacademy = "IT";
+//		a.cinfo = "jsdflk";
+//		a.saveCourse();
+//		a.sno=2033;
+//		a.sname="78";
+//		a.saddr="89";
+//		SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+//		try {
+//			a.sbirth = d.parse("1990-3-24");
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		a.sid="11111111";
+//		
+//		a.spolitics="oo";
+//		a.ssex="男";
+//		a.cid="3";
+//		a.pass="9090";
+//		a.sinfo="info";
+////		a.saveStudent();
+//		a.updateStudent();
 	}
 
 	/**
@@ -80,19 +97,19 @@ public class SaveAction extends ActionSupport {
 	@Override
 	public void validate() {
 		// TODO Auto-generated method stub\\\
-		System.out.println("日期："+sbirth);
+		System.out.println("日期："+sbirth.toLocaleString());
 		//关于时间类型的转换
-		if(sbirth!=null){
-			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
-			SBIRTH = k.format(sbirth);
-			
-			System.out.println("转型后 ："+SBIRTH);
-		}
-		if(tbirth!=null){
-			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
-			TBIRTH = k.format(tbirth);
-			System.out.println("转型后 ："+TBIRTH);
-		}
+//		if(sbirth!=null){
+//			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+//			SBIRTH = k.format(sbirth);
+//			
+//			System.out.println("转型后 ："+SBIRTH);
+//		}
+//		if(tbirth!=null){
+//			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+//			TBIRTH = k.format(tbirth);
+//			System.out.println("转型后 ："+TBIRTH);
+//		}
 //		try {
 //			sbirth = k.parse(SBIRTH);
 //		} catch (ParseException e) {
@@ -106,7 +123,7 @@ public class SaveAction extends ActionSupport {
 		System.out.println("进入保存stu");
 		StudentDAO dao = new StudentDAO();
 		System.out.println("学号："+sno);
-		Student stu = new Student(pass, sname, ssex, SBIRTH,sid, cid, spolitics, saddr, sinfo);
+		Student stu = new Student(pass, sname, ssex, sbirth,sid, cid, spolitics, saddr, sinfo);
 		stu.setSno(sno);
 		save(dao,stu);
 	}
@@ -149,14 +166,14 @@ public class SaveAction extends ActionSupport {
 //修改记录
 	public void updateStudent(){
 		System.out.println("进入修改stu 学号："+sno);
-		Student stu = new Student(pass, sname, ssex,SBIRTH, sid, cid, spolitics, saddr, sinfo);
+		Student stu = new Student(pass, sname, ssex,sbirth, sid, cid, spolitics, saddr, sinfo);
 		stu.setSno(sno);
 		System.out.println("得到的实例："+stu.toString());
 		
-		StudentDAO dao = new StudentDAO();
-		dao.delete(stu);
-		dao.save(stu);
-//		update(stu,sno);
+//		StudentDAO dao = new StudentDAO();
+//		dao.delete(stu);
+//		dao.save(stu);
+		update(stu,sno);
 	}
 	public void updateTeacher(){
 		Teacher tea = new Teacher(tno, tname, pass, tsex, tbirth, tpolitics, tjob, tacademy, tinfo);
@@ -202,11 +219,11 @@ public class SaveAction extends ActionSupport {
 	 */
 	public void update(Object obj,Object id){
 		Class c = id.getClass();
-		
-		System.out.println("进入更改");
+//		System.out.println("进入更改"+obj);
 		try {
 			DBUtils.update(obj);//主键不能改，其他属性可以改。
-			if(c==long.class){
+			System.out.println("Class : "+c);
+			if(c==Long.class){
 				long oo = (long)id;
 				sendUpdateJSON(true, ""+oo);
 			}else if(c==String.class){
@@ -215,6 +232,7 @@ public class SaveAction extends ActionSupport {
 			}
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			sendUpdateJSON(false, "-1");
 		}
 		
@@ -223,15 +241,15 @@ public class SaveAction extends ActionSupport {
 	public void sendSaveJSON(boolean flag){
 		String json = "";
 		if(flag){
-			json = "{success:true}";
+			json = "1";
 		}else{
-			json="{success:false}";
+			json="0";
 		}
 		System.out.println("JSON : "+json);
 		try {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -239,16 +257,14 @@ public class SaveAction extends ActionSupport {
 		String json = "";
 		if(flag){
 			json = "1";
-//			json = "[{\"id\":\""+id+"\"}]";
 		}else{
 			json = "0";
-//			json = "[{\"id\":\""+id+"\"}]";
 		}
 		System.out.println("JSON : "+json);
 		try {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

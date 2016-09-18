@@ -26,21 +26,21 @@ public class ObligatoryDAO extends BaseHibernateDAO {
 
 	// property constants
 
-	public void save(Object oo) {
-		Obligatory transientInstance = (Obligatory)oo;
-		log.debug("saving Obligatory instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo) {
+//		Obligatory transientInstance = (Obligatory)oo;
+//		log.debug("saving Obligatory instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Obligatory persistentInstance) {
 		log.debug("deleting Obligatory instance");

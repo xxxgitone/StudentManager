@@ -27,20 +27,21 @@ public class AcademyDAO extends BaseHibernateDAO {
 	public static final String ACADEMY = "academy";
 	public static final String AINFO = "ainfo";
 
-	public void save(Academy transientInstance) {
-		log.debug("saving Academy instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object obj) {
+//		Academy transientInstance = (Academy) obj;
+//		log.debug("saving Academy instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Academy persistentInstance) {
 		log.debug("deleting Academy instance");

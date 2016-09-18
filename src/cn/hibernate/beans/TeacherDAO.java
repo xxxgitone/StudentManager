@@ -32,21 +32,21 @@ public class TeacherDAO extends BaseHibernateDAO {
 	public static final String TACADEMY = "tacademy";
 	public static final String TINFO = "tinfo";
 
-	public void save(Object oo) {
-		Teacher transientInstance = (Teacher)oo;
-		log.debug("saving Teacher instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo) {
+//		Teacher transientInstance = (Teacher)oo;
+//		log.debug("saving Teacher instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Teacher persistentInstance) {
 		log.debug("deleting Teacher instance");

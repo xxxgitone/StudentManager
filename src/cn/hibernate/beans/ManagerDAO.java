@@ -26,21 +26,21 @@ public class ManagerDAO extends BaseHibernateDAO {
 	public static final String PASS = "pass";
 	public static final String MINFO = "minfo";
 
-	public void save(Object oo) {
-		Manager transientInstance = (Manager)oo;
-		log.debug("saving Manager instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo) {
+//		Manager transientInstance = (Manager)oo;
+//		log.debug("saving Manager instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Manager persistentInstance) {
 		log.debug("deleting Manager instance");

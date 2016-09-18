@@ -31,21 +31,21 @@ public class CourseDAO extends BaseHibernateDAO {
 	public static final String CACADEMY = "cacademy";
 	public static final String CINFO = "cinfo";
 
-	public void save(Object oo) {
-		Course transientInstance = (Course)oo;
-		log.debug("saving Course instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo) {
+//		Course transientInstance = (Course)oo;
+//		log.debug("saving Course instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Course persistentInstance) {
 		log.debug("deleting Course instance");

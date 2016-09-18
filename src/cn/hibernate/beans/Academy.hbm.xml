@@ -20,7 +20,7 @@
                 <comment>学院介绍</comment>
             </column>
         </property>
-        <set name="teachers" inverse="true">
+       <!--  <set name="teachers" inverse="true">
             <key>
                 <column name="tacademy" length="20" not-null="true">
                     <comment>所属学院</comment>
@@ -43,6 +43,6 @@
                 </column>
             </key>
             <one-to-many class="cn.hibernate.beans.Course" />
-        </set>
+        </set> -->
     </class>
 </hibernate-mapping>

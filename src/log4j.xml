@@ -44,7 +44,7 @@
 	</appender>
 
 	<!-- 任务处理程序，设置输出的方式 -->
-	<logger name="com.ecard.task" additivity="false">
+	<logger name="com.ecard.task" additivity="true">
 		<level value="debug" />
 		<appender-ref ref="cmd" />
 		<appender-ref ref="file" />
@@ -54,7 +54,7 @@
 	<!-- 全局输出的方式 -->
 	<root>
 		<priority value="debug" />
-		<!-- <appender-ref ref="cmd" /> 这是在eclipse的控制台输出，不必要就关了吧，反正也看不懂，没这鸟时间 -->
+		 <!-- <appender-ref ref="cmd" /> --> <!--这是在eclipse的控制台输出，不必要就关了吧，反正也看不懂，没这鸟时间 -->
 		<appender-ref ref="file" />
 		<appender-ref ref="taskFile" />
 

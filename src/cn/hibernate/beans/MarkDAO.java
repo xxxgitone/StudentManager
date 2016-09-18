@@ -33,21 +33,21 @@ public class MarkDAO extends BaseHibernateDAO {
 	public static final String TERM = "term";
 	public static final String INFO = "info";
 
-	public void save(Object oo) {
-		Mark transientInstance = (Mark)oo;
-		log.debug("saving Mark instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo) {
+//		Mark transientInstance = (Mark)oo;
+//		log.debug("saving Mark instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Mark persistentInstance) {
 		log.debug("deleting Mark instance");

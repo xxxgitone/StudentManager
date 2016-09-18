@@ -26,21 +26,21 @@ public class MajorDAO extends BaseHibernateDAO {
 	public static final String MAJOR = "major";
 	public static final String MINFO = "minfo";
 
-	public void save(Object oo) {
-		Major transientInstance = (Major)oo;
-		log.debug("saving Major instance");
-		try {
-			Session session  = getSession();
-			session.beginTransaction();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Object oo) {
+//		Major transientInstance = (Major)oo;
+//		log.debug("saving Major instance");
+//		try {
+//			Session session  = getSession();
+//			session.beginTransaction();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Major persistentInstance) {
 		log.debug("deleting Major instance");

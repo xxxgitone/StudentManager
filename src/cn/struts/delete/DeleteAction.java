@@ -1,6 +1,12 @@
 package cn.struts.delete;
 
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.myth.mysql.Mysql;
 import com.opensymphony.xwork2.ActionSupport;
 /**
@@ -13,7 +19,7 @@ import com.opensymphony.xwork2.ActionSupport;
 @SuppressWarnings("serial")
 public class DeleteAction extends ActionSupport {
 
-	//private HttpServletResponse response = ServletActionContext.getResponse();
+	private HttpServletResponse response = ServletActionContext.getResponse();
 	long sno,tno,ano;
 	String aid,cid,mid,cno,mname;
 	
@@ -77,14 +83,14 @@ public class DeleteAction extends ActionSupport {
 			json="0";
 		}
 		System.out.println("删除    JSON : "+json);
-//		try {
-//			response.setCharacterEncoding("UTF-8");
-//			response.getWriter().write(json);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	//级联操作的专用函数，先查询到返回弹窗得到确认
+	//级联操作的专用函数，先查询到返回弹窗得到确认才能继续删除
 //	public void deleteCascadeSendJSON(String sql,String confirm){
 //		Mysql db = new Mysql("student","root","ad");
 //		List<String[]> result = db.SelectReturnList(confirm);

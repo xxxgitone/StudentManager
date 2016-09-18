@@ -1,8 +1,6 @@
 package cn.hibernate.beans;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -11,9 +9,8 @@ public class Student  {
 	String pass;
 	String sname;
 	String ssex;
-//	@JSONField (format="yyyy-MM-dd")
-//	Date sbirth;
-	String sbirth;
+	@JSONField (format="yyyy-MM-dd")
+	Date sbirth;
 	String sid;
 	String cid;
 	String spolitics;
@@ -27,24 +24,8 @@ public class Student  {
 	public Student(int sno){
 		this.sno = sno;
 	}
-//	public Student(String pass, String sname, String ssex,
-//			Date sbirth, String sid, String cid, String spolitics,
-//			String saddr, String sinfo) {
-//		
-////		this.sno = sno; 因为Hibernate控制了自动增长，初始化了也没有用
-//		this.pass = pass;
-//		this.sname = sname;
-//		this.ssex = ssex;
-//		this.sbirth = sbirth;
-//		this.sid = sid;
-//		this.cid = cid;
-//		this.spolitics = spolitics;
-//		this.saddr = saddr;
-//		this.sinfo = sinfo;
-//	}
 	public Student(String pass, String sname, String ssex,
-			 String sbirth,String sid, String cid, String spolitics,
-			String saddr, String sinfo) {
+			 Date sbirth,String sid, String cid, String spolitics,String saddr, String sinfo) {
 		this.pass = pass;
 		this.sname = sname;
 		this.ssex = ssex;
@@ -87,21 +68,14 @@ public class Student  {
 		this.ssex = ssex;
 	}
 
-//	public Date getSbirth() {
-//		return sbirth;
-//	}
-//
-//	public void setSbirth(Date sbirth) {
-//		this.sbirth = sbirth;
-//	}
-
-	public String getSbirth() {
+	public Date getSbirth() {
 		return sbirth;
 	}
 
-	public void setSbirth(String  sbirth) {
+	public void setSbirth(Date sbirth) {
 		this.sbirth = sbirth;
 	}
+
 	public String getSid() {
 		return sid;
 	}
@@ -142,10 +116,11 @@ public class Student  {
 		this.sinfo = sinfo;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public String toString() {
 		return "Student [sno=" + sno + ", pass=" + pass + ", sname=" + sname
-				+ ", ssex=" + ssex + ", sbirth=" + sbirth + ", sid=" + sid
+				+ ", ssex=" + ssex + ", sbirth=" + sbirth.toLocaleString() + ", sid=" + sid
 				+ ", cid=" + cid + ", spolitics=" + spolitics + ", saddr="
 				+ saddr + ", sinfo=" + sinfo + "]";
 	}

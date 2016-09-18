@@ -44,9 +44,8 @@ public class HibernateSessionFactory {
 	 * 重新创建一个会话工厂
 	 */
 	public static void rebuildSesssionFactory() {
-		// TODO Auto-generated method stub
 		try{
-			config.configure();
+//			config.configure();
 			sessionFactory = config.buildSessionFactory();
 		}catch(Exception e){
 			e.printStackTrace();

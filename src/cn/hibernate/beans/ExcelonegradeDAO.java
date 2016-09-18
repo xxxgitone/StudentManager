@@ -28,19 +28,19 @@ public class ExcelonegradeDAO extends BaseHibernateDAO {
 	public static final String SNAME = "sname";
 	public static final String GRADE = "grade";
 
-	public void save(Excelonegrade transientInstance) {
-		log.debug("saving Excelonegrade instance");
-		try {
-			Session session  = getSession();
-			session.save(transientInstance);
-			session.getTransaction().commit();
-			session.close();
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
+//	public void save(Excelonegrade transientInstance) {
+//		log.debug("saving Excelonegrade instance");
+//		try {
+//			Session session  = getSession();
+//			session.save(transientInstance);
+//			session.getTransaction().commit();
+//			session.close();
+//			log.debug("save successful");
+//		} catch (RuntimeException re) {
+//			log.error("save failed", re);
+//			throw re;
+//		}
+//	}
 
 	public void delete(Excelonegrade persistentInstance) {
 		log.debug("deleting Excelonegrade instance");
