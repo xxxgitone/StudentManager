@@ -74,10 +74,10 @@ label{
 	color: #666;
 	text-indent: 25px;
 }
-input[name="username"]{
-	background: url(../image/username1.png)no-repeat;
+input[name="user"]{
+	background: url(../image/username1.png) no-repeat;
 }
-input[name="password"]{
+input[name="pass"]{
 	background: url(../image/password1.png)no-repeat;
 }
 .textbox1{
