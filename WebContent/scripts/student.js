@@ -143,10 +143,9 @@ $(function() {
 		onAfterEdit: function(rowIndex, rowData, changes) {
 			$('#save,#redoText').hide();
 			$('#redoSelect').show();
-
 			
-			 var inserted = $('#student').data('getChanges', 'inserted');
-			 var updated = $('#student').data('getChanges', 'updated');	
+			 var inserted = $('#student').datagrid('getChanges', 'inserted');
+			 var updated = $('#student').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
