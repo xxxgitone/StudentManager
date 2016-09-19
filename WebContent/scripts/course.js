@@ -128,8 +128,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#course').data('getChanges', 'inserted');
-			 var updated = $('#course').data('getChanges', 'updated');	
+			 var inserted = $('#course').datagrid('getChanges', 'inserted');
+			 var updated = $('#course').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
@@ -146,9 +146,14 @@ $(function() {
 			 		url: url,
 			 		info: info,
 			 		data:{
-			 			mname:rowData.mname,
-			 			pass:rowData.pass,
-			 			minfo:rowData.minfo,
+			 			cname:rowData.cname,
+			 			cno:rowData.cno,
+			 			cinfo:rowData.cinfo,
+			 			credit:rowData.credit,
+			 			theoryhour:rowData.theoryhour,
+			 			practicehour:rowData.practicehour,
+			 			ctype:rowData.ctype,
+			 			cacademy:rowData.cacademy
 			 		},
 			 		beforeSend: function() {
 			 			
@@ -161,7 +166,7 @@ $(function() {
 			 				$('#course').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
-			 					msg: data + '个用户被' + info + '成功！',
+			 					msg: data + '个课程被' + info + '成功！',
 			 				});
 			 				tool.editRow = undefined;
 			 			}else{
@@ -238,7 +243,7 @@ $(function() {
 		},
 		remove: function() {
 			var rows = $('#course').datagrid('getSelections');
-			var sno=rows[0].sno;
+			var cno=rows[0].cno;
 			if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择要删除的项', 'warning');
 			} else {
@@ -247,20 +252,19 @@ $(function() {
 						 $.ajax({
 						 	url: 'delete/DeleteAction_course.action',
 						 	data: {
-						 		sno:sno,
+						 		cno:cno,
 						 	},
 						 	beforeSend: function() {
 						 		$('#course').datagrid('loading');
 						 	},
 						 	success: function(data) {
-						 		alert(data);
 						 		if (data>0) {
 						 			$('#course').datagrid('loaded');
 					 				$('#course').datagrid('load');
 					 				$('#course').datagrid('unselectAll');
 						 			$.messager.show({
 						 				title: '提示',
-						 				msg: data + '个用户被删除成功！',
+						 				msg: data + '个课程被删除成功！',
 						 			});
 						 		}else{
 						 			$('#course').datagrid('loaded');

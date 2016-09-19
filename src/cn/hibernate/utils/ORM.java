@@ -233,6 +233,8 @@ public class ORM {
 								m.invoke(obj,rs.getLong(cname));
 							}else if(params[0] == Date.class){
 								m.invoke(obj,rs.getDate(cname));
+							}else if(params[0] == float.class){
+								m.invoke(obj,rs.getFloat(cname));
 							}
 						}
 					}

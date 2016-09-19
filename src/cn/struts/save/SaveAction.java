@@ -91,33 +91,33 @@ public class SaveAction extends ActionSupport {
 //		a.updateStudent();
 	}
 
-	/**
-	 * 验证方法
-	 */
-	@Override
-	public void validate() {
-		// TODO Auto-generated method stub\\\
-		System.out.println("日期："+sbirth.toLocaleString());
-		//关于时间类型的转换
-//		if(sbirth!=null){
-//			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
-//			SBIRTH = k.format(sbirth);
-//			
-//			System.out.println("转型后 ："+SBIRTH);
-//		}
-//		if(tbirth!=null){
-//			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
-//			TBIRTH = k.format(tbirth);
-//			System.out.println("转型后 ："+TBIRTH);
-//		}
-//		try {
-//			sbirth = k.parse(SBIRTH);
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		super.validate();
-	}
+//	/**
+//	 * 验证方法
+//	 */
+//	@Override
+//	public void validate() {
+//		// TODO Auto-generated method stub\\\
+//		System.out.println("日期："+sbirth.toLocaleString());
+//		//关于时间类型的转换
+////		if(sbirth!=null){
+////			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+////			SBIRTH = k.format(sbirth);
+////			
+////			System.out.println("转型后 ："+SBIRTH);
+////		}
+////		if(tbirth!=null){
+////			SimpleDateFormat k = new SimpleDateFormat("yyyy-MM-dd");
+////			TBIRTH = k.format(tbirth);
+////			System.out.println("转型后 ："+TBIRTH);
+////		}
+////		try {
+////			sbirth = k.parse(SBIRTH);
+////		} catch (ParseException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+//		super.validate();
+//	}
 //保存记录
 	public void saveStudent(){
 		System.out.println("进入保存stu");
@@ -129,12 +129,13 @@ public class SaveAction extends ActionSupport {
 	}
 	public void saveTeacher(){
 		TeacherDAO dao = new TeacherDAO();
-		Teacher tea = new Teacher(tno, tname, pass, tsex,tpolitics, tjob, tacademy, tinfo);
+		Teacher tea = new Teacher(tname, pass, tsex,tbirth,tpolitics, tjob, tacademy, tinfo);
+		System.out.println(tbirth);
 		save(dao,tea);
 	}
 	public void saveAssitant(){
-		
 		Assitant as = new Assitant(aname, pass, asex, mid, ainfo);
+		System.out.println(as.toString());
 		AssitantDAO dao = new AssitantDAO();
 		save(dao,as);
 	}
@@ -146,6 +147,7 @@ public class SaveAction extends ActionSupport {
 	public void saveCourse(){
 		Course cu = new Course(cno, cname, credit, theoryhour, practicehour, ctype, cinfo, cacademy);
 		CourseDAO dao = new CourseDAO();
+		System.out.println(cu.toString());
 		save(dao,cu);
 	}
 	public void saveAcademy(){

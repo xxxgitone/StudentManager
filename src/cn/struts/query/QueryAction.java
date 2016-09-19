@@ -158,7 +158,7 @@ public class QueryAction extends ActionSupport {
 	//使用自定义的反射来实现
 	public void reflectList(Class obj){
 		List list = ORM.getRowsList(obj.getName());
-		System.out.println("使用反射来创建list查询");
+//		System.out.println("使用反射来创建list查询");
 		sendJSONS(list,response);
 	}
 	public void reflectOne(Class obj){
@@ -168,7 +168,7 @@ public class QueryAction extends ActionSupport {
 	/**封装的JSON发送方法，应该要写多个的*/
 	public void oneJSON(Object obj,HttpServletResponse response){
 		String json = JSON.toJSONString(obj);
-		System.out.println(json);
+//		System.out.println(json);
 		try {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
@@ -190,7 +190,7 @@ public class QueryAction extends ActionSupport {
 		}else if(list.size()>1){
 			//应该还有处理部分
 			String json = JSON.toJSONString(list);
-			System.out.println(json);
+//			System.out.println(json);
 			try {
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(json);

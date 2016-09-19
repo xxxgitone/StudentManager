@@ -6,7 +6,7 @@
 -->
 <hibernate-mapping>
     <class name="cn.hibernate.beans.Teacher" table="teacher" catalog="student">
-        <id name="tno" type="java.lang.Integer">
+        <id name="tno" type="java.lang.Long">
             <column name="tno" />
             <generator class="identity" />
         </id>

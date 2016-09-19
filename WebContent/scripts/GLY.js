@@ -73,8 +73,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#manager').data('getChanges', 'inserted');
-			 var updated = $('#manager').data('getChanges', 'updated');	
+			 var inserted = $('#manager').datagrid('getChanges', 'inserted');
+			 var updated = $('#manager').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
@@ -106,7 +106,7 @@ $(function() {
 			 				$('#manager').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
-			 					msg: data + '个用户被' + info + '成功！',
+			 					msg: data + '个管理员被' + info + '成功！',
 			 				});
 			 				tool.editRow = undefined;
 			 			}else{
@@ -183,7 +183,7 @@ $(function() {
 		},
 		remove: function() {
 			var rows = $('#manager').datagrid('getSelections');
-			var sno=rows[0].sno;
+			var mname=rows[0].mname;
 			if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择要删除的项', 'warning');
 			} else {
@@ -192,20 +192,19 @@ $(function() {
 						 $.ajax({
 						 	url: 'delete/DeleteAction_manager.action',
 						 	data: {
-						 		sno:sno,
+						 		mname:mname,
 						 	},
 						 	beforeSend: function() {
 						 		$('#manager').datagrid('loading');
 						 	},
 						 	success: function(data) {
-						 		alert(data);
 						 		if (data>0) {
 						 			$('#manager').datagrid('loaded');
 					 				$('#manager').datagrid('load');
 					 				$('#manager').datagrid('unselectAll');
 						 			$.messager.show({
 						 				title: '提示',
-						 				msg: data + '个用户被删除成功！',
+						 				msg: data + '个管理员被删除成功！',
 						 			});
 						 		}else{
 						 			$('#manager').datagrid('loaded');

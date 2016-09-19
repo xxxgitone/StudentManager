@@ -32,13 +32,13 @@ public class Teacher{
 		this.tacademy = tacademy;
 		this.tinfo = tinfo;
 	}
-	public Teacher(long tno, String tname, String pass, String tsex,
+	public Teacher(String tname, String pass, String tsex,Date tbirth,
 			 String tpolitics, String tjob,
 			String tacademy, String tinfo) {
-		this.tno = tno;
 		this.tname = tname;
 		this.pass = pass;
 		this.tsex = tsex;
+		this.tbirth = tbirth;
 		this.tpolitics = tpolitics;
 		this.tjob = tjob;
 		this.tacademy = tacademy;

@@ -68,7 +68,7 @@ $(function() {
 //						},
 					},
 				},{
-					field: 'tinfo',
+					field: 'ainfo',
 					title: '备注信息',
 					width: 100,
 					editor: {
@@ -101,33 +101,31 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#assitant').data('getChanges', 'inserted');
-			 var updated = $('#assitant').data('getChanges', 'updated');	
+			 var inserted = $('#assitant').datagrid('getChanges', 'inserted');
+			 var updated = $('#assitant').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
 			 if (inserted.length > 0) {
 				 url='save/SaveAction_assitant.action';
 				 info="新增";
+				 alert("新增");
 			 }
 			 if (updated.length > 0) {
 				 url='save/UpdateAction_assitant.action';
 				 info='修改';
 			 }
-			 
+			  
 			 $.ajax({
 			 		url: url,
 			 		info: info,
 			 		data:{
-			 			tno:rowData.tno,
+			 			ano:rowData.ano,
 			 			pass:rowData.pass,
-			 			tname:rowData.tname,
-			 			tsex:rowData.tsex,
-			 			tbirth:rowData.tbirth,
-			 			tpolitics:rowData.tpolitics,
-			 			tjob:rowData.tjob,
-			 			tacademy:rowData.tacademy,
-			 			tinfo:rowData.tinfo,
+			 			aname:rowData.aname,
+			 			asex:rowData.asex,
+			 			mid:rowData.mid,
+			 			ainfo:rowData.ainfo,
 			 		},
 			 		beforeSend: function() {
 			 			
@@ -217,7 +215,7 @@ $(function() {
 		},
 		remove: function() {
 			var rows = $('#assitant').datagrid('getSelections');
-			var sno=rows[0].sno;
+			var ano=rows[0].ano;
 			if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择要删除的项', 'warning');
 			} else {
@@ -226,7 +224,7 @@ $(function() {
 						 $.ajax({
 						 	url: 'delete/DeleteAction_assitant.action',
 						 	data: {
-						 		sno:sno,
+						 		ano:ano,
 						 	},
 						 	beforeSend: function() {
 						 		$('#assitant').datagrid('loading');

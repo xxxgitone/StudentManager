@@ -61,8 +61,7 @@ $(function() {
 					title: '出生日期',
 					width: 100,
 					editor: {
-						type:'text',
-//						type: 'datebox',
+						type: 'datebox',
 //						options: {
 //							required: true,
 //						},
@@ -134,8 +133,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#teacher').data('getChanges', 'inserted');
-			 var updated = $('#teacher').data('getChanges', 'updated');	
+			 var inserted = $('#teacher').datagrid('getChanges', 'inserted');
+			 var updated = $('#teacher').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
@@ -173,7 +172,7 @@ $(function() {
 			 				$('#teacher').datagrid('unselectAll');
 			 				$.messager.show({
 			 					title: '提示',
-			 					msg: data + '个用户被' + info + '成功！',
+			 					msg: data + '个教师被' + info + '成功！',
 			 				});
 			 				tool.editRow = undefined;
 			 			}else{
@@ -250,7 +249,7 @@ $(function() {
 		},
 		remove: function() {
 			var rows = $('#teacher').datagrid('getSelections');
-			var sno=rows[0].sno;
+			var tno=rows[0].tno;
 			if (rows.length <= 0) {
 				$.messager.alert('警告', '请选择要删除的项', 'warning');
 			} else {
@@ -259,20 +258,19 @@ $(function() {
 						 $.ajax({
 						 	url: 'delete/DeleteAction_teacher.action',
 						 	data: {
-						 		sno:sno,
+						 		tno:tno,
 						 	},
 						 	beforeSend: function() {
 						 		$('#teacher').datagrid('loading');
 						 	},
 						 	success: function(data) {
-						 		alert(data);
 						 		if (data>0) {
 						 			$('#teacher').datagrid('loaded');
 					 				$('#teacher').datagrid('load');
 					 				$('#teacher').datagrid('unselectAll');
 						 			$.messager.show({
 						 				title: '提示',
-						 				msg: data + '个用户被删除成功！',
+						 				msg: data + '个教师被删除成功！',
 						 			});
 						 		}else{
 						 			$('#teacher').datagrid('loaded');
