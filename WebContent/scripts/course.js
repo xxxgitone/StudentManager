@@ -128,8 +128,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#course').data('getChanges', 'inserted');
-			 var updated = $('#course').data('getChanges', 'updated');	
+			 var inserted = $('#course').datagrid('getChanges', 'inserted');
+			 var updated = $('#course').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 

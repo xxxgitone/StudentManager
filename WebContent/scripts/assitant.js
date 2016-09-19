@@ -101,8 +101,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#assitant').data('getChanges', 'inserted');
-			 var updated = $('#assitant').data('getChanges', 'updated');	
+			 var inserted = $('#assitant').datagrid('getChanges', 'inserted');
+			 var updated = $('#assitant').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 

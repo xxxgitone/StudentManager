@@ -73,8 +73,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#manager').data('getChanges', 'inserted');
-			 var updated = $('#manager').data('getChanges', 'updated');	
+			 var inserted = $('#manager').datagrid('getChanges', 'inserted');
+			 var updated = $('#manager').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 

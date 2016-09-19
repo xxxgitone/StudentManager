@@ -134,8 +134,8 @@ $(function() {
 			$('#redoSelect').show();
 
 			
-			 var inserted = $('#teacher').data('getChanges', 'inserted');
-			 var updated = $('#teacher').data('getChanges', 'updated');	
+			 var inserted = $('#teacher').datagrid('getChanges', 'inserted');
+			 var updated = $('#teacher').datagrid('getChanges', 'updated');	
 			 var info=url='';
 			 
 			 
