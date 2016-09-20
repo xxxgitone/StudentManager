@@ -128,7 +128,6 @@ $(function() {
 			 			ainfo:rowData.ainfo,
 			 		},
 			 		beforeSend: function() {
-			 			
 			 			$('#assitant').datagrid('loading');
 			 		},
 			 		success: function(data) {
@@ -230,7 +229,6 @@ $(function() {
 						 		$('#assitant').datagrid('loading');
 						 	},
 						 	success: function(data) {
-						 		alert(data);
 						 		if (data>0) {
 						 			$('#assitant').datagrid('loaded');
 					 				$('#assitant').datagrid('load');
