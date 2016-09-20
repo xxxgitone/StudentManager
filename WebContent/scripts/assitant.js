@@ -128,7 +128,6 @@ $(function() {
 			 			ainfo:rowData.ainfo,
 			 		},
 			 		beforeSend: function() {
-			 			
 			 			$('#assitant').datagrid('loading');
 			 		},
 			 		success: function(data) {

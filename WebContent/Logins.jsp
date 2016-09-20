@@ -11,6 +11,7 @@ sessions.removeAttribute("param");
 <html lang="en">
 <head>
 	<title>登录</title>
+
 	<script type="text/javascript" src="scripts/login.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/login.css"/>
 <script type="text/javascript">
@@ -22,6 +23,7 @@ if('<%=param%>'=='error'){
 	alert("登录超时请重新登录！");
 }
 </script>
+
 </head>
 <body>
 	
@@ -42,8 +44,12 @@ if('<%=param%>'=='error'){
 					<input class="textbox" type="pass" name="pass" placeholder="请输入密码" required/>
 				</p>
 				<p>
-					<label>验证码：</label>
-					<input class="textbox1" type="text" name="yanzheng" placeholder="请输入验证码" required/>
+					<label class="checked">验证码：</label>
+					<input class="textbox1" type="text" name="checked" placeholder="请输入验证码" required/>
+					<span id="code_success"></span>
+					<span id="code_error"></span>
+					<span id="code">1S7Y</span>
+					<span id="reload"></span>
 				</p>
 				<p class="role">
 					<label>角<span style="color:white;">空</span>色：</label>
@@ -53,10 +59,11 @@ if('<%=param%>'=='error'){
 				    <input type="radio" name="ids"  value="manager" ><span>管理员</span>
 				</p>
 				<p>
-					<button class="button" type="submit">登录</button>
+					<button class="button" type="button">登录</button>
 				</p>
 			</form>
 		</div>
 	</div>
 </body>
+<script type="text/javascript" src="scripts/login.js"></script>
 </html>

@@ -39,13 +39,10 @@ body{
 	height: 30px;
 	line-height: 30px;
 	padding: 10px;
-
 }
 hr{
 	width: 270px;
 }
-
-
 .login_content{
 	width: 350px;
 	height: 300px;
@@ -55,12 +52,62 @@ hr{
 }
 form{
 	margin-top: 30px;
+	width:290px;
+	margin-left: 30px;
 }
 form p{
 	height: 30px;
 	line-height: 30px;
-	margin: 5px 0 5px 30px;
+	margin: 5px 0 5px 0px;
 	padding:8px 0;
+}
+form label.checked{
+	float: left;
+	display: block;
+}
+input[name="checked"]{
+	float: left;
+	margin-left:7px;
+}
+form span#code{
+	display: block;
+	width: 70px;
+	height: 25px;
+	float: left;
+	line-height: 25px;
+	margin-left: 5px;
+	background: #0a479a;
+	color: white;
+	/*text-indent: 10px;*/
+	text-align: center;
+	letter-spacing: 2px;
+}
+form #code_success{
+	display: none;
+	width: 16px;
+	height: 16px;
+	float: left;
+	margin-top: 4px;
+	margin-left: 5px;
+	background: url(../image/success.png) no-repeat;
+}
+form #code_error{
+	display:none;
+	width: 16px;
+	height: 16px;
+	float: left;
+	margin-top: 4px;
+	margin-left: 5px;
+	background: url(../image/error.png) no-repeat;
+}
+form #reload{
+	display:block;
+	width: 16px;
+	height: 16px;
+	float: left;
+	margin-top: 4px;
+	margin-left: 5px;
+	background: url(../image/reload.png) no-repeat;
 }
 label{
 	color: #0a479a;
@@ -75,17 +122,18 @@ label{
 	text-indent: 25px;
 }
 input[name="user"]{
-	background: url(../image/username1.png) no-repeat;
+	background: url(../image/username1.png)no-repeat;
 }
 input[name="pass"]{
 	background: url(../image/password1.png)no-repeat;
 }
 .textbox1{
-	width: 100px;
+	width: 80px;
 	height: 25px;
 	border:1px solid #0a479a;
 	border-radius: 5px;
 	color: #666;
+	font-size: 13px;
 }
 .button{
 	margin-left: 60px;

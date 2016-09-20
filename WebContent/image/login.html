@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
-	<script type="text/javascript" src="scripts/login.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="login.css">
 </head>
 <body>
 	
@@ -15,7 +14,7 @@
 		<p class="header">学生成绩管理系统</p>
 		<hr/>
 		<div class="login_content">
-			<form action="SMS/login/LoginAction.action"  method="post">
+			<form action="123456.html">
 				<p>
 					<label>用户名：</label>
 					<input class="textbox" type="text" name="username" placeholder="请输入用户名" required />
@@ -25,8 +24,12 @@
 					<input class="textbox" type="password" name="password" placeholder="请输入密码" required/>
 				</p>
 				<p>
-					<label>验证码：</label>
-					<input class="textbox1" type="text" name="yanzheng" placeholder="请输入验证码" required/>
+					<label class="checked">验证码：</label>
+					<input class="textbox1" type="text" name="checked" placeholder="请输入验证码" required/>
+					<span id="code_success"></span>
+					<span id="code_error"></span>
+					<span id="code">1S7Y</span>
+					<span id="reload"></span>
 				</p>
 				<p class="role">
 					<label>角<span style="color:white;">空</span>色：</label>
@@ -42,4 +45,5 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript" src="login.js"></script>
 </html>
