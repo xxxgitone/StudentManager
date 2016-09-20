@@ -60,7 +60,7 @@ public class UploadAction extends ActionSupport {
 		}
 		uploadImage.delete();//删除缓存文件
 		//以上是文件的写入
-		System.out.println("表格:"+types);
+		System.out.println("插入的表格:"+types);
 		System.out.println("参数 year:"+year+" term:"+term);
 		//执行插入数据库的具体方法
 		String result;

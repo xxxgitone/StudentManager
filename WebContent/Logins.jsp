@@ -11,9 +11,6 @@ sessions.removeAttribute("param");
 <html lang="en">
 <head>
 	<title>登录</title>
-	<script type="text/javascript" src="../scripts/login.js"></script>
-	<link rel="stylesheet" type="text/css" href="../css/login.css"/>
-	
 	<script type="text/javascript" src="scripts/login.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/login.css"/>
 <script type="text/javascript">

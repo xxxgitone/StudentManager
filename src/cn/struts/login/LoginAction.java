@@ -22,35 +22,36 @@ public class LoginAction extends ActionSupport {
 	@Override
 	public String execute() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
-		//if("asstant".equals(ids)){userID="ano";}
-		if(user!=null){
+		String levels = null;
+		Mysql db = null;
+		String sql;
+		ResultSet rs = null;
+		String top = null;
+		if(user!=null){//参数为空的话，后面的执行是没有意义的而且浪费资源
 			user.trim();
 			pass.trim();
 			ids.trim();
+			if("student".equals(ids)){
+				levels="学生";
+			}else if("teacher".equals(ids)){
+				levels="教师";
+			}else if("manager".equals(ids)){
+				levels="管理员";
+			}else if("assitant".equals(ids)){
+				levels = "辅导员";
+			}
+			db = new Mysql();
+			top = ids.substring(0,1);
+			if(!"manager".equals(ids))  sql = "select pass,"+top+"name from "+ids+" where "+top+"no="+user+"";
+			else sql = "select pass ,"+top+"name from manager where mname='"+user+"'";
+			rs = db.SelectAll(sql);
 		}
+		System.out.println("登录的三个参数："+user+"="+pass+"="+ids);
 		
-		System.out.println(user+"="+pass+"="+ids);
-		String levels = null;
-		if("student".equals(ids)){
-			levels="学生";
-		}else if("teacher".equals(ids)){
-			levels="教师";
-		}else if("manager".equals(ids)){
-			levels="管理员";
-		}else if("assitant".equals(ids)){
-			levels = "辅导员";
-		}
-		
-		Mysql db = new Mysql();
-		String sql;
-		String top = ids.substring(0,1);
-		if(!"manager".equals(ids))  sql = "select pass,"+top+"name from "+ids+" where "+top+"no="+user+"";
-		else sql = "select pass ,"+top+"name from manager where mname='"+user+"'";
-		ResultSet rs = db.SelectAll(sql);
 //		System.out.println(rs);
 		HttpSession pu = request.getSession(true);
 		try{
-			if(rs.next()){
+			if(rs!=null && rs.next()){
 				if(pass.equals(rs.getString("pass"))) {
 					String name= rs.getString(top+"name");
 					db.updSQL("insert into history values('"+user+"',now(),'"+request.getLocalAddr()+"')");
@@ -75,7 +76,8 @@ public class LoginAction extends ActionSupport {
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
-			db.closeAll();
+			//没有参数的情况db是没有初始化的，所以就会空指针异常，以后的写法要写成这样，规避异常
+			if(db!=null)db.closeAll();
 		}
 		pu.setAttribute("param", "error");
 		return "login";
@@ -92,7 +94,6 @@ public class LoginAction extends ActionSupport {
 		Date s = new Date();
 		int y = s.getYear();
 		int m = s.getMonth();
-		
 		
 		if(m<12 && m>8 || m==0) {info[1]=1+"";info[0] = (y+1900)+"-"+(y+1901);}
 		else {info[1] = 2+"";info[0] = (y+1899)+"-"+(y+1900);}

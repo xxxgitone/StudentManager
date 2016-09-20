@@ -5,10 +5,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 HttpSession sessions = request.getSession(false);//得到当前的Session
 String user = (String)sessions.getAttribute("user");
-if(user==null || "".equals(user)){
+/* if(user==null || "".equals(user)){
 	sessions.setAttribute("param", "outtime");
 	response.sendRedirect("Logins.jsp");
-}
+} */
 String role = (String)sessions.getAttribute("ids");
 ServletContext sc = request.getServletContext();
 String div = (String)sc.getAttribute("div");
@@ -107,7 +107,6 @@ if('<%=error%>' == 'InsertError'){alert('数据库插入数据失败，请检查
 			</div>
     	</div>
     </div>
-
 </body>
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>

@@ -3,18 +3,18 @@
 <struts>
 	<package name="upload" namespace="/upload" extends="struts-default">
 		
-		<interceptors>
-			<!-- 声明自定义的拦截器 -->
+		<!-- <interceptors>
+			声明自定义的拦截器
 			<interceptor name="UserInterceptor" class="cn.struts.upload.UserInterceptor" />
-			<!-- 声明自定义拦截器栈 -->
+			声明自定义拦截器栈
 			<interceptor-stack name="expessionStack">
                 <interceptor-ref name="defaultStack"/>
-                <!-- 配置使用自定义拦截器 -->
+                配置使用自定义拦截器
                 <interceptor-ref name="UserInterceptor"/>
             </interceptor-stack>
 		</interceptors>
-		<!-- 配置修改struts2框架运行时，默认执行的是自定义拦截器栈 -->
-		<default-interceptor-ref name="UserStack" />
+		配置修改struts2框架运行时，默认执行的是自定义拦截器栈
+		<default-interceptor-ref name="UserStack" /> -->
 		
 		<action name="uploadAction_saveFile" class="cn.struts.upload.UploadAction" method="saveFile">
 			<result name="success">/Test/success.jsp</result>
