@@ -23,9 +23,12 @@ public class LoginAction extends ActionSupport {
 	public String execute() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		//if("asstant".equals(ids)){userID="ano";}
-		user.trim();
-		pass.trim();
-		ids.trim();
+		if(user!=null){
+			user.trim();
+			pass.trim();
+			ids.trim();
+		}
+		
 		System.out.println(user+"="+pass+"="+ids);
 		String levels = null;
 		if("student".equals(ids)){
@@ -79,6 +82,7 @@ public class LoginAction extends ActionSupport {
 	}
 	
 	public String logout(){
+		System.out.println("退出登录");
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		session.setMaxInactiveInterval(0);
 		return "login";

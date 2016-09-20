@@ -2,15 +2,29 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+HttpSession sessions = request.getSession(false);
+String param = (String)sessions.getAttribute("param");
+sessions.removeAttribute("param");
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
 	<title>登录</title>
+	<script type="text/javascript" src="../scripts/login.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/login.css"/>
+	
 	<script type="text/javascript" src="scripts/login.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<link rel="stylesheet" type="text/css" href="css/login.css"/>
+<script type="text/javascript">
+if('<%=param%>'=='error'){
+	alert("密码错误！");
+}else if('<%=param%>' == 'nouser'){
+	alert("没有该用户！");
+}else if('<%=param%>'=='outtime'){
+	alert("登录超时请重新登录！");
+}
+</script>
 </head>
 <body>
 	

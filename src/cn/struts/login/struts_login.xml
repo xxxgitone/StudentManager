@@ -3,11 +3,14 @@
 <struts>
 	<package name="login" namespace="/login" extends="struts-default">
 		<action name="LoginAction" class="cn.struts.login.LoginAction">
-			<result name="main">/pages/Main.jsp</result>
-			<result name="login">/pages/Login.jsp</result>
+			<!-- <result name="main">/pages/Main.jsp</result>
+			<result name="login">/pages/Login.jsp</result> -->
+			<result name="main">/MainPage.jsp</result>
+			<result name="login">/Logins.jsp</result>
 		</action>
 		<action name="LogOutAction" class="cn.struts.login.LoginAction" method="logout">
-			<result name="login">/pages/Login.jsp</result>
+			<!-- <result name="login">/pages/Login.jsp</result> -->
+			<result name="login">/Logins.jsp</result>
 		</action>
 	</package>
 </struts> 

@@ -3,11 +3,11 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 
-/* HttpSession sessions = request.getSession(false);//得到当前的Session
+HttpSession sessions = request.getSession(false);//得到当前的Session
 String user = (String)sessions.getAttribute("user");
 if(user==null || "".equals(user)){
 	sessions.setAttribute("param", "outtime");
-	response.sendRedirect("Login.jsp");
+	response.sendRedirect("Logins.jsp");
 }
 String role = (String)sessions.getAttribute("ids");
 ServletContext sc = request.getServletContext();
@@ -22,7 +22,7 @@ sc.removeAttribute("uperror");
 if(terms==null) terms="1";
 int term = Integer.parseInt(terms);
 if(div==null) div="0";
- */
+
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
@@ -42,6 +42,9 @@ if(div==null) div="0";
 	<link rel="stylesheet" type="text/css" href="easyui/themes/material/easyui.css">
 	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+<script type="text/javascript">
+if('<%=error%>' == 'InsertError'){alert('数据库插入数据失败，请检查文件是否符合要求！');}
+</script>
   </head>
   
   <body class="easyui-layout">
@@ -52,7 +55,7 @@ if(div==null) div="0";
     	<div class="nowuser">
     		欢迎您！<span class="username">${sessionScope.name }</span>  &nbsp;&nbsp;角色：<span class="role">${sessionScope.levels}</span>
     	</div>
-    	<div class="north-nav"><a href="#">系统首页</a> | <a href="#">安全退出</a></div>
+    	<div class="north-nav"><a href="${pageContext.request.contextPath }/MainPage.jsp">系统首页</a> | <a href="${pageContext.request.contextPath }/login/LogOutAction.action">安全退出</a></div>
     </div>
     <div data-options="region:'south',split:true,noheader:true" style="height:30px;background-color: #005bc0;">
     	<p class="date">今天是<span>2016</span>年<span>9</span>月<span>5</span>日</p>
