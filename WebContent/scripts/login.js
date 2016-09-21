@@ -16,7 +16,7 @@ function createCode() {
 
 function validateCode() {
 	var code_success = document.getElementById('code_success');
-	var code_errr = document.getElementById('code_error');
+	var code_error = document.getElementById('code_error');
 	var form = document.forms[0];
 	var checked = form.elements['checked'];
 	if (checked.value.length >= 4 && checked.value.toUpperCase() != codeHtml.innerHTML.toUpperCase()) {
@@ -38,7 +38,7 @@ function validateCode() {
 			code_error.style.display = 'none';
 		}
 
-	}
+	};
 
 	var button = document.getElementsByTagName('button')[0];
 	button.onclick = function() {
@@ -49,7 +49,8 @@ function validateCode() {
 			form.submit();
 		}
 
-	}
+	};
+	
 
 }
 
@@ -59,4 +60,4 @@ validateCode();
 var reload = document.getElementById('reload');
 reload.onclick = function() {
 	createCode();
-}
+};

@@ -5,10 +5,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 HttpSession sessions = request.getSession(false);//得到当前的Session
 String user = (String)sessions.getAttribute("user");
-if(user==null || "".equals(user)){
+/* if(user==null || "".equals(user)){
 	sessions.setAttribute("param", "outtime");
 	response.sendRedirect("Login.jsp");
-}
+} */
 String role = (String)sessions.getAttribute("ids");
 ServletContext sc = request.getServletContext();
 String div = (String)sc.getAttribute("div");
