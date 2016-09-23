@@ -31,15 +31,12 @@ if(div==null) div="0";
 <html>
 <head>
     <base href="<%=basePath%>">
-    
     <title>主页面</title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-
 <style type="text/css">
 	*{padding:0;margin:0;list-style:none;}
 	.top{color:#333;font-size:20px;/*text-align:center;margin:50px 40%; */font-family: "楷体";margin:10px 40px;}
@@ -52,12 +49,10 @@ if(div==null) div="0";
 	.all ul{ position:absolute;left:0;top:30px;display:none;}
 	.center{ height:550px;margin:30px 0 0 40px;}
 	#QK,#BK,#XSCJ{margin:80px 0 0 40px;}
-	
 </style>
 
 <script type="text/javascript" src="Jquery/jquery-3.0.0.min.js"></script>
 <script type="text/javascript">
-
 var ThisDiv = '<%=div%>';//当前div
 var role = '<%=role%>';//登录的角色
 //alert("-"+ThisDiv+"-");

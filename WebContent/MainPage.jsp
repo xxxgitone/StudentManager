@@ -66,10 +66,10 @@ if('<%=error%>' == 'InsertError'){alert('数据库插入数据失败，请检查
     		<div title="成绩录入" data-options="iconCls:'icon-blackboard_drawing'" style="height:360px;background-color: #f5f5f5;">
 	    		<ul>
 	    			<li><a name="XSCJ">学生成绩录入</a></li>
-	    			<li><a name="BK">补考成绩录入</a></li>
-	    			<li><a name="QK">清考成绩录入</a></li>
+	    			<!-- <li><a name="BK">补考成绩录入</a></li>
+	    			<li><a name="QK">清考成绩录入</a></li> -->
 	    		</ul>
-    		</div >
+    		</div>
     		<div title="信息查询" data-options="iconCls:'icon-data'" style="height:360px;background-color: #f5f5f5;">
 	    		<ul>
 	    			<li><a name="GRCJ">个人成绩查询</a></li>

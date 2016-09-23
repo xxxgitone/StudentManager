@@ -21,13 +21,10 @@ sessions.removeAttribute("param");
 			alert("登录超时请重新登录！");
 		}
 	</script>
-
 </head>
 <body>
-	
 	<div class="cloud"></div>
 	<div class="loginbg"></div>
-	
 	<div class="login">
 		<p class="header">学生成绩管理系统</p>
 		<hr/>

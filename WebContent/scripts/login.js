@@ -42,12 +42,12 @@ function validateCode() {
 
 	var button = document.getElementsByTagName('button')[0];
 	button.onclick = function() {
-		var form = document.forms[0];
-		if (checked.value.toUpperCase() != codeHtml.innerHTML.toUpperCase()) {
-			code_error.style.display = 'block';
-		} else if (checked.value.toUpperCase() == codeHtml.innerHTML.toUpperCase()) {
+//		var form = document.forms[0];
+//		if (checked.value.toUpperCase() != codeHtml.innerHTML.toUpperCase()) {
+//			code_error.style.display = 'block';
+//		} else if (checked.value.toUpperCase() == codeHtml.innerHTML.toUpperCase()) {
 			form.submit();
-		}
+		//}
 
 	};
 	
