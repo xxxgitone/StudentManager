@@ -11,17 +11,17 @@ if(user==null || "".equals(user)){
 }
 String role = (String)sessions.getAttribute("ids");
 ServletContext sc = request.getServletContext();
-String div = (String)sc.getAttribute("div");
 String error = (String)sc.getAttribute("uperror");
 String years = (String)sc.getAttribute("years");
 String terms = (String)sc.getAttribute("term");
+String f5 = (String)sc.getAttribute("f5");
+String success = (String)sc.getAttribute("success");
 //对于一次性的提示信息的属性要及时清除出去
-sc.removeAttribute("div");
+sc.removeAttribute("f5");
 sc.removeAttribute("uperror");
-
+sc.removeAttribute("success");
 if(terms==null) terms="1";
 int term = Integer.parseInt(terms);
-if(div==null) div="0";
 
 %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -43,7 +43,13 @@ if(div==null) div="0";
 	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
-if('<%=error%>' == 'InsertError'){alert('数据库插入数据失败，请检查文件是否符合要求！');}
+if('<%=error%>' == 'InsertError'){
+	alert('数据库插入数据失败，请检查文件是否符合要求！');
+}
+if('<%=success%>' == 'up'){
+	alert('上传文件并写入数据库成功！');
+}
+if('<%=f5%>'=='f5')parent.location.reload();
 </script>
   </head>
   
@@ -73,8 +79,8 @@ if('<%=error%>' == 'InsertError'){alert('数据库插入数据失败，请检查
     		<div title="信息查询" data-options="iconCls:'icon-data'" style="height:360px;background-color: #f5f5f5;">
 	    		<ul>
 	    			<li><a name="GRCJ">个人成绩查询</a></li>
-	    			<li><a name="BJCJ">班级成绩统计</a></li>
-	    			<li><a name="ZYCJ">专业成绩统计</a></li>
+	    			<li><a name="BJCJ">成绩统计</a></li>
+	    			<!-- <li><a name="ZYCJ">专业成绩统计</a></li> -->
 	    		</ul>
     		</div>
     		<div title="个人信息" data-options="iconCls:'icon-manager'" style="height:360px;background-color: #f5f5f5;">

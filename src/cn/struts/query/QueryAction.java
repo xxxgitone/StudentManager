@@ -169,7 +169,8 @@ public class QueryAction extends ActionSupport {
 	/**封装的JSON发送方法，应该要写多个的*/
 	public void oneJSON(Object obj,HttpServletResponse response){
 		String json = JSON.toJSONString(obj);
-//		System.out.println(json);
+		json = "["+json+"]";
+		System.out.println(json);
 		try {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
@@ -191,7 +192,8 @@ public class QueryAction extends ActionSupport {
 		}else if(list.size()>1){
 			//应该还有处理部分
 			String json = JSON.toJSONString(list);
-//			System.out.println(json);
+//			json = "["+json+"]";
+			System.out.println(json);
 			try {
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(json);

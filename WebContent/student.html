@@ -6,6 +6,17 @@
 	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript">
+	function getUrlParam(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+		if (r!=null) return unescape(r[2]); return null; //返回参数值
+	} 
+	var error = getURLParam('uperror');
+	if(error=='InsertError'){
+		alert('数据库插入数据失败，请检查文件是否符合要求！');
+	}
+	</script>
 </head>
 <body style="background-color: #f4f4f4;">
 
@@ -13,7 +24,6 @@
 	
 	<div id="student-tool" style="padding: 5px;width:auto;height:80px;">
 		 <div style="float: left;width:400px;margin-top: 5px;">
-
 		 	<a href="#" class="easyui-linkbutton" iconCls="icon-user-add-new" plain="true" onclick="tool.add();">添加</a>
 		 	<a href="#" class="easyui-linkbutton" iconCls="icon-user-edit-new" plain="true" onclick="tool.edit();">修改</a>
 		 	<a href="#" class="easyui-linkbutton" iconCls="icon-user-delete-new" plain="true" onclick="tool.remove();">删除</a>
@@ -25,18 +35,15 @@
 			 	<input  id="searchValue" type="text" name="search" value="请输入" class="textbox" />
 			 	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onClick="">查询</a>
 			 </div>
-
 		 </div>
-
-			 
 		 	<div class="upload" style="float: right;width:400px;">
 		 		<form action="upload/uploadAction_saveFile.action"name="form1"  method="post"  enctype="multipart/form-data">
 				 	<p><span style="font-weight: bold;font-size: 15px;">上传学生学籍表格:</span>
 
 					 	<input type="file" name="uploadImage" >
-					 	<input  class="typp" class="button" type="hidden" name="types" value="grade"/>
+					 	<input  class="typp" class="button" type="hidden" name="types" value="student"/>
 					</p>
-		           	<p>请输入上传文件中要使用的第几个Sheet：（不选则默认是第一个）</p>
+		           	<p>请输入上传文件中要使用的第几个Sheet:(默认是第一个)</p>
 				    <select name="sheet" class="easyui-combobox">
 					     <OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
 					     <OPTION VALUE="1">第 2  个Sheet</OPTION>
@@ -54,10 +61,7 @@
 		 		</form>
 
 		 	</div>
-
-			
 	</div>
-	
 </body>
 <script type="text/javascript" src="easyui/jquery.min.js"></script>
 <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>

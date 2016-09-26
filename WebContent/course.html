@@ -6,6 +6,17 @@
 	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript">
+	function getUrlParam(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+		if (r!=null) return unescape(r[2]); return null; //返回参数值
+	} 
+	var error = getURLParam('uperror');
+	if(error=='InsertError'){
+		alert('数据库插入数据失败，请检查文件是否符合要求！');
+	}
+	</script>
 </head>
 <body style="background-color: #f4f4f4;">
 
@@ -49,10 +60,7 @@
 				 <input type="submit" class="button" value="上传">
 				 <a href="pages/ExcelHelp.html" class="easyui-linkbutton" plain="true" iconCls="icon-help">查看文件上传帮助</a>
 		 		</form>
-
 		 	</div>
-
-			
 	</div>
 	
 </body>

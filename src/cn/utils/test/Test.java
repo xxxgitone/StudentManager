@@ -1,10 +1,7 @@
 package cn.utils.test;
 
-import java.sql.Date;
-
 import cn.hibernate.beans.Student;
-import cn.hibernate.beans.StudentDAO;
-import cn.myth.reflect.ORM;
+import cn.hibernate.utils.ORM;
 /**
  * 用来测试Hibernate搭建是否成功
  * @author  Myth
@@ -30,7 +27,7 @@ public class Test {
 	}
 	
 	public void testORM(){
-		Student student= (Student)ORM.QueryOneObject(Student.class.getName(), "sno", "12",false);
-		System.out.println("sno : "+student.getSno());
+		Student student= (Student)ORM.FindByProperty(Student.class.getName(), "sno", "12").get(0);
+		System.out.println("sno : "+student.getSno()+student.getSname());
 	}
 }

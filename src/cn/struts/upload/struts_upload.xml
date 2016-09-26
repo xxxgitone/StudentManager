@@ -19,9 +19,16 @@
 		<action name="uploadAction_saveFile" class="cn.struts.upload.UploadAction" method="saveFile">
 			<result name="success">/Test/success.jsp</result>
 			<result name="input">/Test/error.jsp</result>
-			<result name="Main" type="redirect">/pages/Main.jsp</result>
+			<result name="Main">/MainPage.jsp</result>
+			<result name="student" type="redirect">/student.html</result>
+			<result name="teacher" type="redirect">/teacher.html</result>
+			<result name="GLY" type="redirect">/GLY.html</result>
+			<result name="course" type="redirect">/course.html</result>
+			<result name="assitant" type="redirect">/assitant.html</result>
+			<result name="XXJG">/XXJG.jsp</result>
 			<result name="Upload" type="redirect">/pages/upload.jsp</result>
-			<result name="Login" type="redirect">/pages/Login.jsp</result>
+			<result name="Login" type="redirect">/Logins.jsp</result>
+			
 			<interceptor-ref name="defaultStack">
 				<!-- 配置上传文件的大小 -->
 				<param name="fieldUpload.maximmSize">20971520</param>

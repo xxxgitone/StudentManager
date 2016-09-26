@@ -73,20 +73,36 @@ public class UploadAction extends ActionSupport {
 				result = Tokb(sc);
 			}else if("classs".equals(types)||"major".equals(types)){//专业 班级
 				result = ToMajorOrClass(sc, types, request);
+			}else if("grades".equals(types)){
+				result = ToGrades(sc,request);
 			}else {// 学院，课程，教师，学生，辅导员
 				result = ToSimpleOne(sc, types);
 			}
+			f5(sc);
 			System.out.println("没有异常");
 			return result;
 		}catch(Exception s){
+			//从读取Excel然后执行插入动作都将异常上抛，这是最终的捕获的地方，为了统一利于重定向
 			//s.printStackTrace();
 			System.out.println("进入了catch");
 			sc.setAttribute("uperror", "InsertError");
-			sc.setAttribute("div", "0");
-			return "Main";
+//			request.setAttribute("uperror", "InsertError");
+			sc.setAttribute("type", types);
+			return "input";
 		}
 		
 //		return "Upload";
+	}
+	public String ToGrades(ServletContext sc,HttpServletRequest request) throws Exception{
+		System.out.println("进入输入不规则成绩函数");
+		String year = request.getParameter("year");
+		int term = Integer.parseInt(request.getParameter("term"));
+		String classs = request.getParameter("classs");
+		System.out.println("");
+		re = new ReadExcel(sheet);//读取Sheet
+		re.ToGrades(uploadImageFileName, classs, year, term);
+		System.out.println("不规则的成绩表输入无异常！"); 
+		return "Main";
 	}
 	/**期末成绩*/
 	public String ToGrade(ServletContext sc,HttpServletRequest request) throws Exception{
@@ -95,7 +111,7 @@ public class UploadAction extends ActionSupport {
 		re = new ReadExcel(sheet);
 		re.ToGrade(uploadImageFileName, course, year, term);
 		System.out.println("无异常！");
-		sc.setAttribute("div", "XSCJ");
+//		sc.setAttribute("div", "XSCJ");
 		return "Main";
 	}
 	/**补考成绩 清考成绩*/
@@ -107,7 +123,7 @@ public class UploadAction extends ActionSupport {
 		re.ToBuOrQing(uploadImageFileName, course, type);
 		//为了回到展示的DIV
 		if("makeup".equals(type))sc.setAttribute("div", "BK");
-		else sc.setAttribute("div", "QK");
+//		else sc.setAttribute("div", "QK");
 		return "Main";
 	}
 	
@@ -116,12 +132,12 @@ public class UploadAction extends ActionSupport {
 		System.out.println("方法获取到的"+year+term);
 		ReadExcel re = new ReadExcel(sheet);
 		re.ToObligatory(uploadImageFileName, year, term);
-		sc.setAttribute("div", "KB");
+//		sc.setAttribute("div", "KB");
 		return "Main";
 	}
 	
 	/**
-	 * 一对一的函数
+	 * excel和数据库表格一一对应的函数
 	 * @param sc
 	 * @param table
 	 */
@@ -131,8 +147,8 @@ public class UploadAction extends ActionSupport {
 //		System.out.println("1"+table);
 		re.ToSimpleTable(uploadImageFileName, table);
 		if("academy".equals(table)) table="XXJG";
-		sc.setAttribute("div", table);
-		System.out.println("一对一写入的参数："+sc.getAttribute("div"));
+//		sc.setAttribute("div", table);
+		System.out.println("一对一写入的参数：");
 		return "Main";
 	}
 	/**录入专业 班级信息*/
@@ -146,10 +162,15 @@ public class UploadAction extends ActionSupport {
 		System.out.println("id "+upID);
 		ReadExcel re = new ReadExcel(sheet);
 		re.ToMajorOrClasss(uploadImageFileName, table, upID);
-		sc.setAttribute("div", "XXJG");
-		return "Main";
+//		sc.setAttribute("div", "XXJG");
+		return "XXJG";
 	}
-	////////////////////////////////////////////////////////////////////////////////////////
+	/**刷新框架的父页面，有效的解决了问题*/
+	public void f5(ServletContext sc){
+		sc.setAttribute("f5", "f5");
+		sc.setAttribute("success", "up");
+	}
+////////////////////////////////////////////////////////////////////////////////////////
 	public File getUploadImage() {
 		return uploadImage;
 	}

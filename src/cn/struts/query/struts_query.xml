@@ -5,7 +5,10 @@
 		<action name="QueryAction" class="cn.struts.query.QueryAction">
 			<result name="test">/Test/Test.jsp</result>
 		</action>
-		<action name="Query_student_all" class="cn.struts.query.QueryAction" method="q_student_all"></action>
+		<action name="Query_*" class="cn.struts.query.QueryAction" method="q_{1}"></action>
+		<!--
+		
+		 <action name="Query_student_all" class="cn.struts.query.QueryAction" method="q_student_all"></action>
 		<action name="Query_student_one" class="cn.struts.query.QueryAction" method="q_student_one"></action>
 		<action name="Query_teacher_all" class="cn.struts.query.QueryAction" method="q_teacher_all"></action>
 		<action name="Query_teacher_one" class="cn.struts.query.QueryAction" method="q_teacher_one"></action>
@@ -26,7 +29,9 @@
 		<action name="Query_academy_all" class="cn.struts.query.QueryAction" method="q_academy_all"></action>
 		<action name="Query_academy_one" class="cn.struts.query.QueryAction" method="q_academy_one"></action>
 		<action name="Query_major_all" class="cn.struts.query.QueryAction" method="q_major_all"></action>
-		<action name="Query_major_one" class="cn.struts.query.QueryAction" method="q_major_one"></action>
+		<action name="Query_major_one" class="cn.struts.query.QueryAction" method="q_major_one"></action> 
+		
+		-->
 		
 		<action name="Query_test" class="cn.struts.query.QueryAction" method="test"></action>
 	</package>

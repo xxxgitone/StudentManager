@@ -2,14 +2,16 @@ package cn.struts.download;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.connector.Request;
 import org.apache.struts2.ServletActionContext;
 
 import com.myth.mysql.Mysql;
@@ -37,37 +39,34 @@ public class DownloadAction extends ActionSupport {
 		sc = ServletActionContext.getServletContext();
 		path = sc.getRealPath("/excel");//得到运行环境路径
 	}
-	//获取文件流
+	//将生成的Excel文件从指定路径下获取文件流
 	public InputStream getDownloadFile(){
-		
-		System.out.println("getDownloadFile");
-		
-		HttpServletRequest request = ServletActionContext.getRequest();
-		try {
-			request.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		}
-		ValueStack vs = (ValueStack)request.getAttribute("struts.valueStack");//获取值栈
-		
-		CreateFile(filetype);//用户所下载文件的文件名
-		try {
-			FileName = new String(FileName.getBytes(),"ISO-8859-1");//将文件名进行转码
-		} catch (UnsupportedEncodingException e2) {
-			e2.printStackTrace();
-		}
-		
-//		System.out.println("转码后的："+fileName);
-		vs.set("filename",FileName);//压入值栈，在xml文件中获取
-		File file = new File(path);
-		
-		System.out.println("获取的路径："+path);
-		
 		FileInputStream fis = null;
-		try{
+		HttpServletResponse response = null;
+		ServletContext sc = null;
+		try {
+			System.out.println("从路径中获取DownloadFile要下载的文件");
+			HttpServletRequest request = ServletActionContext.getRequest();
+			response = ServletActionContext.getResponse();
+			sc = ServletActionContext.getServletContext();
+			request.setCharacterEncoding("UTF-8");
+			ValueStack vs = (ValueStack)request.getAttribute("struts.valueStack");//获取值栈
+			CreateFile(filetype);//用户所下载文件的文件名
+			FileName = new String(FileName.getBytes(),"ISO-8859-1");//将文件名进行转码
+	//		System.out.println("转码后的："+fileName);
+			vs.set("filename",FileName);//压入值栈，在xml文件中获取
+			File file = new File(path);
+			System.out.println("获取的路径："+path);
 			fis = new FileInputStream(file);
 		}catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("！！！！！！下载Excel文件失败！！！！！");
+			try {
+				sc.setAttribute("action", "f5");
+				response.sendRedirect("/SMS/BJCJ.jsp");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		return fis;
 	}
@@ -81,29 +80,42 @@ public class DownloadAction extends ActionSupport {
 			case "g_classs":{//某学年某学期某班级的成绩单
 				list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 				String name = list.get(0)[0];//班级名称
-				FileName = name+"班成绩单.xls";
+				FileName =year+"-"+term+"-"+name+"班成绩单.xls";
 				path+="\\"+FileName;
 				list = getData(db,classs);
 				Table2Excel.ListToExcel(FileName, list, path);//单Sheet
 				break;
 			}
 			case "g_major":{
-				System.out.println("CreateFile 查出专业及其班级");
-				list = db.SelectReturnList("select major,cid from major m,classs c where c.mid=m.mid and m.mid = '"+major+"' ");
-				String name = list.get(0)[0];
-				FileName = name+"-各班级成绩单.xls";
-				path+="\\"+FileName;
-				List<List<String []>> data  = new ArrayList<List<String[]>>();
-				
-				for(int i=0;i<list.size();i++){
-					System.out.println("循环调用 getData方法 次数："+i);
-					List<String[]>row = getData(db,list.get(i)[1]);
-					data.add(row);
+				try{
+					System.out.println("CreateFile 查出专业及其班级");
+					list = db.SelectReturnList("select major,cid,classs from major m,classs c where c.mid=m.mid and m.mid = '"+major+"' ");
+					for(int i=0;i<list.get(0).length;i++){
+						System.out.println("banji "+list.get(0)[i]);
+					}
+					
+					String name = list.get(0)[0];
+					String[]title = new String[list.size()];
+					for(int i=0;i<list.size();i++){
+						title[i]=list.get(i)[2]+"班总成绩表";
+					}
+					FileName = year+"-"+term+"-"+name+"-各班级成绩单.xls";
+					path+="\\"+FileName;
+					List<List<String []>> data  = new ArrayList<List<String[]>>();
+					
+					for(int i=0;i<list.size();i++){
+						System.out.println("循环调用 getData方法 次数："+i);
+						List<String[]>sheet = getData(db,list.get(i)[1]);
+						data.add(sheet);
+					}
+					System.out.println("getData end\n");
+					System.out.println("文件名："+FileName);
+					
+					Table2Excel.ListToExcels(title, data, title,path);
+				}catch(Exception e){
+					e.printStackTrace();
+					System.out.println("创建Excel失败");
 				}
-				System.out.println("getData end\n");
-				System.out.println(FileName);
-				
-				Table2Excel.ListToExcels(FileName, data, path);
 				break;
 			}
 			/*case "p_all":{
@@ -121,7 +133,7 @@ public class DownloadAction extends ActionSupport {
 				Table2Excel.Runs(sql, title, path);
 				break;
 			}*/
-			case "o_classs":{
+			/*case "o_classs":{
 				list = db.SelectReturnList("select classs from classs where cid = '"+classs+"' ");
 				String name = list.get(0)[0];
 				FileName = name+"班级课程表.xls";
@@ -135,7 +147,7 @@ public class DownloadAction extends ActionSupport {
 				FileName = name+"-各班级课程表.xls";
 				path+="\\"+FileName;
 				break;
-			}
+			}*/
 			//下面的做成树结构查看或查询
 			/*case "s_major":{
 				if(academy!=null){
@@ -259,7 +271,7 @@ public class DownloadAction extends ActionSupport {
 	
 	@Override
 	public String execute() throws Exception {
-		System.out.println("execute  获取："+year+"-"+term+"-"+classs);
+		System.out.println("execute  获取："+year+"-"+term+"-"+classs+"-"+major);
 		return super.execute();
 	}
 	/**

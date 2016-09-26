@@ -212,11 +212,13 @@ $(function() {
 
 	tool = {
 		editRow: undefined,
+		
 		serach: function() {
 			$('#box').datagrid('load', {
 				searchName: $.trim($('input[name="search"]').val()),
 			});
 		},
+		
 		add: function() {
 			$('#save,#redoText').show();
 			$('#redoSelect').hide();

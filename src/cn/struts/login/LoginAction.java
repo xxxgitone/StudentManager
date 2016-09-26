@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import cn.myth.file.DeleteFile;
+
 import com.myth.mysql.Mysql;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -86,6 +88,11 @@ public class LoginAction extends ActionSupport {
 	public String logout(){
 		System.out.println("退出登录");
 		HttpSession session = ServletActionContext.getRequest().getSession();
+		ServletContext sc = ServletActionContext.getServletContext();
+		String upload = sc.getRealPath("/fileupload");
+		String download = sc.getRealPath("/excel");
+		System.out.println("删除上传文件夹 : "+DeleteFile.delAllFile(upload));
+		System.out.println("删除下载文件夹 : "+DeleteFile.delAllFile(download));
 		session.setMaxInactiveInterval(0);
 		return "login";
 	}

@@ -1,4 +1,5 @@
-package cn.hibernate.utils;
+package com.myth.mysql;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,8 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -26,20 +25,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.struts2.ServletActionContext;
 
-import cn.myth.reflect.Config;
-
-
-/**
- * 对之前的进行修改，做成工具类，实现输入表名，文件名，插入到数据库
- * 注意这里对数字的获取是默认使用的实型
- * @author  Myth
- * @date 2016年8月18日 下午9:51:31
- * @TODO
- */
-public class ReadExcel {
-
+public class ExcelInsertTable {
 	private POIFSFileSystem fs;      
     private HSSFWorkbook wb;      
     private HSSFSheet sheet;      
@@ -53,275 +40,40 @@ public class ReadExcel {
     private PreparedStatement ps = null;
 	private Connection cn = null;
 	private ResultSet rs = null;
-	private String Driver ;
+	private String Driver = "com.mysql.jdbc.Driver";
 	private String URL;
-	private Map<Position,String> map = null ;//要注意：这里的Map采用的是自然的行号和列号（1开头）
+	private Map<Position,String> map;//要注意：这里的Map采用的是自然的行号和列号（1开头）
     private String[] title ;
     
-    private String path;
-    
-	/*public static void main(String [] s){
-	    ReadExcel ed = new ReadExcel();
-	    try {
-			ed.ToSimpleTable("Student.xls","student");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}//一对一的插入记录
-	}*/
-    //默认读取0的Sheet
-	public ReadExcel(){
-		Config con = new Config("mysql.properties");
-		this.Driver = con.getString("Driver");
-		this.URL = con.getString("URL");
-	}
-	public ReadExcel(int sheet){
-		Config con = new Config("mysql.properties");
-		this.Driver = con.getString("Driver");
-		this.URL = con.getString("URL");
-		this.currentSheet = sheet;
-	}
-	/**
-	 * 将不规则的Excel表插入数据库，第二次插入时要将第二次要插入的课程成绩相应的清空（指定学年学期，不是直接删课程那个基本表）
-	 * @param uploadImageFileName
-	 * @param classs
-	 * @param year
-	 * @param term
-	 * @throws Exception
-	 */
-	public void ToGrades(String fileName, String classs, String year, int term)throws Exception{
-		ReadFile(fileName);
-		/**用上了事务，因为保证其表格的统一性和原子性*/
-		try {
-			Class.forName(Driver);
-			cn = DriverManager.getConnection(URL);
-			cn.setAutoCommit(false);//取消自动提交
-			String sql;
-			System.out.println(AllRows+"*"+AllCols+":"+currentSheet);
-			
-		}catch(Exception e){
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-			System.out.println("增删改查失败");
-			throw e;
-		}finally {
-			try{
-				cn.setAutoCommit(true);//改回来
-				if(rs!=null) rs.close();
-				if(ps!=null) ps.close();
-				if(cn!=null) cn.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-	/**
-	 * @To 补考或清考 插入
-	 * （序号，学号，姓名，成绩）根据学号和课程号，确定记录，修改补考或清考成绩
-	 * @param fileName
-	 * @param course
-	 * @param type 补考：makeup 清考：ultimate
-	 */
-	public void ToBuOrQing(String fileName,String course,String type) throws Exception{
-		ReadFile(fileName);
-		/**用上了事务，因为保证其表格的统一性和原子性*/
-		try{
-			Class.forName(Driver);
-			cn = DriverManager.getConnection(URL);
-			cn.setAutoCommit(false);//取消自动提交
-			String sql;
-			
-			for (int i=startRow;i<=AllRows;i++){
-				sql = "update mark set "+type+"="+map.get(new Position(i,4))+" where sno="
-						+ map.get(new Position(i,2))+" and cno='"+course+"'";
-				//System.out.println(i+"插入成绩 : "+sql);
-				ps=cn.prepareStatement(sql);
-				ps.executeUpdate();
-				System.out.println(i+": 修改记录成功");
-			}
-			cn.commit();//无异常再提交
-		}catch(Exception e){
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-			System.out.println("增删改查失败");
-			throw e;
-		}finally {
-			try{
-				cn.setAutoCommit(true);//改回来
-				if(rs!=null) rs.close();
-				if(ps!=null) ps.close();
-				if(cn!=null) cn.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/** 
-	 * @To 成绩  需要 参数课程，学年，学期
-	 * （序号，学号，姓名，成绩）
-	 * @param fileName
-	 * @param course
-	 * @param year
-	 * @param term
-	 */
-	public void ToGrade(String fileName,String course,String year,int term)throws Exception{
-		ReadFile(fileName);
-		/**用上了事务，因为保证其表格的统一性和原子性*/
-		try{
-			Class.forName(Driver);
-			cn = DriverManager.getConnection(URL);
-			cn.setAutoCommit(false);//取消自动提交
-			String sql;
-			
-			for (int i=startRow;i<=AllRows;i++){
-				sql ="insert into mark(sno,cno,grade,year,term) values(" + map.get(new Position(i,2))+",'"+course+"',"+map.get(new Position(i,4))+",'"+year+"',"+term+")";
-				//System.out.println(i+"插入成绩 : "+sql);
-				ps=cn.prepareStatement(sql);
-				ps.executeUpdate();
-				System.out.println(i+": 插入记录成功");
-			}
-			cn.commit();//无异常再提交
-		}catch(Exception e){
-			
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-			System.out.println("增删改查失败");
-			throw e;
-		}finally {
-			try{
-				cn.setAutoCommit(true);//改回来
-				if(rs!=null) rs.close();
-				if(ps!=null) ps.close();
-				if(cn!=null) cn.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-
-	/**
-	 * @To 课表. Excel中有（班级，课程，教师，备注 ）需要插入学年和学期
-	 * @param fileName
-	 * @param year
-	 * @param term
-	 */
-	public void ToObligatory(String fileName,String year,int term) throws Exception{
-		ReadFile(fileName);
-		/**用上了事务，因为保证其表格的统一性和原子性*/
-		try{
-			Class.forName(Driver);
-			cn = DriverManager.getConnection(URL);
-			cn.setAutoCommit(false);//取消自动提交
-			String sql;
-					
-			for (int i=startRow;i<=AllRows;i++){
-				sql ="insert into obligatory values('"+year+"',"+term+",";
-				for (int k=1;k<=AllCols;k++) {
-					sql += "'"+map.get(new Position(i,k))+"',";
-				}
-				sql = sql.substring(0,sql.length()-1);//去掉逗号
-				sql+=")";
-				//System.out.println(i+" : "+sql);
-				ps=cn.prepareStatement(sql);
-				ps.executeUpdate();
-				System.out.println(i+": 插入记录成功");
-			}
-			cn.commit();//无异常再提交
-		}catch(Exception e){
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-			System.out.println("增删改查失败");
-			throw e;
-		}finally {
-			try{
-				cn.setAutoCommit(true);//改回来
-				if(rs!=null) rs.close();
-				if(ps!=null) ps.close();
-				if(cn!=null) cn.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * @To 这是专业和班级的函数
-	 * @P 需要给出学院id或专业id
-	 * @param fileName
-	 * @param table
-	 * @param UPid 上级外码的id
-	 */
-	public void ToMajorOrClasss(String fileName,String table,String UPid) throws Exception{
-		ReadFile(fileName);
-		/**用上了事务，因为保证其表格的统一性和原子性*/
-		try{
-			Class.forName(Driver);
-			cn = DriverManager.getConnection(URL);
-			cn.setAutoCommit(false);//取消自动提交
-			String sql;
-						
-			//插入表的内容 必须保证，Excel的列和数据库的列一一对应
-			for (int i=startRow;i<=AllRows;i++){
-				sql ="insert into "+table+" values(";
-				for (int k=1;k<=AllCols;k++) {
-					sql += "'"+map.get(new Position(i,k))+"',";
-					if(k==2) sql+=" '"+UPid+"',";
-				}
-				sql = sql.substring(0,sql.length()-1);//去掉逗号
-				sql+=")";
-				//System.out.println(i+" : "+sql);
-				ps=cn.prepareStatement(sql);
-				ps.executeUpdate();
-				System.out.println(i+": 插入记录成功");
-			}
-			cn.commit();//无异常再提交
-		}catch(Exception e){
-			try {
-				cn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-			System.out.println("增删改查失败");
-			throw e;
-		}finally {
-			try{
-				cn.setAutoCommit(true);//改回来
-				if(rs!=null) rs.close();
-				if(ps!=null) ps.close();
-				if(cn!=null) cn.close();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-	}
-	
+    //private String path;
+    /**
+     * 规范：默认处理第一个Sheet，标题一行，列名一行
+     * @param path 文件完整路径 例如：E:/TsetExcel/Student.xls
+     * @param db 数据库
+     * @param user
+     * @param pass
+     * @param table 表
+     */
+    public static void Run(String path,String db,String user,String pass,String table){
+    	ExcelInsertTable eit = new ExcelInsertTable(db, user, pass);
+    	eit.InsertTable(path, table);
+    }
+    public ExcelInsertTable(String db,String user,String pass){
+    	URL="jdbc:mysql://localhost:3306/"+db+"?user="+user+"&password="+pass+"&userUnicode=true&characterEncoding=UTF8";
+    }
+//    测试成功
+//    public static void main(String []a){
+//    	ExcelInsertTable.Run("E:/TsetExcel/Student.xls", "student", "root", "ad", "student");
+//    }
 	/** 
 	 * @To 这是一对一的通用方法
 	 * @DataSource 其标题和内容数据来源就是那个String[] 和 Map，一定要先获取了
 	 * @addition 插入到数据库的表中，并且是使用了事务处理
-	 * @param filename 文件名
+	 * @param path 文件完整路径
 	 * @param table 表名
 	 */
-	public void ToSimpleTable(String filename,String table) throws Exception{
-		ReadFile(filename);
+	private void InsertTable(String path,String table){
+		ReadFile(path);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try{
 			Class.forName(Driver);
@@ -350,7 +102,6 @@ public class ReadExcel {
 			}
 			e.printStackTrace();
 			System.out.println("增删改查失败");
-			throw e;
 		}finally {
 			try{
 				cn.setAutoCommit(true);//改回来
@@ -366,17 +117,11 @@ public class ReadExcel {
 	/**
 	 * 输入文件名，拼接得到完整路径
 	 * 读取文件打开流，并获取到文件数据内容
-	 * @param fileName
+	 * @param path 文件的完整路径
 	 */
-	public void ReadFile(String fileName) throws Exception{
-		ServletContext sc = ServletActionContext.getServletContext();
-		path = sc.getRealPath("/fileupload");
+	private void ReadFile(String path){
 		//path = "E:/TsetExcel/";
-		
-		System.out.println(path);
-	    
-		path+="\\";
-		path += fileName;
+		//System.out.println(path);
     	try { 
 	        is = new FileInputStream(path);
 	        fs = new POIFSFileSystem(is);  //封装特定的输入流 
@@ -529,7 +274,8 @@ public class ReadExcel {
     }    
     
     /**将获取到的数据在控制台输出*/
-    public void showExcel(){
+    @SuppressWarnings("unused")
+	private void showExcel(){
     	//控制台输出标题
         System.out.println("获得Excel表格的标题:");      
         for (String s1 : title) {      
@@ -546,7 +292,8 @@ public class ReadExcel {
     }
     
     /**计算得出有效的Sheet*/
-    public void showSheet(){
+    @SuppressWarnings("unused")
+	private void showSheet(){
     	//若有多个Sheet，这里只处理单Sheet
     	sheetNum = wb.getNumberOfSheets();
     	System.out.println("Sheet数量："+sheetNum);
@@ -622,17 +369,3 @@ class Position {
 		return result;
 	}
 }
-//插入表的标题
-//多Sheet插入同一张表的话就需要把标题舍弃了，毕竟没有实际用处，还违背了数据库的基本原则
-/*sql = "insert into excel2 values(";
-for (String temp:title){
-	if("".equals(temp)) temp= "NULL";
-	else temp="'"+temp+"'";
-	sql += ""+temp+",";
-}
-sql = sql.substring(0,sql.length()-1);
-sql+=")";
-//System.out.println("标题 : "+sql);
-ps=cn.prepareStatement(sql);
-ps.executeUpdate();
-System.out.println("标题插入成功");*/

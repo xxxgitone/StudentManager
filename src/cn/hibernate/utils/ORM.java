@@ -126,7 +126,7 @@ public class ORM {
 		for(int i=0;i<fs.length;i++){
 			if(property.equals(fs[i].getName())){
 				try {
-					fs[i].get(obj);
+					//fs[i].get(obj);
 					Type types = fs[i].getGenericType();
 					if(types == int.class || types == long.class || types == Integer.class){
 						sb.append("").append(value).append("");

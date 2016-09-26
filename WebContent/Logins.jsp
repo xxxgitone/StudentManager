@@ -10,8 +10,8 @@ sessions.removeAttribute("param");
 <html>
 <head>
 	<title>登录</title>
-	<script type="text/javascript" src="scripts/login.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/login.css"/>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/scripts/login.js"></script>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/login.css"/>
 	<script type="text/javascript">
 		if('<%=param%>'=='error'){
 			alert("密码错误！");
@@ -19,6 +19,7 @@ sessions.removeAttribute("param");
 			alert("没有该用户！");
 		}else if('<%=param%>'=='outtime'){
 			alert("登录超时请重新登录！");
+			parent.location.reload();
 		}
 	</script>
 </head>
@@ -32,11 +33,11 @@ sessions.removeAttribute("param");
 			<form action="${pageContext.request.contextPath }/login/LoginAction.action"  method="post">
 				<p>
 					<label>用户名：</label>
-					<input class="textbox" type="text" name="user" placeholder="请输入用户名"  />
+					<input class="textbox" type="text" name="user" placeholder="请输入用户名"  value="23"/>
 				</p>
 				<p>
 					<label>密<span style="color:white;">空</span>码：</label>
-					<input class="textbox" type="password" name="pass" placeholder="请输入密码" />
+					<input class="textbox" type="password" name="pass" placeholder="请输入密码" value="2"/>
 				</p>
 				<p>
 					<label class="checked">验证码：</label>
