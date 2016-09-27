@@ -43,13 +43,17 @@ int term = Integer.parseInt(terms);
 	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <script type="text/javascript">
+function refresh(){
+	if('<%=f5%>'=='f5')parent.location.reload();
+}
+window.load=refresh();
 if('<%=error%>' == 'InsertError'){
 	alert('数据库插入数据失败，请检查文件是否符合要求！');
 }
 if('<%=success%>' == 'up'){
 	alert('上传文件并写入数据库成功！');
 }
-if('<%=f5%>'=='f5')parent.location.reload();
+
 </script>
   </head>
   

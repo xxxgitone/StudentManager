@@ -45,8 +45,8 @@ public class ReadExcel {
     private HSSFSheet sheet;      
     private HSSFRow row; 
     private InputStream is =null;
-    private int AllRows;//内容的行数
-    private int AllCols;//内容的列数
+    private int AllRows;//内容的行数 1
+    private int AllCols;//内容的列数 1
     private int startRow=2;//内容起始行 除去表的列名
     private int sheetNum;//最好实现一个机制，自动去获取后面的Sheet（如果有数据的话）
     private int currentSheet=0;//使用的Sheet,数组下标表示法
@@ -86,18 +86,33 @@ public class ReadExcel {
 	 * @param uploadImageFileName
 	 * @param classs
 	 * @param year
+	 * @param year2 
+	 * @param classs2 
 	 * @param term
 	 * @throws Exception
 	 */
-	public void ToGrades(String fileName, String classs, String year, int term)throws Exception{
+	public void ToGrades(String fileName, String academy,String major,String classs, String year,  int term)throws Exception{
 		ReadFile(fileName);
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try {
 			Class.forName(Driver);
 			cn = DriverManager.getConnection(URL);
 			cn.setAutoCommit(false);//取消自动提交
+			
+			for(int i=1;i<=AllRows;i++){
+				for(int j=1;j<=AllCols;j++){
+					System.out.print(map.get(new Position(i,j))+"--");
+				}
+				System.out.println();
+			}
+			System.out.println(AllRows+"*"+AllCols+":"+currentSheet+":c"+classs);
 			String sql;
-			System.out.println(AllRows+"*"+AllCols+":"+currentSheet);
+			
+			
+			//读取课程，插入课程
+			
+			
+			
 			
 		}catch(Exception e){
 			try {

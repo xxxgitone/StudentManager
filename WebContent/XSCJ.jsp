@@ -24,25 +24,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  <form action="upload/uploadAction_saveFile.action"name="form1"  method="post"  enctype="multipart/form-data"style="margin:80px 0 30px 100px;">
-		 	<p><span style="font-weight: bold;font-size: 15px;">上传成绩表格:</span><br/>
+  <form action="upload/uploadAction_saveFile.action"name="form1"  method="post"  enctype="multipart/form-data"style="margin:40px 0 30px 0px;">
+		 	<p><span style="font-weight: bold;font-size: 20px;color:blue;">上传成绩表格:</span><br/>
 			 	<input type="file" name="uploadImage" > <a href="pages/ExcelHelp.html" class="easyui-linkbutton" plain="true" iconCls="icon-help">查看文件上传帮助</a><br/>
-			 	
 			</p>
-	          	<span>请输入上传文件中要使用的第几个Sheet:(默认是第一个)</span><br/>
+	          	<span style="color:red;">请选择要使用的Sheet(默认是第一个)以及各个必选的参数，若新增就不选择，输入即可</span><br/>
 		    <select name="sheet" class="easyui-combobox">
 			     <OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
-			     <OPTION VALUE="1">第 2  个Sheet</OPTION>
-			     <OPTION VALUE="2">第 3  个Sheet</OPTION>
-			     <OPTION VALUE="3">第 4  个Sheet</OPTION>
-			     <OPTION VALUE="4">第 5  个Sheet</OPTION>
-			     <OPTION VALUE="5">第 6  个Sheet</OPTION>
-			     <OPTION VALUE="6">第 7  个Sheet</OPTION>
-			     <OPTION VALUE="7">第 8  个Sheet</OPTION>
-			     <OPTION VALUE="8">第 9  个Sheet</OPTION>
-			     <OPTION VALUE="9">第 10 个Sheet</OPTION>
-		     </select>
-		     学年: <input name="year" class="easyui-combobox" style="height:20px;" data-options="
+		    	 <%for(int i=1;i<=14;i++) {%>
+		    		<OPTION VALUE="<%=i %>">第 <%=i+1 %>  个Sheet</OPTION>
+		    	 <%} %>
+		    </select>
+		      学年: <input name="year" class="easyui-combobox" style="height:20px;" data-options="
 	   		valueField: 'value',
 	   		textField: 'label',
 	   		data: [<%for(int i=(new Date().getYear()+1900);i>2000;i--){ %>{
@@ -53,10 +46,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  		valueField: 'value',
 	  		textField: 'label',
 	  		data: [{label: '第一学期',value: '1'},{label: '第二学期',value: '2'}]" />
-	  			班级: <input id="cc" name="classs" style="width:70px;height:20px;">
-	 				<br/>
-	 				<input type="hidden" name="types" value="grades"/>
-		 <input type="submit" class="button" value="上传">
+	  		
+	  		学院: <input id="aa" name="academy" style="width:120px;height:20px;">
+	  		专业: <input id="mm" name="major" style="width:120px;height:20px;">
+	  		班级: <input id="cc" name="classs" style="width:70px;height:20px;">
+	 		<input type="hidden" name="types" value="grades"/>
+		 	<input type="submit" class="button" value="上传" style="width:80px;">
     </form>
     
     <script type="text/javascript" src="easyui/jquery.min.js"></script>
@@ -67,8 +62,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      valueField:'cid',
 		      textField:'classs'
 		  });
+		  $('#aa').combobox({
+		      url:'query/Query_academy_all.action',
+		      valueField:'aid',
+		      textField:'academy'
+		  });
+		  $('#mm').combobox({
+		      url:'query/Query_major_all.action',
+		      valueField:'mid',
+		      textField:'major'
+		  });
 	  });
-  
+  		
   </script>
 	<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>

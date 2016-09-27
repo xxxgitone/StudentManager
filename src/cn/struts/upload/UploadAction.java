@@ -95,12 +95,16 @@ public class UploadAction extends ActionSupport {
 	}
 	public String ToGrades(ServletContext sc,HttpServletRequest request) throws Exception{
 		System.out.println("进入输入不规则成绩函数");
+		//得到对应的学院，专业，班级，如果不存在会新建（按顺序得到编号）
 		String year = request.getParameter("year");
 		int term = Integer.parseInt(request.getParameter("term"));
 		String classs = request.getParameter("classs");
+		String major = request.getParameter("major");
+		String academy = request.getParameter("academy");
+		
 		System.out.println("");
 		re = new ReadExcel(sheet);//读取Sheet
-		re.ToGrades(uploadImageFileName, classs, year, term);
+		re.ToGrades(uploadImageFileName,academy,major, classs, year, term);
 		System.out.println("不规则的成绩表输入无异常！"); 
 		return "Main";
 	}

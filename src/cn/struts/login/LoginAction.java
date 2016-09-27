@@ -99,7 +99,9 @@ public class LoginAction extends ActionSupport {
 	public String[] getYear(){
 		String[] info = new String [2];
 		Date s = new Date();
+		@SuppressWarnings("deprecation")
 		int y = s.getYear();
+		@SuppressWarnings("deprecation")
 		int m = s.getMonth();
 		
 		if(m<12 && m>8 || m==0) {info[1]=1+"";info[0] = (y+1900)+"-"+(y+1901);}
