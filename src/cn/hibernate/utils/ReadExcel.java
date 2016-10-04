@@ -1,4 +1,5 @@
 package cn.hibernate.utils;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,9 +13,13 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -29,6 +34,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.struts2.ServletActionContext;
 
 import cn.myth.reflect.Config;
+
+import com.myth.mysql.Mysql;
 
 
 /**
@@ -83,45 +90,174 @@ public class ReadExcel {
 	}
 	/**
 	 * 将不规则的Excel表插入数据库，第二次插入时要将第二次要插入的课程成绩相应的清空（指定学年学期，不是直接删课程那个基本表）
-	 * @param uploadImageFileName
+	 * @param fileName
 	 * @param classs
 	 * @param year
-	 * @param year2 
-	 * @param classs2 
 	 * @param term
 	 * @throws Exception
 	 */
-	public void ToGrades(String fileName, String academy,String major,String classs, String year,  int term)throws Exception{
+	public void ToGrades(String fileName,String classs, String year,  int term)throws Exception{
 		ReadFile(fileName);
+		
+		Mysql db = new Mysql();
+		List<String[]> dataCache = null;//多次查询数据库的结果暂存集合
+//		Set<String> courseSet = new HashSet<String>();
+		Map<String,String> courseMap = new HashMap<String,String>();//数据库中课程
+		Set<String> studentSet = new HashSet<String>();//数据库中学生
+		List<String[]>courseE = new ArrayList<String[]>();//Excel中课程
+		List<String[]>studentE = new ArrayList<String[]>();//Excel中学生
+		Set<String> upstuE = new HashSet<String>();//不是新增的那些修改的学生
+		Set<String> upcouE = new HashSet<String>();//不是新增的那些修改的课程
+		List<String>ColCno = new ArrayList<String>();//存放了Excel中顺序下每个课程的课程号
+		int Currentcno;
+		
 		/**用上了事务，因为保证其表格的统一性和原子性*/
 		try {
 			Class.forName(Driver);
 			cn = DriverManager.getConnection(URL);
 			cn.setAutoCommit(false);//取消自动提交
-			
+//			System.out.println("正文大小"+map.size());
 			for(int i=1;i<=AllRows;i++){
 				for(int j=1;j<=AllCols;j++){
-					System.out.print(map.get(new Position(i,j))+"--");
+					System.out.print("("+i+","+j+")"+map.get(new Position(i,j))+"--");
 				}
 				System.out.println();
 			}
 			System.out.println(AllRows+"*"+AllCols+":"+currentSheet+":c"+classs);
 			String sql;
 			
+			//读取数据库中课程
+			dataCache = db.SelectReturnList("select cname,cno  from course where cinfo='"+year+"' and practicehour="+term);
+			for(int i=0;i<dataCache.size();i++){
+//				courseSet.add(dataCache.get(i)[0]);
+				courseMap.put(dataCache.get(i)[0], dataCache.get(i)[1]);
+			}
+//			System.out.println("正文大小"+map.size());
+			//读取Excel课程
+			for(int i=5;i<=AllCols;i++){
+				String course = map.get(new Position(1,i));
+				courseE.add(course.split("/"));
+//				String[] dd= course.split("/");
+//				System.out.println(i+"-kecheng:"+map.get(new Position(1,i))+"-");
+//				for(String d:dd){
+//					System.out.print("##"+d+"##");
+//				}
+//				System.out.println();
+			}
+			//添加课程
+			dataCache = db.SelectReturnList("select max(cno) from course");
+			if(dataCache.size()!=0)Currentcno = Integer.parseInt(dataCache.get(0)[0]);
+			else Currentcno = 10001;//若没有课程则从10001开始计数
+			for(int i=0;i<courseE.size();i++){
+				if(!courseMap.containsKey(courseE.get(i)[0])){//Excel中课程是数据库所没有的就插入
+					Currentcno++;
+					String[] cinfo = courseE.get(i);
+					//sql = "insert into course(cno,cname,credit,ctype,practicehour,cinfo)values('"
+							//+Currentcno+"','"+cinfo[0]+"','"+cinfo[2]+"','"+cinfo[1]+"',"+term+",'"+term+"') ";
+					//插入到课程表中
+					sql="insert into course(cno,cname,credit,ctype,practicehour,cinfo)values(?,?,?,?,?,?)";
+					ps=cn.prepareStatement(sql);
+					ps.setString(1, Currentcno+"");
+					ps.setString(2, cinfo[0]);
+					ps.setString(3, cinfo[2]);
+					ps.setString(4, cinfo[1]);
+					ps.setInt(5, term);
+					ps.setString(6, year);
+					ps.executeUpdate();
+					//插入到排课表中
+					//sql = "insert into obligatory(year,term,cid,cno)values('"+year+"',"+term+",'"+classs+"','"+Currentcno+"')";
+					sql = "insert into obligatory(year,term,cid,cno)values(?,?,?,?)";
+					ps=cn.prepareStatement(sql);
+					ps.setString(1, year);
+					ps.setInt(2, term);
+					ps.setString(3, classs);
+					ps.setString(4, Currentcno+"");
+					ps.execute();
+					ColCno.add(Currentcno+"");
+				}else{
+					upcouE.add(courseE.get(i)[0]);
+					ColCno.add(courseMap.get(courseE.get(i)[0]));
+				}
+			}
 			
-			//读取课程，插入课程
+			//读取数据库的学生    
+			dataCache = db.SelectReturnList("select sno from student");
+			for(int i=0;i<dataCache.size();i++){
+				studentSet.add(dataCache.get(i)[0]);
+			}
+			//读取Excel的学生
 			
+			for (int i=2;i<=AllRows;i++){
+				String stu[] = new String[2];
+				//如果放在外面，那么就只有一个String[] 的内存被开辟，所以加入List的只有一个，即最后一个，但是下标会有好多，但是都指向同一个对象
+				stu[0] = map.get(new Position(i,2));
+				stu[1] = map.get(new Position(i,3));
+				studentE.add(stu);
+			}
 			
+			//插入学生
+			for(int i=0;i<studentE.size();i++){
+				String [] stu = studentE.get(i);
+				if(!studentSet.contains(stu[0])){
+//					System.out.println(i+"要插入的学号是："+stu[0]);
+					sql = "insert into student (sno,sname,cid,pass) values("+stu[0]+",?,?,'123')";
+					ps=cn.prepareStatement(sql);
+					//ps.setLong(1, stu[0]);
+					ps.setString(1, stu[1]);
+					ps.setString(2, classs);
+					ps.execute();
+				}else{
+					upstuE.add(stu[0]);
+				}
+			}
 			
-			
+			//插入成绩
+			for (int i=2;i<=AllRows;i++){//第一行是列头
+				int courseIndex = 0;
+				for(int j=5;j<=AllCols;j++){
+					if(!"".equals(map.get(new Position(i,j)))){//如果Excel中成绩不是空
+						//如果记录已有，就是修改
+						if(upstuE.contains(map.get(new Position(i,2))) || upcouE.contains(ColCno.get(courseIndex))){
+							sql = "update mark set grade=? where sno="+map.get(new Position(i,2))+" and cno=? and year=? and term=?";
+							ps = cn.prepareStatement(sql);
+							ps.setFloat(1, Float.parseFloat(map.get(new Position(i,j))));
+							ps.setString(2, ColCno.get(courseIndex));
+							ps.setString(3, year);
+							ps.setInt(4, term);
+							ps.execute();
+						}else{
+							sql = "insert into mark(sno,cno,grade,year,term) values("+map.get(new Position(i,2))+",?,?,?,?)";
+							ps = cn.prepareStatement(sql);
+							ps.setString(1, ColCno.get(courseIndex));
+							ps.setFloat(2, Float.parseFloat(map.get(new Position(i,j))));
+							ps.setString(3, year);
+							ps.setInt(4, term);
+							ps.execute();
+						}
+					}else{
+						if(upstuE.contains(map.get(new Position(i,2))) || upcouE.contains(ColCno.get(courseIndex))){
+							
+						}else{//新增
+							sql = "insert into mark(sno,cno,grade,year,term) values("+map.get(new Position(i,2))+",?,?,?,?)";
+							ps = cn.prepareStatement(sql);
+							ps.setString(1, ColCno.get(courseIndex));
+							ps.setFloat(2, -1);
+							ps.setString(3, year);
+							ps.setInt(4, term);
+							ps.execute();
+						}
+					}
+					courseIndex++;
+				}
+			}
 		}catch(Exception e){
+			System.out.println("成绩的批量增改失败");
 			try {
 				cn.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-			System.out.println("增删改查失败");
 			throw e;
 		}finally {
 			try{

@@ -58,7 +58,7 @@ public class LoginAction extends ActionSupport {
 					String name= rs.getString(top+"name");
 					db.updSQL("insert into history values('"+user+"',now(),'"+request.getLocalAddr()+"')");
 					
-					pu.setMaxInactiveInterval(300);//设置生命周期 单位s
+					pu.setMaxInactiveInterval(1000);//设置生命周期 单位s
 					pu.setAttribute("name", name);//用户的姓名
 					pu.setAttribute("user", user);//用户编号
 					pu.setAttribute("ids", ids);// 用户的身份

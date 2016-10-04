@@ -41,34 +41,16 @@ sc.removeAttribute("action");
   
   <body>
   <form class="form" action="${pageContext.request.contextPath }/download/downloadAction.action" method="get" style="margin:80px 0 30px 100px;">
-     	学年: <input name="year" class="easyui-combobox" data-options="
-    		valueField: 'value',
-    		textField: 'label',
-    		data: [<%for(int i=(new Date().getYear()+1900);i>2000;i--){ %>{
-    			label: '<%=i-1 %>年---<%=i %>年',
-    			value: '<%=i-1 %>-<%=i %>'
-    		},<%} %>]" />
-  		学期: <input name="term" class="easyui-combobox" data-options="
-  		valueField: 'value',
-  		textField: 'label',
-  		data: [{label: '第一学期',value: '1'},{label: '第二学期',value: '2'}]" />
-	   班级: <input id="cc" name="classs">
+     	学年: <input id="years1" name="year" style="height:20px;">
+   		学期: <input id="terms1" name="term" style="width:80px;height:20px;">
+  		班级: <input id="cc" name="classs" style="width:100px;height:20px;">
     	<input type="submit" value="下载本班级成绩文件"/>
     	<input type="hidden" name="filetype" value="g_classs"/>
     </form>
     <form class="form" action="${pageContext.request.contextPath }/download/downloadAction.action" method="get">
-      	学年: <input name="year" class="easyui-combobox" data-options="
-    		valueField: 'value',
-    		textField: 'label',
-    		data: [<%for(int i=(new Date().getYear()+1900);i>2000;i--){ %>{
-    			label: '<%=i-1 %>年---<%=i %>年',
-    			value: '<%=i-1 %>-<%=i %>'
-    		},<%} %>]" />
-   		 学期: <input name="term" class="easyui-combobox" data-options="
-   		valueField: 'value',
-   		textField: 'label',
-   		data: [{label: '第一学期',value: '1'},{label: '第二学期',value: '2'}]" />
-	      专业: <input id="mm" name="major">
+    	学年: <input id="years2" name="year" style="height:20px;">
+  		学期: <input id="terms2" name="term" style="width:80px;height:20px;">
+	      专业: <input id="mm" name="major"  style="width:100px;height:20px;">
     	<input type="submit" value="下载本专业成绩文件"/>
     	<input type="hidden" name="filetype" value="g_major"/>
     </form>
@@ -78,6 +60,11 @@ sc.removeAttribute("action");
   	<script type="text/javascript" src="easyui/jquery.min.js"></script>
 	<script type="text/javascript">
 	  $(function(){
+		  var termss = [{label: '第一学期',no: '1'},{label: '第二学期',no: '2'}];
+		  var yearss = [<%for(int i=(new Date().getYear()+1900);i>2000;i--){ %>{
+	   			label: '<%=i %>年---<%=i+1 %>年',
+	   			value: '<%=i %>-<%=i+1 %>'
+	   		},<%} %>];
 		  $('#mm').combobox({
 		      url:'query/Query_major_all.action',
 		      valueField:'mid',
@@ -87,6 +74,42 @@ sc.removeAttribute("action");
 		      url:'query/Query_classs_all.action',
 		      valueField:'cid',
 		      textField:'classs'
+		  });
+		  $('#terms1').combobox({
+		      data:termss,
+		      valueField:'no',
+		      textField:'label',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#terms1').combobox('getData');
+		    	  $('#terms1').combobox('select',data[0].no);
+		      }
+		  });
+		  $('#years1').combobox({
+		      data:yearss,
+		      valueField:'value',
+		      textField:'label',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#years1').combobox('getData');
+		    	  $('#years1').combobox('select',data[0].value);
+		      }
+		  });
+		  $('#terms2').combobox({
+		      data:termss,
+		      valueField:'no',
+		      textField:'label',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#terms2').combobox('getData');
+		    	  $('#terms2').combobox('select',data[0].no);
+		      }
+		  });
+		  $('#years2').combobox({
+		      data:yearss,
+		      valueField:'value',
+		      textField:'label',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#years2').combobox('getData');
+		    	  $('#years2').combobox('select',data[0].value);
+		      }
 		  });
 	  });
   

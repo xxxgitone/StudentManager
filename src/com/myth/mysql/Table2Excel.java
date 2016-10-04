@@ -272,7 +272,10 @@ public class Table2Excel {
 			row = sheet.createRow(i+1);
 			for (int j=0;j<ColNum;j++){
 				cell = row.createCell(j);
-				cell.setCellValue(new HSSFRichTextString(data.get(i)[j].trim()));
+				String cc = data.get(i)[j].trim();
+				System.out.println("单元格"+cc);
+				if("-1.00".equals(cc)) cc="";
+				cell.setCellValue(new HSSFRichTextString(cc));
 				cell.setCellStyle(contentStyle);
 			}
 		}

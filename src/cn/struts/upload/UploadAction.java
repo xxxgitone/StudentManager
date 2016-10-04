@@ -104,7 +104,7 @@ public class UploadAction extends ActionSupport {
 		
 		System.out.println("");
 		re = new ReadExcel(sheet);//读取Sheet
-		re.ToGrades(uploadImageFileName,academy,major, classs, year, term);
+		re.ToGrades(uploadImageFileName,classs, year, term);
 		System.out.println("不规则的成绩表输入无异常！"); 
 		return "Main";
 	}

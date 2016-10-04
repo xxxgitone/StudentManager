@@ -21,6 +21,11 @@ sessions.removeAttribute("param");
 			alert("登录超时请重新登录！");
 			parent.location.reload();
 		}
+		if(top.location!==self.location){   
+            //alert(top.location);   
+            //alert(self.location);   
+            top.location.href=self.location.href;   
+        }   
 	</script>
 </head>
 <body>
@@ -30,7 +35,7 @@ sessions.removeAttribute("param");
 		<p class="header">学生成绩管理系统</p>
 		<hr/>
 		<div class="login_content">
-			<form action="${pageContext.request.contextPath }/login/LoginAction.action"  method="post">
+			<form action="${pageContext.request.contextPath }/login/LoginAction.action"  method="post" target="_parent">
 				<p>
 					<label>用户名：</label>
 					<input class="textbox" type="text" name="user" placeholder="请输入用户名"  value="23"/>

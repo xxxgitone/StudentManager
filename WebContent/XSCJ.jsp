@@ -24,31 +24,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  <form action="upload/uploadAction_saveFile.action"name="form1"  method="post"  enctype="multipart/form-data"style="margin:40px 0 30px 0px;">
-		 	<p><span style="font-weight: bold;font-size: 20px;color:blue;">上传成绩表格:</span><br/>
-			 	<input type="file" name="uploadImage" > <a href="pages/ExcelHelp.html" class="easyui-linkbutton" plain="true" iconCls="icon-help">查看文件上传帮助</a><br/>
+  <form action="upload/uploadAction_saveFile.action"name="form1"  method="post"  enctype="multipart/form-data"style="margin:30px 0 30px 0px;">
+		 	
+		 	<p><a href="pages/ExcelHelp.html" class="easyui-linkbutton" plain="true" iconCls="icon-help" style="float:right;">查看文件上传帮助</a>
+		 	<span style="font-weight: bold;font-size: 20px;color:blue;">上传成绩表格:</span><br/>
+			 	<input type="file" name="uploadImage" > 
+			 	<br/>
 			</p>
-	          	<span style="color:red;">请选择要使用的Sheet(默认是第一个)以及各个必选的参数，若新增就不选择，输入即可</span><br/>
+	          	<!-- <span style="color:red;">请选择各个必选的参数</span><br/> -->
 		    <select name="sheet" class="easyui-combobox">
 			     <OPTION VALUE="0" selected>第 1  个Sheet</OPTION>
 		    	 <%for(int i=1;i<=14;i++) {%>
 		    		<OPTION VALUE="<%=i %>">第 <%=i+1 %>  个Sheet</OPTION>
 		    	 <%} %>
 		    </select>
-		      学年: <input name="year" class="easyui-combobox" style="height:20px;" data-options="
-	   		valueField: 'value',
-	   		textField: 'label',
-	   		data: [<%for(int i=(new Date().getYear()+1900);i>2000;i--){ %>{
-	   			label: '<%=i-1 %>年---<%=i %>年',
-	   			value: '<%=i-1 %>-<%=i %>'
-	   		},<%} %>]" />
-	  		学期: <input name="term" class="easyui-combobox" style="width:70px;height:20px;" data-options="
-	  		valueField: 'value',
-	  		textField: 'label',
-	  		data: [{label: '第一学期',value: '1'},{label: '第二学期',value: '2'}]" />
-	  		
-	  		学院: <input id="aa" name="academy" style="width:120px;height:20px;">
-	  		专业: <input id="mm" name="major" style="width:120px;height:20px;">
+	   		学年: <input id="years" name="year" style="height:20px;">
+	   		学期: <input id="terms" name="term" style="width:80px;height:20px;">
+	  		<!-- 学院: <input id="aa" name="academy" style="width:120px;height:20px;">
+	  		专业: <input id="mm" name="major" style="width:120px;height:20px;"> -->
 	  		班级: <input id="cc" name="classs" style="width:70px;height:20px;">
 	 		<input type="hidden" name="types" value="grades"/>
 		 	<input type="submit" class="button" value="上传" style="width:80px;">
@@ -57,12 +50,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="easyui/jquery.min.js"></script>
 	<script type="text/javascript">
 	  $(function(){
+		  var termss = [{label: '第一学期',no: '1'},{label: '第二学期',no: '2'}];
+		  var yearss = [<%for(int i=(new Date().getYear()+1900);i>2000;i--){ %>{
+	   			label: '<%=i %>年---<%=i+1 %>年',
+	   			value: '<%=i %>-<%=i+1 %>'
+	   		},<%} %>];
+		  
 		  $('#cc').combobox({
 		      url:'query/Query_classs_all.action',
 		      valueField:'cid',
-		      textField:'classs'
+		      textField:'classs',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#cc').combobox('getData');
+		    	  $('#cc').combobox('select',data[0].cid);
+		      }
 		  });
-		  $('#aa').combobox({
+		  $('#terms').combobox({
+		      data:termss,
+		      valueField:'no',
+		      textField:'label',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#terms').combobox('getData');
+		    	  $('#terms').combobox('select',data[0].no);
+		      }
+		  });
+		  $('#years').combobox({
+		      data:yearss,
+		      valueField:'value',
+		      textField:'label',
+		      onLoadSuccess:function(){
+		    	  var data  = $('#years').combobox('getData');
+		    	  $('#years').combobox('select',data[0].value);
+		      }
+		  });
+		  
+		 /*  $('#aa').combobox({
 		      url:'query/Query_academy_all.action',
 		      valueField:'aid',
 		      textField:'academy'
@@ -71,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		      url:'query/Query_major_all.action',
 		      valueField:'mid',
 		      textField:'major'
-		  });
+		  }); */
 	  });
   		
   </script>
