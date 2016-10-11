@@ -131,9 +131,10 @@ $(function() {
 		editRow: undefined,
 		
 		serach: function() {
-			$('#searchValue').datagrid('load', {
-				searchName: $.trim($('input[name="search"]').val()),
-			});
+			 $('#manager').datagrid('load',{
+			    	values : $.trim($('input[name="search"]').val()),
+			    	propertys:'mname'
+			    });
 		},
 		add: function() {
 			$('#save,#redoText').show();

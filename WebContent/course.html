@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 	function getUrlParam(name){
 		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		var r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -16,7 +16,7 @@
 	if(error=='InsertError'){
 		alert('数据库插入数据失败，请检查文件是否符合要求！');
 	}
-	</script>
+	</script> -->
 </head>
 <body style="background-color: #f4f4f4;">
 
@@ -33,8 +33,8 @@
 		 	<a href="#" class="easyui-linkbutton" iconCls="icon-redo" id="redoSelect" plain="true"  onclick="tool.redoSelect();">取消选择</a>
 
 		 	<div class="search" style="padding:10px 0 5px 15px;">
-			 	<input  id="searchValue" type="text" name="search" value="请输入" class="textbox" />
-			 	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onClick="">查询</a>
+			 	<input  id="searchValue" type="text" name="search" value="请输入课程名" class="textbox" />
+			 	<a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" onClick="tool.serach()">查询</a>
 			 </div>
 
 		 </div>

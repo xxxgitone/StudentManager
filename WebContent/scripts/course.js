@@ -191,9 +191,10 @@ $(function() {
 		editRow: undefined,
 		
 		serach: function() {
-			$('#searchValue').datagrid('load', {
-				searchName: $.trim($('input[name="search"]').val()),
-			});
+			 $('#course').datagrid('load',{
+			    	values : $.trim($('input[name="search"]').val()),
+			    	propertys:'cname'
+			    });
 		},
 		add: function() {
 			$('#save,#redoText').show();

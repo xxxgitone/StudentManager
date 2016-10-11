@@ -93,11 +93,11 @@ if('<%=success%>' == 'up'){
 	    			<li><a name="XGDQ">修改当前密码</a></li>
 	    		</ul>
     		</div>
-    		<div title="毕业管理" data-options="iconCls:'icon-book'" style="height:360px;background-color: #f5f5f5;">
+    		<!-- <div title="毕业管理" data-options="iconCls:'icon-book'" style="height:360px;background-color: #f5f5f5;">
 	    		<ul>
 	    			<li><a name="CKBY">查看毕业资格</a></li>
 	    		</ul>
-    		</div>
+    		</div> -->
     		<div title="后台管理" data-options="iconCls:'icon-control'" style="height:360px;background-color: #f5f5f5;">
 	    		<ul>
 	    			<li><a name="course">课程管理</a></li>

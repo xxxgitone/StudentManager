@@ -28,7 +28,7 @@ $(function() {
 
 	function createFrame(url){
 		var href ='<iframe name="mainFrame" scrolling="auto" frameborder="0"  src="';
-		if(url=='BJCJ'|| url=='XXJG' || url=='XSCJ'){
+		if(url=='BJCJ'|| url=='XSCJ' || url=='GRCJ'){
 			href+=url +'.jsp'+ '" style="width:100%;height:99%;"></iframe>';
 		}else{
 			href+=url +'.html'+ '" style="width:100%;height:99%;"></iframe>';

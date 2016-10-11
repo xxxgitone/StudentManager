@@ -148,9 +148,6 @@ $(function() {
 
 			 var updated = $('#student').datagrid('getChanges', 'updated');
 			 
-
-			 var updated = $('#student').datagrid('getChanges', 'updated');	
-
 			 var info=url='';
 			 
 			 
@@ -214,9 +211,10 @@ $(function() {
 		editRow: undefined,
 		
 		serach: function() {
-			$('#box').datagrid('load', {
-				searchName: $.trim($('input[name="search"]').val()),
-			});
+		    $('#student').datagrid('load',{
+		    	values : $.trim($('input[name="search"]').val()),
+		    	propertys:'sname'
+		    });
 		},
 		
 		add: function() {

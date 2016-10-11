@@ -43,7 +43,11 @@ public class QueryAction extends ActionSupport {
 	public void q_manager_all(){
 //		ManagerDAO dao = new ManagerDAO();
 //		CreateList(dao);
-		reflectList(Manager.class);
+		if(values==null){
+			reflectList(Manager.class);
+		}else{
+			reflectOne(Manager.class);
+		}
 	}
 	public void q_manager_one(){
 //		ManagerDAO dao = new ManagerDAO();
@@ -53,7 +57,11 @@ public class QueryAction extends ActionSupport {
 	public void q_assitant_all(){
 //		AssitantDAO dao = new AssitantDAO();
 //		CreateList(dao);
-		reflectList(Assitant.class);
+		if(values==null){
+			reflectList(Assitant.class);
+		}else{
+			reflectOne(Assitant.class);
+		}
 	}
 	public void q_assitant_one(){
 //		AssitantDAO dao = new AssitantDAO();
@@ -63,7 +71,12 @@ public class QueryAction extends ActionSupport {
 	public void q_teacher_all(){
 //		TeacherDAO dao = new TeacherDAO();
 //		CreateList(dao);
-		reflectList(Teacher.class);
+		if(values==null){
+			reflectList(Teacher.class);
+		}else{
+			System.out.println("572285875xuesheng  :"+values);
+			reflectOne(Teacher.class);
+		}
 	}
 	public void q_teacher_one(){
 //		TeacherDAO dao = new TeacherDAO();
@@ -72,8 +85,14 @@ public class QueryAction extends ActionSupport {
 	}
 	public void q_student_all(){
 //		StudentDAO dao = new StudentDAO();
-//		CreateList(dao);reflectList(Student.class);		
-		reflectList(Student.class);
+//		CreateList(dao);reflectList(Student.class);	
+		if(values==null){
+			reflectList(Student.class);
+		}else{
+			System.out.println("572285875xuesheng  :"+values);
+			reflectOne(Student.class);
+		}
+		
 	}
 	public void q_student_one(){
 //		StudentDAO dao = new StudentDAO();
@@ -113,7 +132,12 @@ public class QueryAction extends ActionSupport {
 	public void q_course_all(){
 //		CourseDAO dao = new CourseDAO();
 //		CreateList(dao);
-		reflectList(Course.class);
+		if(values==null){
+			reflectList(Course.class);
+		}else{
+			System.out.println("572285875xuesheng  :"+values);
+			reflectOne(Course.class);
+		}
 	}
 	public void q_course_one(){
 //		CourseDAO dao = new CourseDAO();
@@ -164,6 +188,7 @@ public class QueryAction extends ActionSupport {
 	}
 	public void reflectOne(Class obj){
 		List list = ORM.FindByProperty(obj.getName(), propertys, values);
+		System.out.println("进入单个");
 		sendJSONS(list,response);
 	}
 	/**封装的JSON发送方法，应该要写多个的*/
@@ -181,8 +206,11 @@ public class QueryAction extends ActionSupport {
 	/**封装集合*/
 	@SuppressWarnings("rawtypes")
 	public void sendJSONS(List list,HttpServletResponse response){
+//		System.out.println("发送json"+list.size());
+		
 		 if(list==null){
 			//发送空，待定
+			 System.out.println("空LIst");
 			try {
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write("null");
@@ -201,6 +229,7 @@ public class QueryAction extends ActionSupport {
 				e.printStackTrace();
 			}
 		}else if(list.size()==1){
+			System.out.println("只有一个");
 			oneJSON(list.get(0), response);
 		}
 	}
